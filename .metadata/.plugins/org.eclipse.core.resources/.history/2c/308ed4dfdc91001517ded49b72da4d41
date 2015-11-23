@@ -1,0 +1,7 @@
+package centros_universitarios;
+
+public class gestion {
+public static void main (String args[]){
+	
+}
+}

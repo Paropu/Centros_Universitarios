@@ -1,0 +1,11 @@
+package centros_universitarios;
+
+public class Gestion {
+	public static void main (String args[]){
+	Funcionalidades funcionalidad = new Funcionalidades();
+	ComprobacionErrores comprobacion = new ComprobacionErrores();
+	System.out.println(funcionalidad.start());
+	System.out.println(comprobacion.end());
+
+	}
+}
