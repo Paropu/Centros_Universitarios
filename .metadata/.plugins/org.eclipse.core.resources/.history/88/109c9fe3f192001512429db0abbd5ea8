@@ -1,0 +1,20 @@
+package centros_universitarios;
+
+import java.util.GregorianCalendar;
+
+
+public class Alumno extends Persona {
+	
+private GregorianCalendar fechaIngreso;
+
+public GregorianCalendar getFechaIngreso(){
+	return this.fechaIngreso;
+}
+public String toString(){
+	String mensaje = super.toString() + fechaIngreso;
+return mensaje;
+}
+public void setFechaIngreso(GregorianCalendar fEchaIngreso) {
+	this.fechaIngreso = fEchaIngreso;
+}
+}
