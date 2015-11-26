@@ -5,24 +5,34 @@ import java.util.GregorianCalendar;
 
 
 public class Alumno extends Persona {
-	
-private GregorianCalendar fechaIngreso;
 
-public GregorianCalendar getFechaIngreso(){
-	return this.fechaIngreso;
-}
-public void setFechaIngreso(GregorianCalendar fEchaIngreso) {
-	this.fechaIngreso = fEchaIngreso;
-}
+	/* ATRIBUTOS */
+	private GregorianCalendar fechaIngreso;
+	//docencia recibida
+	//asignaturas aprobadas
 
-public String toString(){ //Metodo toString sobreescrito reciclando el metodo de la clase padre.
-	String mensaje = super.toString() + " " + fechaIngreso.get(Calendar.DATE) + "/" + fechaIngreso.get(Calendar.MONTH)+ "/" + fechaIngreso.get(Calendar.YEAR);
-return mensaje;
-}
+	/* METODOS */
+	@Override
+	public String toString(){ //Metodo toString sobreescrito reciclando el metodo de la clase padre.
+		return super.toString() + " " + fechaIngreso.get(Calendar.DATE) + "/" + fechaIngreso.get(Calendar.MONTH)+ "/" + fechaIngreso.get(Calendar.YEAR);
+	}
 
-public Alumno (String dNi, String nOmbre, String aPellidos, GregorianCalendar fEchaNacimiento, GregorianCalendar fEchaIngreso){ //Constructor.
-	super(dNi, nOmbre, aPellidos, fEchaNacimiento); //Llamada al metodo constructor de la clase padre.
-	this.fechaIngreso = fEchaIngreso;
-}
+
+	/* GETTERS & SETTERS */
+	public GregorianCalendar getFechaIngreso(){
+		return this.fechaIngreso;
+	}
+	public void setFechaIngreso(GregorianCalendar fEchaIngreso) {
+		this.fechaIngreso = fEchaIngreso;
+	}
+
+
+	/* CONSTRUCTORES */
+	public Alumno (String dNi, String nOmbre, String aPellidos, GregorianCalendar fEchaNacimiento, GregorianCalendar fEchaIngreso){ //Constructor.
+		super(dNi, nOmbre, aPellidos, fEchaNacimiento); //Llamada al metodo constructor de la clase padre.
+		this.fechaIngreso = fEchaIngreso;
+	}
+
+
 
 }
