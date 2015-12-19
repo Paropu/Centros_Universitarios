@@ -1,7 +1,5 @@
 package centros_universitarios;
 
-import java.util.TreeMap;
-
 public class Asignatura {
 
 	/* ATRIBUTOS */
@@ -9,10 +7,10 @@ public class Asignatura {
 	private String nombre;
 	private String siglas;
 	private Integer curso;
-	private Profesor coordinador;//coordinador
-	private TreeMap<Integer, Asignatura> prerrequisitos; //prerrequisitos
-	private TreeMap<Integer, Grupo> gruposA;//grupos A
-	private TreeMap<Integer, Grupo> gruposB;//grupos B
+	//prerrequisitos
+	//coordinador
+	//grupos A
+	//grupos B
 
 
 
@@ -49,31 +47,7 @@ public class Asignatura {
 		this.curso = curso;
 	}
 
-	public Profesor getCoordinador() {
-		return coordinador;
-	}
-	public void setCoordinador(Profesor coordinador) {
-		this.coordinador = coordinador;
-	}
-	public TreeMap<Integer, Asignatura> getPrerrequisitos() {
-		return prerrequisitos;
-	}
-	public void setPrerrequisitos(TreeMap<Integer, Asignatura> prerrequisitos) {
-		this.prerrequisitos = prerrequisitos;
-	}
-	public TreeMap<Integer, Grupo> getGruposA() {
-		return gruposA;
-	}
-	public void setGruposA(TreeMap<Integer, Grupo> gruposA) {
-		this.gruposA = gruposA;
-	}
-	public TreeMap<Integer, Grupo> getGruposB() {
-		return gruposB;
-	}
-	public void setGruposB(TreeMap<Integer, Grupo> gruposB) {
-		this.gruposB = gruposB;
-	}
-	
+
 	/* CONSTRUCTORES */
 	public Asignatura(Integer idAsignatura, String nombre, String siglas, Integer curso) {
 		super();

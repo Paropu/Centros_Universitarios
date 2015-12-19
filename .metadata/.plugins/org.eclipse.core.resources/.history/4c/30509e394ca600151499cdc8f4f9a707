@@ -10,7 +10,7 @@ public class Alumno extends Persona {
 	/* ATRIBUTOS */
 	private GregorianCalendar fechaIngreso;
 	private TreeMap<Integer, Grupo> docenciaRecibida;//docencia recibida
-	private TreeMap <Integer, NotaFinal> asignaturasAprobadas;//asignaturas aprobadas
+	private TreeMap <Integer, Asignatura> asignaturasAprobadas;//asignaturas aprobadas
 
 	/* METODOS */
 	@Override
@@ -25,20 +25,6 @@ public class Alumno extends Persona {
 	}
 	public void setFechaIngreso(GregorianCalendar fechaIngreso) {
 		this.fechaIngreso = fechaIngreso;
-	}
-
-	public TreeMap<Integer, Grupo> getDocenciaRecibida() {
-		return docenciaRecibida;
-	}
-	public void setDocenciaRecibida(TreeMap<Integer, Grupo> docenciaRecibida) {
-		this.docenciaRecibida = docenciaRecibida;
-	}
-
-	public TreeMap<Integer, NotaFinal> getAsignaturasAprobadas() {
-		return asignaturasAprobadas;
-	}
-public void setAsignaturasAprobadas(TreeMap<Integer, NotaFinal> asignaturasAprobadas) {
-		this.asignaturasAprobadas = asignaturasAprobadas;
 	}
 
 

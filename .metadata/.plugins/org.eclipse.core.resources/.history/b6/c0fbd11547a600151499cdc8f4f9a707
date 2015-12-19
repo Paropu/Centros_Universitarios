@@ -10,7 +10,7 @@ public class Grupo {
 	private char dia;
 	private GregorianCalendar horaInicio;
 	private GregorianCalendar horaFin;
-	private Asignatura asignatura;//asignatura
+	//asignatura
 	
 	/* METODOS */
 	public String toString() {
@@ -53,16 +53,8 @@ public class Grupo {
 	public void setHoraFin(GregorianCalendar horaFin) {
 		this.horaFin = horaFin;
 	}
-
 	
-	public Asignatura getAsignatura() {
-		return asignatura;
-	}
-	public void setAsignatura(Asignatura asignatura) {
-		this.asignatura = asignatura;
-	}
-
-
+	
 	/* CONSTRUCTORES */
 	public Grupo(char tipoGrupo, Integer idGrupo, char dia, GregorianCalendar horaInicio, GregorianCalendar horaFin) {
 		super();

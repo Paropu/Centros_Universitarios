@@ -1,0 +1,25 @@
+package centros_universitarios;
+
+import java.util.GregorianCalendar;
+
+public class NotaFinal extends Asignatura {
+
+	/* ATRIBUTOS */
+	private Integer cursoAcademico; //Gregorian calendar???
+	private Integer nota;
+
+
+	/*METODOS */
+
+	/* GETTERS & SETTERS */
+
+	/* CONSTRUCTORES */
+	public NotaFinal(Integer idAsignatura, String nombre, String siglas, Integer curso, Integer cursoAcademico, Integer nota) {
+		super(idAsignatura, nombre, siglas, curso);
+		this.cursoAcademico=cursoAcademico;
+		this.nota=nota;
+		
+		// TODO Auto-generated constructor stub
+	}
+
+}

@@ -54,3 +54,13 @@ public class Gestion {
 	System.out.println(grupo0.toString()); //Herramienta.
 	}	
 }
+
+/* -----NOTAS-----
+1.- alumno.txt:
+	1- Añadir a alumno: "asignaturas superadas" y "docencia recibida".
+	2-Terminar de modelar las clases.
+	3-Añadir a profesor: "docencia impartida" y "asignaturas coordinadas".
+	4-Rerapar letras de constructores.
+	5-int vs Integer.
+	6- Modelar clase nota final
+ */

@@ -1,16 +1,15 @@
 package centros_universitarios;
 
 import java.util.GregorianCalendar;
-import java.util.TreeMap;
 
 public class Profesor extends Persona {
 
 	/* ATRIBUTOS */
 	private String categoria;
 	private String departamento;
-	private Integer horasDocenciaAsignables;
-	private TreeMap<Integer, Grupo> docenciaImpartida;//docencia impartida
-	private TreeMap<Integer, Asignatura> asignaturasCoordinadas;//asignaturas coordinadas
+	private int horasDocenciaAsignables; //Integer??? -----
+	//docencia impartida
+	//asignaturas coordinadas
 
 
 	/* METODOS */
@@ -40,20 +39,6 @@ public class Profesor extends Persona {
 	}
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
-	}
-
-	public TreeMap<Integer, Grupo> getDocenciaImpartida() {
-		return docenciaImpartida;
-	}
-public void setDocenciaImpartida(TreeMap<Integer, Grupo> docenciaImpartida) {
-		this.docenciaImpartida = docenciaImpartida;
-	}
-
-	public TreeMap<Integer, Asignatura> getAsignaturasCoordinadas() {
-		return asignaturasCoordinadas;
-	}
-public void setAsignaturasCoordinadas(TreeMap<Integer, Asignatura> asignaturasCoordinadas) {
-		this.asignaturasCoordinadas = asignaturasCoordinadas;
 	}
 
 

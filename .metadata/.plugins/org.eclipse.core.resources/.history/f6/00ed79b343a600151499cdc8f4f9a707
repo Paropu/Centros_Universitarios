@@ -6,11 +6,11 @@ import java.util.GregorianCalendar;
 public class Grupo {
  /* ATRIBUTOS */
 	private char tipoGrupo;
-	private Integer idGrupo;
+	private int idGrupo;
 	private char dia;
 	private GregorianCalendar horaInicio;
 	private GregorianCalendar horaFin;
-	private Asignatura asignatura;//asignatura
+	//asignatura
 	
 	/* METODOS */
 	public String toString() {
@@ -26,10 +26,10 @@ public class Grupo {
 		this.tipoGrupo = tipoGrupo;
 	}
 	
-	public Integer getIdGrupo() {
+	public int getIdGrupo() {
 		return idGrupo;
 	}
-	public void setIdGrupo(Integer idGrupo) {
+	public void setIdGrupo(int idGrupo) {
 		this.idGrupo = idGrupo;
 	}
 	
@@ -53,18 +53,10 @@ public class Grupo {
 	public void setHoraFin(GregorianCalendar horaFin) {
 		this.horaFin = horaFin;
 	}
-
 	
-	public Asignatura getAsignatura() {
-		return asignatura;
-	}
-	public void setAsignatura(Asignatura asignatura) {
-		this.asignatura = asignatura;
-	}
-
-
+	
 	/* CONSTRUCTORES */
-	public Grupo(char tipoGrupo, Integer idGrupo, char dia, GregorianCalendar horaInicio, GregorianCalendar horaFin) {
+	public Grupo(char tipoGrupo, int idGrupo, char dia, GregorianCalendar horaInicio, GregorianCalendar horaFin) {
 		super();
 		this.tipoGrupo = tipoGrupo;
 		this.idGrupo = idGrupo;
