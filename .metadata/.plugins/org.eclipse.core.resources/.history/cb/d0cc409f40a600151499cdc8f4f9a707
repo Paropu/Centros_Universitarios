@@ -25,38 +25,38 @@ public abstract class Persona {
 	public String getDni() {
 		return this.dni;
 	}
-	public void setDni(String dni){
-		this.dni = dni;
+	public void setDni(String dNi){
+		this.dni = dNi;
 	}
 
 	public String getNombre() {
 		return this.nombre;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombre(String nOmbre) {
+		this.nombre = nOmbre;
 	}
 
 	public String getApellidos() {
 		return this.dni;
 	}
-	public void setApellidos(String apellidos){
-		this.apellidos = apellidos;
+	public void setApellidos(String aPellidos){
+		this.apellidos = aPellidos;
 	}
 
 	public GregorianCalendar getfechaNacimiento(){
 		return this.fechaNacimiento;
 	}
-	public void setFechaNacimiento (GregorianCalendar fechaNacimiento){
-		this.fechaNacimiento = fechaNacimiento;
+	public void setFechaNacimiento (GregorianCalendar fEchaNacimiento){
+		this.fechaNacimiento = fEchaNacimiento;
 	}
 
 
 	/*CONSTRUCTORES*/
-	public Persona(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento) {
-		this.dni = dni;
-		this.nombre = nombre;
-		this.apellidos = apellidos;
-		this.fechaNacimiento = fechaNacimiento;
+	public Persona(String dNi, String nOmbre, String aPellidos, GregorianCalendar fEchaNacimiento) {
+		this.dni = dNi;
+		this.nombre = nOmbre;
+		this.apellidos = aPellidos;
+		this.fechaNacimiento = fEchaNacimiento;
 	}
 
 }

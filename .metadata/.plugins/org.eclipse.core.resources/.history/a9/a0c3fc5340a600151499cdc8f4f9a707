@@ -22,15 +22,15 @@ public class Alumno extends Persona {
 	public GregorianCalendar getFechaIngreso(){
 		return this.fechaIngreso;
 	}
-	public void setFechaIngreso(GregorianCalendar fechaIngreso) {
-		this.fechaIngreso = fechaIngreso;
+	public void setFechaIngreso(GregorianCalendar fEchaIngreso) {
+		this.fechaIngreso = fEchaIngreso;
 	}
 
 
 	/* CONSTRUCTORES */
-	public Alumno (String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, GregorianCalendar fechaIngreso){ //Constructor.
-		super(dni, nombre, apellidos, fechaNacimiento); //Llamada al metodo constructor de la clase padre.
-		this.fechaIngreso = fechaIngreso;
+	public Alumno (String dNi, String nOmbre, String aPellidos, GregorianCalendar fEchaNacimiento, GregorianCalendar fEchaIngreso){ //Constructor.
+		super(dNi, nOmbre, aPellidos, fEchaNacimiento); //Llamada al metodo constructor de la clase padre.
+		this.fechaIngreso = fEchaIngreso;
 	}
 
 

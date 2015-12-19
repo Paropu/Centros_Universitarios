@@ -43,11 +43,11 @@ public class Profesor extends Persona {
 
 
 	/* CONSTRUCTORES */
-	public Profesor(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, String categoría, String departamento, int horasDocenciaAsignables) { //Constructor.
-		super(dni, nombre, apellidos, fechaNacimiento); //Llamada al metodo constructor de la clase padre.
-		this.setCategoria(categoría);
-		this.departamento = departamento;
-		this.horasDocenciaAsignables = horasDocenciaAsignables;
+	public Profesor(String dNi, String nOmbre, String aPellidos, GregorianCalendar fEchaNacimiento, String cAtegoría, String dEpartamento, int hOrasDocenciaAsignables) { //Constructor.
+		super(dNi, nOmbre, aPellidos, fEchaNacimiento); //Llamada al metodo constructor de la clase padre.
+		this.setCategoria(cAtegoría);
+		this.departamento = dEpartamento;
+		this.horasDocenciaAsignables = hOrasDocenciaAsignables;
 	}
 
 
