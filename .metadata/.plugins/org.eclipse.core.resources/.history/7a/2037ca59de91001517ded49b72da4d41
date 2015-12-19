@@ -1,8 +1,0 @@
-package centros_universitarios;
-
-public class Gestion {
-	public static void main (String args[]){
-	Funcionalidades funcionalidad = new Funcionalidades();
-	System.out.println(funcionalidad.start());
-	}
-}
