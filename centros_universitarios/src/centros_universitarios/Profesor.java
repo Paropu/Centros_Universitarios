@@ -58,11 +58,13 @@ public void setAsignaturasCoordinadas(TreeMap<Integer, Asignatura> asignaturasCo
 
 
 	/* CONSTRUCTORES */
-	public Profesor(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, String categoría, String departamento, int horasDocenciaAsignables) { //Constructor.
-		super(dni, nombre, apellidos, fechaNacimiento); //Llamada al metodo constructor de la clase padre.
+	public Profesor(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, String categoría, String departamento, Integer horasDocenciaAsignables, TreeMap<Integer, Grupo> docenciaImpartida, TreeMap<Integer, Asignatura> asignaturasCoordinadas) { //Constructor.
+		super(dni, nombre, apellidos, fechaNacimiento);
 		this.setCategoria(categoría);
 		this.departamento = departamento;
 		this.horasDocenciaAsignables = horasDocenciaAsignables;
+		this.docenciaImpartida= docenciaImpartida;
+		this.asignaturasCoordinadas=asignaturasCoordinadas;
 	}
 
 

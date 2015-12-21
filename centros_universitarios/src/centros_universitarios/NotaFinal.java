@@ -4,7 +4,7 @@ package centros_universitarios;
 public class NotaFinal extends Asignatura {
 
 	/* ATRIBUTOS */
-	private Integer cursoAcademico; //Gregorian calendar???
+	private Integer cursoAcademico; //Gregorian calendar o String ???
 	private Integer nota;
 	private Asignatura asignatura;
 

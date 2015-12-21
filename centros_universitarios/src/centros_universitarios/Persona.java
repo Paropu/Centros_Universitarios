@@ -52,6 +52,9 @@ public abstract class Persona {
 
 
 	/*CONSTRUCTORES*/
+	
+	public Persona(){}
+	
 	public Persona(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento) {
 		this.dni = dni;
 		this.nombre = nombre;

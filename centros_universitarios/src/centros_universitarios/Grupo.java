@@ -64,13 +64,14 @@ public class Grupo {
 
 
 	/* CONSTRUCTORES */
-	public Grupo(char tipoGrupo, Integer idGrupo, char dia, GregorianCalendar horaInicio, GregorianCalendar horaFin) {
+	public Grupo(char tipoGrupo, Integer idGrupo, char dia, GregorianCalendar horaInicio, GregorianCalendar horaFin, Asignatura asignatura) {
 		super();
 		this.tipoGrupo = tipoGrupo;
 		this.idGrupo = idGrupo;
 		this.dia = dia;
 		this.horaInicio = horaInicio;
 		this.horaFin = horaFin;
+		this.asignatura = asignatura;
 	}
 	
 	

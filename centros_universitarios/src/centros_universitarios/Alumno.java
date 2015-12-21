@@ -43,9 +43,11 @@ public void setAsignaturasAprobadas(TreeMap<Integer, NotaFinal> asignaturasAprob
 
 
 	/* CONSTRUCTORES */
-	public Alumno (String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, GregorianCalendar fechaIngreso){ //Constructor.
+	public Alumno (String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, GregorianCalendar fechaIngreso,TreeMap<Integer, Grupo> docenciaRecibida, TreeMap <Integer, NotaFinal> asignaturasAprobadas){ //Constructor.
 		super(dni, nombre, apellidos, fechaNacimiento); //Llamada al metodo constructor de la clase padre.
 		this.fechaIngreso = fechaIngreso;
+		this.docenciaRecibida=docenciaRecibida;
+		this.asignaturasAprobadas=asignaturasAprobadas;
 	}
 
 
