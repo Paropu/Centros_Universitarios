@@ -11,7 +11,10 @@ public class Alumno extends Persona {
 	private GregorianCalendar fechaIngreso;
 	private TreeMap<Integer, Grupo> docenciaRecibida;//docencia recibida
 	private TreeMap <Integer, NotaFinal> asignaturasAprobadas;//asignaturas aprobadas
-
+	private String[] arrayAsignaturasSuperadas;
+	private TreeMap<Integer, Asignatura> asignaturasMatriculadas;
+	private String[] arrayDocenciaRecibida;
+	
 	/* METODOS */
 	@Override
 	public String toString(){ //Metodo toString sobreescrito reciclando el metodo de la clase padre.
@@ -37,17 +40,43 @@ public class Alumno extends Persona {
 	public TreeMap<Integer, NotaFinal> getAsignaturasAprobadas() {
 		return asignaturasAprobadas;
 	}
-public void setAsignaturasAprobadas(TreeMap<Integer, NotaFinal> asignaturasAprobadas) {
+	public void setAsignaturasAprobadas(TreeMap<Integer, NotaFinal> asignaturasAprobadas) {
 		this.asignaturasAprobadas = asignaturasAprobadas;
+	}
+	public String[] getArrayAsignaturasSuperadas() {
+		return arrayAsignaturasSuperadas;
+	}
+	public void setArrayAsignaturasSuperadas(String[] arrayAsignaturasSuperadas) {
+		this.arrayAsignaturasSuperadas = arrayAsignaturasSuperadas;
+	}
+
+	public TreeMap<Integer, Asignatura> getAsignaturasMatriculadas() {
+		return asignaturasMatriculadas;
+	}
+	public void setAsignaturasMatriculadas(TreeMap<Integer, Asignatura> asignaturasMatriculadas) {
+		this.asignaturasMatriculadas = asignaturasMatriculadas;
+	}
+
+
+	public String[] getArrayDocenciaRecibida() {
+		return arrayDocenciaRecibida;
+	}
+
+
+	public void setArrayDocenciaRecibida(String[] arrayDocenciaRecibida) {
+		this.arrayDocenciaRecibida = arrayDocenciaRecibida;
 	}
 
 
 	/* CONSTRUCTORES */
-	public Alumno (String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, GregorianCalendar fechaIngreso,TreeMap<Integer, Grupo> docenciaRecibida, TreeMap <Integer, NotaFinal> asignaturasAprobadas){ //Constructor.
+	public Alumno (String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, GregorianCalendar fechaIngreso,TreeMap<Integer, Grupo> docenciaRecibida, TreeMap <Integer, NotaFinal> asignaturasAprobadas, String[] arrayAsignaturasSuperadas, TreeMap <Integer, Asignatura> asignaturasMatriculadas, String[] arrayDocenciaRecibida){ //Constructor.
 		super(dni, nombre, apellidos, fechaNacimiento); //Llamada al metodo constructor de la clase padre.
 		this.fechaIngreso = fechaIngreso;
 		this.docenciaRecibida=docenciaRecibida;
 		this.asignaturasAprobadas=asignaturasAprobadas;
+		this.arrayAsignaturasSuperadas=arrayAsignaturasSuperadas;
+		this.asignaturasMatriculadas= asignaturasMatriculadas;
+		this.arrayDocenciaRecibida=arrayDocenciaRecibida;
 	}
 
 

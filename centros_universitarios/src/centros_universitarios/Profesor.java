@@ -11,6 +11,9 @@ public class Profesor extends Persona {
 	private Integer horasDocenciaAsignables;
 	private TreeMap<Integer, Grupo> docenciaImpartida;//docencia impartida
 	private TreeMap<Integer, Asignatura> asignaturasCoordinadas;//asignaturas coordinadas
+	private String[] arrayDocenciaImpartida;
+
+
 
 
 	/* METODOS */
@@ -45,29 +48,36 @@ public class Profesor extends Persona {
 	public TreeMap<Integer, Grupo> getDocenciaImpartida() {
 		return docenciaImpartida;
 	}
-public void setDocenciaImpartida(TreeMap<Integer, Grupo> docenciaImpartida) {
+	public void setDocenciaImpartida(TreeMap<Integer, Grupo> docenciaImpartida) {
 		this.docenciaImpartida = docenciaImpartida;
 	}
 
 	public TreeMap<Integer, Asignatura> getAsignaturasCoordinadas() {
 		return asignaturasCoordinadas;
 	}
-public void setAsignaturasCoordinadas(TreeMap<Integer, Asignatura> asignaturasCoordinadas) {
+	public void setAsignaturasCoordinadas(TreeMap<Integer, Asignatura> asignaturasCoordinadas) {
 		this.asignaturasCoordinadas = asignaturasCoordinadas;
+	}
+	public String[] getArrayDocenciaImpartida() {
+		return arrayDocenciaImpartida;
+	}
+	public void setArrayDocenciaImpratida(String[] arrayDocenciaImpartida) {
+		this.arrayDocenciaImpartida = arrayDocenciaImpartida;
 	}
 
 
 	/* CONSTRUCTORES */
-public Profesor(){
-}
+	public Profesor(){
+	}
 
-	public Profesor(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, String categoría, String departamento, Integer horasDocenciaAsignables, TreeMap<Integer, Grupo> docenciaImpartida, TreeMap<Integer, Asignatura> asignaturasCoordinadas) { //Constructor.
+	public Profesor(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, String categoría, String departamento, Integer horasDocenciaAsignables, TreeMap<Integer, Grupo> docenciaImpartida, TreeMap<Integer, Asignatura> asignaturasCoordinadas, String[] arrayDocenciaImpartida) { //Constructor.
 		super(dni, nombre, apellidos, fechaNacimiento);
 		this.setCategoria(categoría);
 		this.departamento = departamento;
 		this.horasDocenciaAsignables = horasDocenciaAsignables;
 		this.docenciaImpartida= docenciaImpartida;
 		this.asignaturasCoordinadas=asignaturasCoordinadas;
+		this.arrayDocenciaImpartida=arrayDocenciaImpartida;
 	}
 
 

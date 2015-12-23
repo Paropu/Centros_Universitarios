@@ -1,29 +1,28 @@
 package centros_universitarios;
 
-import java.util.TreeMap;
-
-public class NotaFinal extends Asignatura {
+public class NotaFinal  {
 
 	/* ATRIBUTOS */
-	private Integer cursoAcademico; //Gregorian calendar o String ???
-	private Integer nota;
+	private Integer idAsignatura;
+	private String cursoAcademico; //Gregorian calendar o String ???
+	private Float nota;
 	private Asignatura asignatura;
 
 
 	/*METODOS */
 
 	/* GETTERS & SETTERS */
-	public Integer getCursoAcademico() {
+	public String getCursoAcademico() {
 		return cursoAcademico;
 	}
-	public void setCursoAcademico(Integer cursoAcademico) {
+	public void setCursoAcademico(String cursoAcademico) {
 		this.cursoAcademico = cursoAcademico;
 	}
 
-	public Integer getNota() {
+	public Float getNota() {
 		return nota;
 	}
-	public void setNota(Integer nota) {
+	public void setNota(Float nota) {
 		this.nota = nota;
 	}
 
@@ -34,11 +33,19 @@ public class NotaFinal extends Asignatura {
 		this.asignatura = asignatura;
 	}
 	
+	
+	public Integer getIdAsignatura() {
+		return idAsignatura;
+	}
+	public void setIdAsignatura(Integer idAsignatura) {
+		this.idAsignatura = idAsignatura;
+	}
 	/* CONSTRUCTORES */
-	public NotaFinal(Integer idAsignatura, String nombre, String siglas, Integer curso,Profesor coordinador, TreeMap<Integer, Asignatura> prerrequisitos, TreeMap<Integer, Grupo> gruposA, TreeMap<Integer, Grupo> gruposB,String[] arrayPrerrequisitos, Integer cursoAcademico, Integer nota) {
-		super(idAsignatura, nombre, siglas, curso, coordinador, prerrequisitos, gruposA, gruposB, arrayPrerrequisitos);
+	public NotaFinal(Integer idAsignatura, String cursoAcademico, Float nota, Asignatura asignatura) {
+		this.idAsignatura= idAsignatura;
 		this.cursoAcademico=cursoAcademico;
 		this.nota=nota;
+		this.asignatura = asignatura;
 	}
 
 
