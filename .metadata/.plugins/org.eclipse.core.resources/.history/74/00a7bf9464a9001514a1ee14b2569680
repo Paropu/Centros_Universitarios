@@ -1,0 +1,79 @@
+package centros_universitarios;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+public class Grupo {
+ /* ATRIBUTOS */
+	private String tipoGrupo;
+	private Integer idGrupo;
+	private String dia;
+	private Integer horaInicio;
+	private Integer horaFin;
+	private Asignatura asignatura;//asignatura
+	
+	/* METODOS */
+	/*public String toString() {
+		return tipoGrupo + " " + idGrupo + " " + dia + " " + horaInicio.get(Calendar.HOUR) + ":" + horaInicio.get(Calendar.MINUTE)  + "-" + horaFin.get(Calendar.HOUR) + ":" + horaFin.get(Calendar.MINUTE);
+	}*/
+	
+	
+	/* GETTERS & SETTERS */
+	public String getTipoGrupo() {
+		return tipoGrupo;
+	}
+	public void setTipoGrupo(String tipoGrupo) {
+		this.tipoGrupo = tipoGrupo;
+	}
+	
+	public Integer getIdGrupo() {
+		return idGrupo;
+	}
+	public void setIdGrupo(Integer idGrupo) {
+		this.idGrupo = idGrupo;
+	}
+	
+	public String getDia() {
+		return dia;
+	}
+	public void setDia(String dia) {
+		this.dia = dia;
+	}
+	
+	public Integer getHoraInicio() {
+		return horaInicio;
+	}
+	public void setHoraInicio(Integer horaInicio) {
+		this.horaInicio = horaInicio;
+	}
+	
+	public Integer getHoraFin() {
+		return horaFin;
+	}
+	public void setHoraFin(Integer horaFin) {
+		this.horaFin = horaFin;
+	}
+
+	
+	public Asignatura getAsignatura() {
+		return asignatura;
+	}
+	public void setAsignatura(Asignatura asignatura) {
+		this.asignatura = asignatura;
+	}
+
+
+	/* CONSTRUCTORES */
+	public Grupo(String tipoGrupo, Integer idGrupo, String dia, GregorianCalendar horaInicio, GregorianCalendar horaFin, Asignatura asignatura) {
+		super();
+		this.tipoGrupo = tipoGrupo;
+		this.idGrupo = idGrupo;
+		this.dia = dia;
+		this.horaInicio = horaInicio;
+		this.horaFin = horaFin;
+		this.asignatura = asignatura;
+	}
+	
+	
+	
+}

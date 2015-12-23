@@ -1,28 +1,27 @@
 package centros_universitarios;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+
 
 public class Grupo {
  /* ATRIBUTOS */
-	private char tipoGrupo;
+	private String tipoGrupo;
 	private Integer idGrupo;
-	private char dia;
-	private GregorianCalendar horaInicio;
-	private GregorianCalendar horaFin;
+	private String dia;
+	private Integer horaInicio;
+	private Integer horaFin;
 	private Asignatura asignatura;//asignatura
 	
 	/* METODOS */
-	public String toString() {
+	/*public String toString() {
 		return tipoGrupo + " " + idGrupo + " " + dia + " " + horaInicio.get(Calendar.HOUR) + ":" + horaInicio.get(Calendar.MINUTE)  + "-" + horaFin.get(Calendar.HOUR) + ":" + horaFin.get(Calendar.MINUTE);
-	}
+	}*/
 	
 	
 	/* GETTERS & SETTERS */
-	public char getTipoGrupo() {
+	public String getTipoGrupo() {
 		return tipoGrupo;
 	}
-	public void setTipoGrupo(char tipoGrupo) {
+	public void setTipoGrupo(String tipoGrupo) {
 		this.tipoGrupo = tipoGrupo;
 	}
 	
@@ -33,24 +32,24 @@ public class Grupo {
 		this.idGrupo = idGrupo;
 	}
 	
-	public char getDia() {
+	public String getDia() {
 		return dia;
 	}
-	public void setDia(char dia) {
+	public void setDia(String dia) {
 		this.dia = dia;
 	}
 	
-	public GregorianCalendar getHoraInicio() {
+	public Integer getHoraInicio() {
 		return horaInicio;
 	}
-	public void setHoraInicio(GregorianCalendar horaInicio) {
+	public void setHoraInicio(Integer horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 	
-	public GregorianCalendar getHoraFin() {
+	public Integer getHoraFin() {
 		return horaFin;
 	}
-	public void setHoraFin(GregorianCalendar horaFin) {
+	public void setHoraFin(Integer horaFin) {
 		this.horaFin = horaFin;
 	}
 
@@ -64,7 +63,7 @@ public class Grupo {
 
 
 	/* CONSTRUCTORES */
-	public Grupo(char tipoGrupo, Integer idGrupo, char dia, GregorianCalendar horaInicio, GregorianCalendar horaFin, Asignatura asignatura) {
+	public Grupo(String tipoGrupo, Integer idGrupo, String dia, Integer horaInicio,  Integer horaFin, Asignatura asignatura) {
 		super();
 		this.tipoGrupo = tipoGrupo;
 		this.idGrupo = idGrupo;

@@ -58,6 +58,9 @@ public void setAsignaturasCoordinadas(TreeMap<Integer, Asignatura> asignaturasCo
 
 
 	/* CONSTRUCTORES */
+public Profesor(){
+}
+
 	public Profesor(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, String categoría, String departamento, Integer horasDocenciaAsignables, TreeMap<Integer, Grupo> docenciaImpartida, TreeMap<Integer, Asignatura> asignaturasCoordinadas) { //Constructor.
 		super(dni, nombre, apellidos, fechaNacimiento);
 		this.setCategoria(categoría);

@@ -1,5 +1,6 @@
 package centros_universitarios;
 
+import java.util.TreeMap;
 
 public class NotaFinal extends Asignatura {
 
@@ -34,8 +35,8 @@ public class NotaFinal extends Asignatura {
 	}
 	
 	/* CONSTRUCTORES */
-	public NotaFinal(Integer idAsignatura, String nombre, String siglas, Integer curso, Integer cursoAcademico, Integer nota) {
-		super(idAsignatura, nombre, siglas, curso);
+	public NotaFinal(Integer idAsignatura, String nombre, String siglas, Integer curso,Profesor coordinador, TreeMap<Integer, Asignatura> prerrequisitos, TreeMap<Integer, Grupo> gruposA, TreeMap<Integer, Grupo> gruposB,String[] arrayPrerrequisitos, Integer cursoAcademico, Integer nota) {
+		super(idAsignatura, nombre, siglas, curso, coordinador, prerrequisitos, gruposA, gruposB, arrayPrerrequisitos);
 		this.cursoAcademico=cursoAcademico;
 		this.nota=nota;
 	}

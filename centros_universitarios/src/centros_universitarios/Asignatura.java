@@ -13,20 +13,21 @@ public class Asignatura {
 	private TreeMap<Integer, Asignatura> prerrequisitos; //prerrequisitos
 	private TreeMap<Integer, Grupo> gruposA;//grupos A
 	private TreeMap<Integer, Grupo> gruposB;//grupos B
+	private String[] arrayPrerrequisitos;
 
 
 
 	/*METODOS */
-
+	@Override
+	public String toString() {
+		return idAsignatura + " " + nombre + " " + siglas + " " + curso;
+	}
 
 	/* GETTERS & SETTERS */
 	public Integer getIdAsignatura() {
 		return idAsignatura;
 	}
-	@Override
-	public String toString() {
-		return idAsignatura + " " + nombre + " " + siglas + " " + curso;
-	}
+	
 	public void setIdAsignatura(Integer idAsignatura) {
 		this.idAsignatura = idAsignatura;
 	}
@@ -73,13 +74,29 @@ public class Asignatura {
 	public void setGruposB(TreeMap<Integer, Grupo> gruposB) {
 		this.gruposB = gruposB;
 	}
-	
+
+	public String[] getArrayPrerrequisitos() {
+		return arrayPrerrequisitos;
+	}
+
+	public void setArrayPrerrequisitos(String[] arrayPrerrequisitos) {
+		this.arrayPrerrequisitos = arrayPrerrequisitos;
+	}
+
 	/* CONSTRUCTORES */
-	public Asignatura(Integer idAsignatura, String nombre, String siglas, Integer curso) {
+	public Asignatura(){
+	}
+	
+	public Asignatura(Integer idAsignatura, String nombre, String siglas, Integer curso, Profesor coordinador,TreeMap<Integer, Asignatura> prerrequisitos, TreeMap<Integer, Grupo> gruposA, TreeMap<Integer, Grupo> gruposB, String[] arrayPrerrequisitos) {
 		super();
 		this.idAsignatura = idAsignatura;
 		this.nombre = nombre;
 		this.siglas = siglas;
 		this.curso = curso;
+		this.coordinador = coordinador;
+		this.prerrequisitos = prerrequisitos;
+		this.gruposA = gruposA;
+		this.gruposB = gruposB;
+		this.arrayPrerrequisitos = arrayPrerrequisitos;
 	}
 }
