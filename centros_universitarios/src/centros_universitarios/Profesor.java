@@ -5,6 +5,7 @@ import java.util.TreeMap;
 
 public class Profesor extends Persona {
 
+	
 	/* ATRIBUTOS */
 	private String categoria;
 	private String departamento;
@@ -12,7 +13,6 @@ public class Profesor extends Persona {
 	private TreeMap<Integer, Grupo> docenciaImpartida;//docencia impartida
 	private TreeMap<Integer, Asignatura> asignaturasCoordinadas;//asignaturas coordinadas
 	private String[] arrayDocenciaImpartida;
-
 
 
 
@@ -67,6 +67,7 @@ public class Profesor extends Persona {
 
 
 	/* CONSTRUCTORES */
+	
 	public Profesor(){
 	}
 

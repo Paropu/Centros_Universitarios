@@ -1,0 +1,12 @@
+package centros_universitarios;
+
+public class ComprobacionErrores {
+	
+	/* METODOS */
+	public String end () {//HERRAMIENTA. Metodo de prueba para comprobar que la composicion de la clase Gestion y ComprobacionErrores funciona.
+		return "---End---";
+		}
+	
+	/* CONSTRUCTORES */
+	public ComprobacionErrores() {};
+}

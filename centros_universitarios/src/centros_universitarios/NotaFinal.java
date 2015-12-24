@@ -11,6 +11,7 @@ public class NotaFinal  {
 
 	/*METODOS */
 
+	
 	/* GETTERS & SETTERS */
 	public String getCursoAcademico() {
 		return cursoAcademico;
@@ -40,6 +41,8 @@ public class NotaFinal  {
 	public void setIdAsignatura(Integer idAsignatura) {
 		this.idAsignatura = idAsignatura;
 	}
+	
+	
 	/* CONSTRUCTORES */
 	public NotaFinal(Integer idAsignatura, String cursoAcademico, Float nota, Asignatura asignatura) {
 		this.idAsignatura= idAsignatura;

@@ -7,10 +7,11 @@ import java.util.TreeMap;
 
 public class Alumno extends Persona {
 
+	
 	/* ATRIBUTOS */
 	private GregorianCalendar fechaIngreso;
 	private TreeMap<Integer, Grupo> docenciaRecibida;//docencia recibida
-	private TreeMap <Integer, NotaFinal> asignaturasAprobadas;//asignaturas aprobadas
+	private TreeMap <Integer, NotaFinal> asignaturasSuperadas;//asignaturas aprobadas
 	private String[] arrayAsignaturasSuperadas;
 	private TreeMap<Integer, Asignatura> asignaturasMatriculadas;
 	private String[] arrayDocenciaRecibida;
@@ -37,11 +38,11 @@ public class Alumno extends Persona {
 		this.docenciaRecibida = docenciaRecibida;
 	}
 
-	public TreeMap<Integer, NotaFinal> getAsignaturasAprobadas() {
-		return asignaturasAprobadas;
+	public TreeMap<Integer, NotaFinal> getAsignaturasSuperadas() {
+		return asignaturasSuperadas;
 	}
-	public void setAsignaturasAprobadas(TreeMap<Integer, NotaFinal> asignaturasAprobadas) {
-		this.asignaturasAprobadas = asignaturasAprobadas;
+	public void setAsignaturasSuperadas(TreeMap<Integer, NotaFinal> asignaturasSuperadas) {
+		this.asignaturasSuperadas = asignaturasSuperadas;
 	}
 	public String[] getArrayAsignaturasSuperadas() {
 		return arrayAsignaturasSuperadas;
@@ -69,11 +70,11 @@ public class Alumno extends Persona {
 
 
 	/* CONSTRUCTORES */
-	public Alumno (String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, GregorianCalendar fechaIngreso,TreeMap<Integer, Grupo> docenciaRecibida, TreeMap <Integer, NotaFinal> asignaturasAprobadas, String[] arrayAsignaturasSuperadas, TreeMap <Integer, Asignatura> asignaturasMatriculadas, String[] arrayDocenciaRecibida){ //Constructor.
+	public Alumno (String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, GregorianCalendar fechaIngreso,TreeMap<Integer, Grupo> docenciaRecibida, TreeMap <Integer, NotaFinal> asignaturasSuperadas, String[] arrayAsignaturasSuperadas, TreeMap <Integer, Asignatura> asignaturasMatriculadas, String[] arrayDocenciaRecibida){ //Constructor.
 		super(dni, nombre, apellidos, fechaNacimiento); //Llamada al metodo constructor de la clase padre.
 		this.fechaIngreso = fechaIngreso;
 		this.docenciaRecibida=docenciaRecibida;
-		this.asignaturasAprobadas=asignaturasAprobadas;
+		this.asignaturasSuperadas=asignaturasSuperadas;
 		this.arrayAsignaturasSuperadas=arrayAsignaturasSuperadas;
 		this.asignaturasMatriculadas= asignaturasMatriculadas;
 		this.arrayDocenciaRecibida=arrayDocenciaRecibida;

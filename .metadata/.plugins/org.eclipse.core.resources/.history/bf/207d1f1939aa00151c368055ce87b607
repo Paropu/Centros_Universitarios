@@ -1,0 +1,23 @@
+package centros_universitarios;
+
+public class Funcionalidades { //Esta clase contendra las funcionalidades que se  especifican en el proyecto.
+	
+	/*
+	 * FUNCIONALIDADES INCLUIDAS EN LAS ESPECIFICACIONES DEL PROYECTO:
+	 * Insertar persona
+	 * Asignar coordinador
+	 * Asignar carga docente
+	 * Matricular alumno
+	 * Asignar grupo
+	 * Evaluar asignatura
+	 * Obtener expediente del alumno
+	 * Obtener calendario del profesor 
+	 */
+	 
+	
+public String start () {
+return "---Start---";
+}
+public Funcionalidades (){};
+
+}
