@@ -10,11 +10,13 @@ public class Alumno extends Persona {
 	
 	/* ATRIBUTOS */
 	private GregorianCalendar fechaIngreso;
-	private TreeMap<Integer, Grupo> docenciaRecibida;//docencia recibida
+	private TreeMap<Integer, Grupo> docenciaRecibidaA;//docencia recibida
+	private TreeMap<Integer, Grupo> docenciaRecibidaB;
 	private TreeMap <Integer, NotaFinal> asignaturasSuperadas;//asignaturas aprobadas
 	private String[] arrayAsignaturasSuperadas;
 	private TreeMap<Integer, Asignatura> asignaturasMatriculadas;
 	private String[] arrayDocenciaRecibida;
+	private TreeMap<Integer, Asignatura> asignaturasSinGrupo;
 	
 	/* METODOS */
 	@Override
@@ -31,11 +33,11 @@ public class Alumno extends Persona {
 		this.fechaIngreso = fechaIngreso;
 	}
 
-	public TreeMap<Integer, Grupo> getDocenciaRecibida() {
-		return docenciaRecibida;
+	public TreeMap<Integer, Grupo> getDocenciaRecibidaA() {
+		return docenciaRecibidaA;
 	}
-	public void setDocenciaRecibida(TreeMap<Integer, Grupo> docenciaRecibida) {
-		this.docenciaRecibida = docenciaRecibida;
+	public void setDocenciaRecibidaA(TreeMap<Integer, Grupo> docenciaRecibidaA) {
+		this.docenciaRecibidaA = docenciaRecibidaA;
 	}
 
 	public TreeMap<Integer, NotaFinal> getAsignaturasSuperadas() {
@@ -57,23 +59,32 @@ public class Alumno extends Persona {
 	public void setAsignaturasMatriculadas(TreeMap<Integer, Asignatura> asignaturasMatriculadas) {
 		this.asignaturasMatriculadas = asignaturasMatriculadas;
 	}
-
-
 	public String[] getArrayDocenciaRecibida() {
 		return arrayDocenciaRecibida;
 	}
-
-
 	public void setArrayDocenciaRecibida(String[] arrayDocenciaRecibida) {
 		this.arrayDocenciaRecibida = arrayDocenciaRecibida;
+	}
+	public TreeMap<Integer, Grupo> getDocenciaRecibidaB() {
+		return docenciaRecibidaB;
+	}
+	public void setDocenciaRecibidaB(TreeMap<Integer, Grupo> docenciaRecibidaB) {
+		this.docenciaRecibidaB = docenciaRecibidaB;
+	}
+	public TreeMap<Integer, Asignatura> getAsignaturasSinGrupo() {
+		return asignaturasSinGrupo;
+	}
+	public void setAsignaturasSinGrupo(TreeMap<Integer, Asignatura> asignaturasSinGrupo) {
+		this.asignaturasSinGrupo = asignaturasSinGrupo;
 	}
 
 
 	/* CONSTRUCTORES */
-	public Alumno (String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, GregorianCalendar fechaIngreso,TreeMap<Integer, Grupo> docenciaRecibida, TreeMap <Integer, NotaFinal> asignaturasSuperadas, String[] arrayAsignaturasSuperadas, TreeMap <Integer, Asignatura> asignaturasMatriculadas, String[] arrayDocenciaRecibida){ //Constructor.
+	public Alumno (String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, GregorianCalendar fechaIngreso,TreeMap<Integer, Grupo> docenciaRecibidaA, TreeMap<Integer, Grupo> docenciaRecibidaB, TreeMap <Integer, NotaFinal> asignaturasSuperadas, String[] arrayAsignaturasSuperadas, TreeMap <Integer, Asignatura> asignaturasMatriculadas, String[] arrayDocenciaRecibida){ //Constructor.
 		super(dni, nombre, apellidos, fechaNacimiento); //Llamada al metodo constructor de la clase padre.
 		this.fechaIngreso = fechaIngreso;
-		this.docenciaRecibida=docenciaRecibida;
+		this.docenciaRecibidaA=docenciaRecibidaA;
+		this.docenciaRecibidaB=docenciaRecibidaB;
 		this.asignaturasSuperadas=asignaturasSuperadas;
 		this.arrayAsignaturasSuperadas=arrayAsignaturasSuperadas;
 		this.asignaturasMatriculadas= asignaturasMatriculadas;
