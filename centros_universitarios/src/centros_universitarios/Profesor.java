@@ -10,7 +10,8 @@ public class Profesor extends Persona {
 	private String categoria;
 	private String departamento;
 	private Integer horasDocenciaAsignables;
-	private TreeMap<Integer, Grupo> docenciaImpartida;//docencia impartida
+	private TreeMap<Integer, Grupo> docenciaImpartidaA;//docencia impartida
+	private TreeMap<Integer, Grupo> docenciaImpartidaB;//docencia impartida
 	private TreeMap<Integer, Asignatura> asignaturasCoordinadas;//asignaturas coordinadas
 	private String[] arrayDocenciaImpartida;
 
@@ -45,11 +46,11 @@ public class Profesor extends Persona {
 		this.categoria = categoria;
 	}
 
-	public TreeMap<Integer, Grupo> getDocenciaImpartida() {
-		return docenciaImpartida;
+	public TreeMap<Integer, Grupo> getDocenciaImpartidaA() {
+		return docenciaImpartidaA;
 	}
-	public void setDocenciaImpartida(TreeMap<Integer, Grupo> docenciaImpartida) {
-		this.docenciaImpartida = docenciaImpartida;
+	public void setDocenciaImpartidaA(TreeMap<Integer, Grupo> docenciaImpartidaA) {
+		this.docenciaImpartidaA = docenciaImpartidaA;
 	}
 
 	public TreeMap<Integer, Asignatura> getAsignaturasCoordinadas() {
@@ -61,22 +62,34 @@ public class Profesor extends Persona {
 	public String[] getArrayDocenciaImpartida() {
 		return arrayDocenciaImpartida;
 	}
-	public void setArrayDocenciaImpratida(String[] arrayDocenciaImpartida) {
+	public void setArrayDocenciaImpartida(String[] arrayDocenciaImpartida) {
 		this.arrayDocenciaImpartida = arrayDocenciaImpartida;
 	}
-
+	public TreeMap<Integer, Grupo> getDocenciaImpartidaB() {
+		return docenciaImpartidaB;
+	}
+	public void setDocenciaImpartidaB(TreeMap<Integer, Grupo> docenciaImpartidaB) {
+		this.docenciaImpartidaB = docenciaImpartidaB;
+	}
+	public void setHorasDocenciaAsignables(Integer horasDocenciaAsignables) {
+		this.horasDocenciaAsignables = horasDocenciaAsignables;
+	}
 
 	/* CONSTRUCTORES */
 	
+
+
+
 	public Profesor(){
 	}
 
-	public Profesor(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, String categoría, String departamento, Integer horasDocenciaAsignables, TreeMap<Integer, Grupo> docenciaImpartida, TreeMap<Integer, Asignatura> asignaturasCoordinadas, String[] arrayDocenciaImpartida) { //Constructor.
+	public Profesor(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, String categoría, String departamento, Integer horasDocenciaAsignables, TreeMap<Integer, Grupo> docenciaImpartidaA, TreeMap<Integer, Grupo> docenciaImpartidaB, TreeMap<Integer, Asignatura> asignaturasCoordinadas, String[] arrayDocenciaImpartida) { //Constructor.
 		super(dni, nombre, apellidos, fechaNacimiento);
 		this.setCategoria(categoría);
 		this.departamento = departamento;
 		this.horasDocenciaAsignables = horasDocenciaAsignables;
-		this.docenciaImpartida= docenciaImpartida;
+		this.docenciaImpartidaA= docenciaImpartidaA;
+		this.docenciaImpartidaB=docenciaImpartidaB;
 		this.asignaturasCoordinadas=asignaturasCoordinadas;
 		this.arrayDocenciaImpartida=arrayDocenciaImpartida;
 	}
