@@ -5,6 +5,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 	/*
 	 * FUNCIONALIDADES INCLUIDAS EN LAS ESPECIFICACIONES DEL PROYECTO:
 	 * Insertar persona
+	 * ------MEJORANDO PROYECTO-------
 	 * Asignar coordinador
 	 * Asignar carga docente
 	 * Matricular alumno
