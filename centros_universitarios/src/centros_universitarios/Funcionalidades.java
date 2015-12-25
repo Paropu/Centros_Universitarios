@@ -23,3 +23,5 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 	public Funcionalidades() {
 	};
 }
+
+// prueba
