@@ -10,6 +10,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 	 * Matricular alumno
 	 * cosas
 	 * cosas2
+	 * cosas3
 	 * Asignar grupo
 	 * Evaluar asignatura
 	 * Obtener expediente del alumno
