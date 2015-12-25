@@ -8,6 +8,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 	 * Asignar coordinador
 	 * Asignar carga docente
 	 * Matricular alumno
+	 * cosas
 	 * Asignar grupo
 	 * Evaluar asignatura
 	 * Obtener expediente del alumno
