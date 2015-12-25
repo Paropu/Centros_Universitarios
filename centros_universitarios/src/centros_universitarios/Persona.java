@@ -37,7 +37,7 @@ public abstract class Persona {
 	}
 
 	public String getApellidos() {
-		return this.dni;
+		return this.apellidos;
 	}
 	public void setApellidos(String apellidos){
 		this.apellidos = apellidos;
