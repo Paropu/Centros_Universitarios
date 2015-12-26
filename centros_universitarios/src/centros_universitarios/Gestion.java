@@ -31,7 +31,8 @@ public class Gestion {
 		cargarAsignaturasSuperadas(alumnos, asignaturas); // Actualiza la informacion de las asignaturas superadas de los alumnos.
 		cargarDocenciaImpartida(profesores, asignaturas); // Actualiza la informacion de la docencia impartida por los profesores.
 		cargarDocenciaRecibida(alumnos, asignaturas); // Actualiza la informacion de la docencia recibida por los alumnos.
-		guardarFicheroPersonas(profesores, alumnos, asignaturas); //Guarda la información de las personas contenidas en el sistema en el fichero "personas.txt"
+		guardarFicheroPersonas(profesores, alumnos, asignaturas); //Guarda la información de las personas contenidas en el sistema en el fichero "personas.txt". 
+		//guardarFicheroAsignaturas(); //Guarda la informacion de las asignaturas contenidas en el sistema en el fichero "asignaturas.txt".
 	}
 
 
@@ -411,6 +412,8 @@ public class Gestion {
 		}
 	}
 
-
+	public static void guardarFicheroAsignaturas(TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas){
+	
+	}
 }
 
