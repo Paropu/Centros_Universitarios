@@ -4,7 +4,7 @@ public class NotaFinal  {
 
 	/* ATRIBUTOS */
 	private Integer idAsignatura;
-	private String cursoAcademico; //Gregorian calendar o String ???
+	private String cursoAcademico; 
 	private Float nota;
 	private Asignatura asignatura;
 

@@ -11,15 +11,12 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class Gestion {
+public class Gestion  {
 
 
 	/* MAIN */
 
 	public static void main(String args[]) {
-
-		Funcionalidades funcionalidad = new Funcionalidades(); // Composicion de Funcionalidades.
-		ComprobacionErrores comprobacion = new ComprobacionErrores(); // Composicion de ComprobacionErrores.
 
 		TreeMap<String, Profesor> profesores = new TreeMap<String, Profesor>();
 		TreeMap<String, Alumno> alumnos = new TreeMap<String, Alumno>();
@@ -31,8 +28,10 @@ public class Gestion {
 		cargarAsignaturasSuperadas(alumnos, asignaturas); // Actualiza la informacion de las asignaturas superadas de los alumnos.
 		cargarDocenciaImpartida(profesores, asignaturas); // Actualiza la informacion de la docencia impartida por los profesores.
 		cargarDocenciaRecibida(alumnos, asignaturas); // Actualiza la informacion de la docencia recibida por los alumnos.
+		ejecucion(profesores, alumnos, asignaturas);
 		guardarFicheroPersonas(profesores, alumnos, asignaturas); //Guarda la información de las personas contenidas en el sistema en el fichero "personas.txt". 
 		guardarFicheroAsignaturas(profesores, asignaturas); //Guarda la informacion de las asignaturas contenidas en el sistema en el fichero "asignaturas.txt".
+		
 	}
 
 
@@ -163,32 +162,32 @@ public class Gestion {
 			TreeMap<Integer, Grupo> gruposA = new TreeMap<Integer, Grupo>(); // CARGAR gruposA
 			linea = entrada.nextLine(); // Formato: ID_grupo dia horaini horafin
 			String[] arrayGruposA = linea.split("; ");
-			
+
 			int i;
 			if (arrayGruposA[0].compareTo(caracterVacio) != 0) {
-			for (i = 0; i < arrayGruposA.length; i++) {
-				String[] grupo = arrayGruposA[i].split(" ");
-				Integer idGrupo = Integer.parseInt(grupo[0]);
-				String dia = grupo[1];
-				Integer horaInicio = Integer.parseInt(grupo[2]);
-				Integer horaFin = Integer.parseInt(grupo[3]);
-				Grupo grupoA = new Grupo("A", idGrupo, dia, horaInicio, horaFin, asignatura);// AÑADIR asignatura posteriormente.
-				gruposA.put(idGrupo, grupoA);// Se añade el grupo al Treemap de grupos A de la asignatura.
-			}
+				for (i = 0; i < arrayGruposA.length; i++) {
+					String[] grupo = arrayGruposA[i].split(" ");
+					Integer idGrupo = Integer.parseInt(grupo[0]);
+					String dia = grupo[1];
+					Integer horaInicio = Integer.parseInt(grupo[2]);
+					Integer horaFin = Integer.parseInt(grupo[3]);
+					Grupo grupoA = new Grupo("A", idGrupo, dia, horaInicio, horaFin, asignatura);// AÑADIR asignatura posteriormente.
+					gruposA.put(idGrupo, grupoA);// Se añade el grupo al Treemap de grupos A de la asignatura.
+				}
 			}
 			TreeMap<Integer, Grupo> gruposB = new TreeMap<Integer, Grupo>(); // CARGAR gruposB.
 			linea = entrada.nextLine(); // Formato: ID_grupo dia horaini horafin
 			String[] arrayGruposB = linea.split("; ");
 			if (arrayGruposB[0].compareTo(caracterVacio) != 0) {
-			for (i = 0; i < arrayGruposB.length; i++) {
-				String[] grupo = arrayGruposB[i].split(" ");
-				Integer idGrupo = Integer.parseInt(grupo[0]);
-				String dia = grupo[1];
-				Integer horaInicio = Integer.parseInt(grupo[2]);
-				Integer horaFin = Integer.parseInt(grupo[3]);
-				Grupo grupoA = new Grupo("B", idGrupo, dia, horaInicio, horaFin, asignatura);// AÑADIR asignatura posteriormente.
-				gruposB.put(idGrupo, grupoA);// Se añade el grupo al Treemap de grupos B de la asignatura.
-			}
+				for (i = 0; i < arrayGruposB.length; i++) {
+					String[] grupo = arrayGruposB[i].split(" ");
+					Integer idGrupo = Integer.parseInt(grupo[0]);
+					String dia = grupo[1];
+					Integer horaInicio = Integer.parseInt(grupo[2]);
+					Integer horaFin = Integer.parseInt(grupo[3]);
+					Grupo grupoA = new Grupo("B", idGrupo, dia, horaInicio, horaFin, asignatura);// AÑADIR asignatura posteriormente.
+					gruposB.put(idGrupo, grupoA);// Se añade el grupo al Treemap de grupos B de la asignatura.
+				}
 			}
 			asignatura.setGruposA(gruposA);
 			asignatura.setGruposB(gruposB);
@@ -437,7 +436,7 @@ public class Gestion {
 				Set <Integer> setPrerrequisitos = asignatura.getPrerrequisitos().keySet();
 				Iterator<Integer> it1=setPrerrequisitos.iterator();
 				if(!setPrerrequisitos.isEmpty()){
-					
+
 					while(it1.hasNext()){
 						Asignatura prerrequisito = asignaturas.get(it1.next());
 						pw.print(prerrequisito.getIdAsignatura());
@@ -449,7 +448,6 @@ public class Gestion {
 				Iterator<Integer> it2 = setGruposA.iterator();
 				if(!setGruposA.isEmpty()){
 					while(it2.hasNext()){
-						
 						Grupo grupo = asignatura.getGruposA().get(it2.next()); 
 						pw.print(grupo.getIdGrupo() +" "+ grupo.getDia()+" "+grupo.getHoraInicio()+" "+grupo.getHoraFin());
 						if(it2.hasNext())pw.print("; ");
@@ -480,6 +478,42 @@ public class Gestion {
 			}
 		}
 	}
-	
+
+	public static void ejecucion(TreeMap<String, Profesor> profesores, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas){
+
+		Funcionalidades funcionalidad = new Funcionalidades(); // Composicion de Funcionalidades.
+		
+
+		FileInputStream flujo_entrada = null;
+		try {
+			flujo_entrada = new FileInputStream("ejecucion.txt"); // Se crea un flujo de datos al fichero.
+		} catch (FileNotFoundException NoExisteFichero) { // Si el fichero no existe, salta excepcion y se muestra mensaje por pantalla.
+			System.out.println("Fichero \"personas.txt\" inexistente");
+			System.exit(-1); // Mostrar error en el fichero Avisos.txt ----------------------------------------------------- ???
+		}
+		Scanner entrada = new Scanner(flujo_entrada); // Se crea un objeto para escanear la linea del fichero
+		String linea = null; // Variable que contendra la informacion escaneada del fichero
+		while (entrada.hasNextLine()) {
+			linea = entrada.nextLine();
+			if(!(linea.charAt(0)=='*')){
+				String[] campos = linea.split(" ");
+				switch (campos[0]){
+				case "AsignaCoordinador":
+					if (campos.length!=3){
+						funcionalidad.comandoIncorrecto();
+						break;
+					}
+					funcionalidad.asignarCoordinador(linea, profesores, asignaturas);		
+					break;
+				default:
+					funcionalidad.comandoIncorrecto();
+					break;
+				}
+			}
+		}
+		entrada.close();
+	}
+
+
 }
 

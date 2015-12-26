@@ -1,6 +1,14 @@
 package centros_universitarios;
 
-public class Funcionalidades { // Esta clase contendra las funcionalidades que aparecen explicados en las especiicaciones del proyecto.
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeMap;
+
+
+
+public class Funcionalidades { // Esta clase contendra las funcionalidades que aparecen explicados en las especificaciones del proyecto y el control de errores.
 
 	
 	/*
@@ -17,14 +25,121 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	
 	/* METODOS */
-	public String start() { // HERRAMIENTA. Metodo de prueba para comprobar que la composicion de la clase Gestion y Funcionalidades funciona.
-		return "---Start---";
+	//===== Funcionalidades =====
+	public void insertarPersona(){
+		
+	}
+	
+	public void asignarCoordinador(String linea, TreeMap<String, Profesor> profesores , TreeMap<Integer, Asignatura> asignaturas){ //Formato: AsignaCoordinador persona asignatura
+		String[] campos = linea.split(" ");
+		String persona = campos[1];
+		String asignatura = campos [2];
+		
+		if(!(existeProfesor(profesores, persona))){
+			guardarError("ACOORD", "Profesor inexistente");
+			return;
+		}
+		if(!(profesorTitular(profesores, persona))){
+			guardarError("ACOORD", "Profesor no titular");
+			return;
+		}
+		if(!(existeAsignatura(asignaturas, asignatura))){
+		guardarError("ACOORD", "Asignatura inexistente");
+		return;
+		}
+		if(coordinadorDosMaterias(profesores, persona)){
+			guardarError("ACOORD", "Profesor ya es coordinador de 2 materias");
+			return;
+		}
+		Set <Integer> setAsignaturas =asignaturas.keySet();
+		Iterator<Integer> it = setAsignaturas.iterator();
+		while(it.hasNext()){
+			Integer idAsignatura= it.next();
+			if(asignaturas.get(idAsignatura).getSiglas().contentEquals(asignatura)){
+				asignaturas.get(idAsignatura).setCoordinador(profesores.get(persona));
+				profesores.get(persona).getAsignaturasCoordinadas().put(asignaturas.get(idAsignatura).getIdAsignatura(), asignaturas.get(idAsignatura));
+			}
+		}
+		return;
+	}
+	
+	public void asignarCargaDocente(){
+		
+	}
+	
+	public void matricularAlumno(){
+		
+	}
+	
+	public void asignarGrupo(){
+		
+	
+	}
+	
+	public void evaluarAsignatura(){
+		
+	}
+	
+	public void obtenerExpedienteAlumno(){
+		
+	}
+	
+	public void obtenerCalendarioProfesor(){
+		
+	}
+	
+	//===== Control de errores =====
+	public void guardarError(String abreviatura, String texto){ //Metodo que permite la escritura en el fichero "avisos.txt".
+	FileWriter fichero = null;
+	PrintWriter pw = null;
+	try{
+		fichero = new FileWriter("avisos.txt", true);
+		pw = new PrintWriter(fichero);		
+		pw.println(abreviatura + " -- " + texto);
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (null != fichero)
+				fichero.close();
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+	}
+}
+	
+	public void comandoIncorrecto(){
+		guardarError("", "Comando incorrecto --");
 	}
 
+	public Boolean existeProfesor(TreeMap<String, Profesor> profesores, String dni){
+		if(profesores.containsKey(dni))return true;
+		else return false;
+	}
+	
+	public Boolean profesorTitular(TreeMap<String, Profesor> profesores, String dni){
+		if(profesores.get(dni).getCategoria().contains("titular")) return true;
+		else return false;	
+	}
+	
+	public Boolean existeAsignatura(TreeMap<Integer, Asignatura> asignaturas, String siglas){
+		Set <Integer> setAsignaturas =asignaturas.keySet();
+		Iterator<Integer> it = setAsignaturas.iterator();
+		Boolean flag=false;
+		while(it.hasNext()) if(asignaturas.get(it.next()).getSiglas().contentEquals(siglas))flag=true;
+			if(flag)return true;
+			else return false;
+	}
+	
+	public Boolean coordinadorDosMaterias(TreeMap<String, Profesor> profesores, String dni){
+		if(profesores.get(dni).getAsignaturasCoordinadas().size()==2)return true;
+		else return false;
+	}
+	
 	
 	/* CONSTRUCTORES */
 	public Funcionalidades() {
-	};
+	}
 }
 
 /*		// PRUEBAS
