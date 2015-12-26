@@ -24,7 +24,7 @@ public class Gestion {
 		TreeMap<String, Profesor> profesores = new TreeMap<String, Profesor>();
 		TreeMap<String, Alumno> alumnos = new TreeMap<String, Alumno>();
 		TreeMap<Integer, Asignatura> asignaturas = new TreeMap<Integer, Asignatura>();
-		// cargarFicheroPersonas(); //NOTA IMPORTANTE:No se hace en un metodo directamente, hay que hacerlo por partes para poder cargar todos los datos sin problemas. No se puede cargar toda la info de golpe, ya que se necesita relacionar las clases.
+		//NOTA IMPORTANTE:No se hace en un metodo directamente, hay que hacerlo por partes para poder cargar todos los datos sin problemas. No se puede cargar toda la info de golpe, ya que se necesita relacionar las clases.
 		profesores = cargarProfesores(); // Carga toda la informacioon de los profesores excepto la docencia impartida, que requiere que existan los grupos relacionados.
 		alumnos = cargarAlumnos(); // Carga toda la informacion de los alumnos excepto las asignaturas aprobadas y la docencia recibida.
 		asignaturas = cargarAsignaturas(profesores); // Carga toda la info de las asignaturas en dos fases. En la primera fase carga los datos básico y en la segunda, los prerrequisitos.
@@ -32,7 +32,7 @@ public class Gestion {
 		cargarDocenciaImpartida(profesores, asignaturas); // Actualiza la informacion de la docencia impartida por los profesores.
 		cargarDocenciaRecibida(alumnos, asignaturas); // Actualiza la informacion de la docencia recibida por los alumnos.
 		guardarFicheroPersonas(profesores, alumnos, asignaturas); //Guarda la información de las personas contenidas en el sistema en el fichero "personas.txt". 
-		//guardarFicheroAsignaturas(); //Guarda la informacion de las asignaturas contenidas en el sistema en el fichero "asignaturas.txt".
+		guardarFicheroAsignaturas(profesores, asignaturas); //Guarda la informacion de las asignaturas contenidas en el sistema en el fichero "asignaturas.txt".
 	}
 
 
@@ -163,7 +163,9 @@ public class Gestion {
 			TreeMap<Integer, Grupo> gruposA = new TreeMap<Integer, Grupo>(); // CARGAR gruposA
 			linea = entrada.nextLine(); // Formato: ID_grupo dia horaini horafin
 			String[] arrayGruposA = linea.split("; ");
+			
 			int i;
+			if (arrayGruposA[0].compareTo(caracterVacio) != 0) {
 			for (i = 0; i < arrayGruposA.length; i++) {
 				String[] grupo = arrayGruposA[i].split(" ");
 				Integer idGrupo = Integer.parseInt(grupo[0]);
@@ -173,9 +175,11 @@ public class Gestion {
 				Grupo grupoA = new Grupo("A", idGrupo, dia, horaInicio, horaFin, asignatura);// AÑADIR asignatura posteriormente.
 				gruposA.put(idGrupo, grupoA);// Se añade el grupo al Treemap de grupos A de la asignatura.
 			}
+			}
 			TreeMap<Integer, Grupo> gruposB = new TreeMap<Integer, Grupo>(); // CARGAR gruposB.
 			linea = entrada.nextLine(); // Formato: ID_grupo dia horaini horafin
 			String[] arrayGruposB = linea.split("; ");
+			if (arrayGruposB[0].compareTo(caracterVacio) != 0) {
 			for (i = 0; i < arrayGruposB.length; i++) {
 				String[] grupo = arrayGruposB[i].split(" ");
 				Integer idGrupo = Integer.parseInt(grupo[0]);
@@ -184,6 +188,7 @@ public class Gestion {
 				Integer horaFin = Integer.parseInt(grupo[3]);
 				Grupo grupoA = new Grupo("B", idGrupo, dia, horaInicio, horaFin, asignatura);// AÑADIR asignatura posteriormente.
 				gruposB.put(idGrupo, grupoA);// Se añade el grupo al Treemap de grupos B de la asignatura.
+			}
 			}
 			asignatura.setGruposA(gruposA);
 			asignatura.setGruposB(gruposB);
@@ -203,10 +208,10 @@ public class Gestion {
 				TreeMap<Integer, Asignatura> nuevosPrerrequisitos = new TreeMap<Integer, Asignatura>(); // Nuevo TreeMap donde se guardaran los nuevos prerrequisitos, para posteriormente añadirlos a la asignatura mediante un setPrerrequisitos().
 				int i;
 				for (i = 0; i < asignatura.getArrayPrerrequisitos().length; i++) { // Bucle en el que se accede a la info de las asignaturas prerrequisito y se añaden estas al TreeMap de nuevosPrerrequisitos para posteriormente hacer un set().
-					nuevosPrerrequisitos.put(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i]),
-							asignaturas.get(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i])));
+					nuevosPrerrequisitos.put(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i]),asignaturas.get(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i])));
 				}
 				asignatura.setPrerrequisitos(nuevosPrerrequisitos);
+				System.out.println();
 			}
 		}
 		return asignaturas;
@@ -300,7 +305,7 @@ public class Gestion {
 		PrintWriter pw = null;
 		try
 		{
-			fichero = new FileWriter("personasprueba.txt");
+			fichero = new FileWriter("salidapersonas.txt");
 			pw = new PrintWriter(fichero);
 			//Guardado de profesores.
 			Set<String> setProfesores = profesores.keySet(); 
@@ -413,7 +418,68 @@ public class Gestion {
 	}
 
 	public static void guardarFicheroAsignaturas(TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas){
-	
+		FileWriter fichero = null;
+		PrintWriter pw = null;
+		try
+		{
+			fichero = new FileWriter("salidaasignaturas.txt");
+			pw = new PrintWriter(fichero);
+			Set<Integer> setAsignaturas = asignaturas.keySet(); 
+			Iterator<Integer> it0 = setAsignaturas.iterator(); 
+			while (it0.hasNext()) { 
+				Asignatura asignatura = asignaturas.get(it0.next());
+				pw.println(asignatura.getIdAsignatura());
+				pw.println(asignatura.getNombre());
+				pw.println(asignatura.getSiglas());
+				pw.println(asignatura.getCurso());
+				if(asignatura.getCoordinador().getDni()==null) pw.print("\n");
+				else  pw.println(asignatura.getCoordinador().getDni());
+				Set <Integer> setPrerrequisitos = asignatura.getPrerrequisitos().keySet();
+				Iterator<Integer> it1=setPrerrequisitos.iterator();
+				if(!setPrerrequisitos.isEmpty()){
+					
+					while(it1.hasNext()){
+						Asignatura prerrequisito = asignaturas.get(it1.next());
+						pw.print(prerrequisito.getIdAsignatura());
+						if(it1.hasNext())pw.print(", ");
+						else pw.print("\n");
+					}
+				} else pw.print("\n");
+				Set<Integer> setGruposA = asignatura.getGruposA().keySet();
+				Iterator<Integer> it2 = setGruposA.iterator();
+				if(!setGruposA.isEmpty()){
+					while(it2.hasNext()){
+						
+						Grupo grupo = asignatura.getGruposA().get(it2.next()); 
+						pw.print(grupo.getIdGrupo() +" "+ grupo.getDia()+" "+grupo.getHoraInicio()+" "+grupo.getHoraFin());
+						if(it2.hasNext())pw.print("; ");
+						else pw.print("\n");
+					}
+				} else pw.print("\n");
+
+				Set<Integer> setGruposB = asignatura.getGruposB().keySet();
+				Iterator<Integer> it3 = setGruposB.iterator();
+				if(!setGruposB.isEmpty()){
+					while(it3.hasNext()){
+						Grupo grupo = asignatura.getGruposB().get(it3.next());
+						pw.print(grupo.getIdGrupo() +" "+ grupo.getDia()+" "+grupo.getHoraInicio()+" "+grupo.getHoraFin());
+						if(it3.hasNext())pw.print("; ");
+						else pw.print("\n");
+					}
+				} else pw.print("\n");
+				if(it0.hasNext())pw.print("*\n");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != fichero)
+					fichero.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
 	}
+	
 }
 
