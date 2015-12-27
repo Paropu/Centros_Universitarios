@@ -528,12 +528,13 @@ public class Gestion {
 			linea = entrada.nextLine();
 			if (!(linea.charAt(0) == '*')) {
 				String[] campos = linea.split(" ");
-				switch (campos[0]) {
-				case "InsertaPersona":
+				String camposMinuscula = campos[0].toLowerCase();
+				switch (camposMinuscula) {
+				case "insertapersona":
 					funcionalidad.insertarPersona(linea, profesores, alumnos);
 					break;
 
-				case "AsignaCoordinador":
+				case "asignacoordinador":
 					if (campos.length != 3) {
 						funcionalidad.comandoIncorrecto();
 						break;
@@ -541,22 +542,22 @@ public class Gestion {
 					funcionalidad.asignarCoordinador(linea, profesores, asignaturas);
 					break;
 
-				case "AsignaCargaDocente":
+				case "asignacargadocente":
 					break;
 
-				case "Matricula":
+				case "matricula":
 					break;
 
-				case "AsignaGrupo":
+				case "asignagrupo":
 					break;
 
-				case "Evalua":
+				case "evalua":
 					break;
 
-				case "Expediente":
+				case "expediente":
 					break;
 
-				case "ObtenerCalendarioClases":
+				case "obtenercalendarioclases":
 					break;
 
 				default:

@@ -30,13 +30,17 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 		// DATOS COMUNES
 		String dni = lineaDesplegadaEspacios[2];
-		if (!validarDNI(dni))
+		if (!validarDNI(dni)) {
 			guardarError("IP", "Dni incorrecto");
+			return;
+		}
 		String nombre = lineaDesplegadaComillas[1];
 		String apellidos = lineaDesplegadaComillas[3];
 		GregorianCalendar fechaNacimiento = stringToCalendar(linea.substring(linea.indexOf("/") - 2, linea.indexOf("/") + 8));
-		if (validarFecha(fechaNacimiento))
+		if (validarFecha(fechaNacimiento)) {
 			guardarError("IP", "Fecha incorrecta");
+			return;
+		}
 
 		System.out.println(dni);
 		System.out.println(nombre);
@@ -45,16 +49,19 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 		// DATOS ALUMNO
 		if (lineaDesplegadaEspacios[1].compareTo("alumno") == 0) {
+			GregorianCalendar fechaIngreso = stringToCalendar(linea.substring(linea.indexOf("/") + 9, linea.indexOf("/") + 19));
+			if (validarFecha(fechaIngreso)) {
+				guardarError("IP", "Fecha incorrecta");
+				return;
+			}
+			if (validarEdad(fechaNacimiento, fechaIngreso)) {
+				guardarError("IP", "Fecha ingreso incorrecta");
+				return;
+			}
 			if ((existeAlumno(alumnos, dni))) {
 				guardarError("IP", "Alumno ya existente");
 				return;
 			}
-
-			GregorianCalendar fechaIngreso = stringToCalendar(linea.substring(linea.indexOf("/") + 9, linea.indexOf("/") + 19));
-			if (validarFecha(fechaIngreso))
-				guardarError("IP", "Fecha incorrecta");
-			if (validarEdad(fechaNacimiento, fechaIngreso))
-				guardarError("IP", "Fecha ingreso incorrecta");
 			String aux = linea.substring(linea.lastIndexOf("/"));
 			String[] aux2 = aux.split(" ");
 			String notaAux = aux2[1];
@@ -79,30 +86,32 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 		// DATOS PROFESOR
 		if (lineaDesplegadaEspacios[1].compareTo("profesor") == 0) {
+			String departamento = lineaDesplegadaComillas[5];
+			Integer horasDocenciaAsignables = Integer.parseInt(lineaDesplegadaComillas[6].trim());
+			if (horasDocenciaAsignables < 0) {
+				guardarError("IP", "Numero de horas incorrecto");
+				return;
+			}
+			String categoria = null;
+			String aux = linea.substring(linea.lastIndexOf("/") + 6, linea.lastIndexOf("/") + 13);
+			if (aux.equals("asociad")) {
+				categoria = "asociado";
+				if (horasDocenciaAsignables > 15) {
+					guardarError("IP", "Numero de horas incorrecto");
+					return;
+				}
+			}
+			if (aux.equals("titular")) {
+				categoria = "titular";
+				if (horasDocenciaAsignables > 20) {
+					guardarError("IP", "Numero de horas incorrecto");
+					return;
+				}
+			}
 			if ((existeProfesor(profesores, dni))) {
 				guardarError("IP", "Profesor ya existente");
 				return;
 			}
-
-			String departamento = lineaDesplegadaComillas[5];
-			Integer horasDocenciaAsignables = Integer.parseInt(lineaDesplegadaComillas[6].trim());
-			if (horasDocenciaAsignables < 0)
-				guardarError("IP", "Numero de horas incorrecto");
-			String categoria = null;
-			String aux = linea.substring(linea.lastIndexOf("/") + 6, linea.lastIndexOf("/") + 7);
-			if (aux.equals("a")) {
-				categoria = "asociado";
-				if (horasDocenciaAsignables > 15)
-					guardarError("IP", "Numero de horas incorrecto");
-			}
-			if (aux.equals("t")) {
-				categoria = "titular";
-				if (horasDocenciaAsignables > 20)
-					guardarError("IP", "Numero de horas incorrecto");
-			} else {
-				System.out.println("ERROR, no has escrito ni titular ni asociado");
-			}
-
 			// OTROS DATOS
 			TreeMap<Integer, Grupo> docenciaImpartidaA = new TreeMap<Integer, Grupo>(); // VACIO
 			TreeMap<Integer, Grupo> docenciaImpartidaB = new TreeMap<Integer, Grupo>(); // VACIO
@@ -151,7 +160,6 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 						asignaturas.get(idAsignatura));
 			}
 		}
-		return;
 	}
 
 	public void asignarCargaDocente() {
