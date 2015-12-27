@@ -313,8 +313,8 @@ public class Gestion {
 				pw.println(profesor.getDni());
 				pw.println(profesor.getNombre());
 				pw.println(profesor.getApellidos());
-				pw.println(profesor.getfechaNacimiento().get(Calendar.DATE) + "/" + profesor.getfechaNacimiento().get(Calendar.MONTH) + "/"
-						+ profesor.getfechaNacimiento().get(Calendar.YEAR));
+				pw.println(profesor.getfechaNacimiento().get(Calendar.DATE) + "/" + (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1)
+						+ "/" + profesor.getfechaNacimiento().get(Calendar.YEAR));
 				pw.println(profesor.getCategoria());
 				pw.println(profesor.getDepartamento());
 				pw.println(profesor.getHorasDocenciaAsignables());
@@ -359,9 +359,9 @@ public class Gestion {
 				pw.println(alumno.getDni());
 				pw.println(alumno.getNombre());
 				pw.println(alumno.getApellidos());
-				pw.println(alumno.getfechaNacimiento().get(Calendar.DATE) + "/" + alumno.getfechaNacimiento().get(Calendar.MONTH) + "/"
-						+ alumno.getfechaNacimiento().get(Calendar.YEAR));
-				pw.println(alumno.getFechaIngreso().get(Calendar.DATE) + "/" + alumno.getFechaIngreso().get(Calendar.MONTH) + "/"
+				pw.println(alumno.getfechaNacimiento().get(Calendar.DATE) + "/" + (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1)
+						+ "/" + alumno.getfechaNacimiento().get(Calendar.YEAR));
+				pw.println(alumno.getFechaIngreso().get(Calendar.DATE) + "/" + (alumno.getFechaIngreso().get(Calendar.MONTH) + 1) + "/"
 						+ alumno.getFechaIngreso().get(Calendar.YEAR));
 				Set<Integer> setAsignaturasSuperadas = alumno.getAsignaturasSuperadas().keySet();
 				Iterator<Integer> it4 = setAsignaturasSuperadas.iterator();
@@ -530,7 +530,7 @@ public class Gestion {
 				String[] campos = linea.split(" ");
 				switch (campos[0]) {
 				case "InsertaPersona":
-					funcionalidad.insertarPersona(linea);
+					funcionalidad.insertarPersona(linea, profesores, alumnos);
 					break;
 
 				case "AsignaCoordinador":

@@ -2,7 +2,7 @@ profesor
 33218765X
 Jose
 Santos Suarez
-7/9/1966
+7/10/1966
 titular
 Ingenieria telematica
 14
@@ -12,7 +12,7 @@ profesor
 37834521S
 Natividad
 Calvo Domi­nguez
-17/11/1972
+17/12/1972
 asociado
 Matematica Aplicada
 10
@@ -22,7 +22,7 @@ profesor
 45632109M
 Sofia
 Carbajal Martinez
-17/8/1970
+17/9/1970
 titular
 Teoria de la Señal y Comunicaciones
 15
@@ -32,8 +32,8 @@ alumno
 12345678A
 Felipe
 Alonso Dominguez
-8/1/1996
-1/9/2014
+8/2/1996
+1/10/2014
 1 14/15 6.8; 2 14/15 5.5
 5 A 1; 5 B 1
 *
@@ -41,8 +41,8 @@ alumno
 12345678B
 Susana
 Prieto Vazquez
-28/5/1994
-3/9/2012
+28/6/1994
+3/10/2012
 
 1; 2
 *
@@ -50,7 +50,7 @@ alumno
 12345678C
 Maria Luisa
 Castro Anton
-11/11/1997
-2/9/2015
+11/12/1997
+2/10/2015
 
 2 A 1; 4 B 1; 1; 3

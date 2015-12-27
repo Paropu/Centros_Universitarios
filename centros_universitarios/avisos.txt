@@ -1,6 +1,1 @@
-ACOORD -- Profesor no titular
-ACOORD -- Profesor no titular
-ACOORD -- Profesor no titular
-ACOORD -- Profesor no titular
-ACOORD -- Profesor no titular
-ACOORD -- Profesor no titular
+IP -- Profesor ya existente
