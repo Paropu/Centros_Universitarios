@@ -1,3 +1,4 @@
-AsignaCoordinador RO
+InsertaPersona alumno 39483948T "Pablo" "Rodriguez Perez" 19/09/1995 01/09/2014 9
+InsertaPersona profesor 29384756O "Carlos" "Peleteiro Gomez Mendez" 22/02/1979 titular "asdf qwer" RO
 AsignaCoordinador 33218765X RO
 AsignaCoordinador 37834521S RO
