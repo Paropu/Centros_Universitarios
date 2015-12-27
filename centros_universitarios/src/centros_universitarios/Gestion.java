@@ -28,7 +28,7 @@ public class Gestion  {
 		cargarAsignaturasSuperadas(alumnos, asignaturas); // Actualiza la informacion de las asignaturas superadas de los alumnos.
 		cargarDocenciaImpartida(profesores, asignaturas); // Actualiza la informacion de la docencia impartida por los profesores.
 		cargarDocenciaRecibida(alumnos, asignaturas); // Actualiza la informacion de la docencia recibida por los alumnos.
-		ejecucion(profesores, alumnos, asignaturas);
+		ejecucion(profesores, alumnos, asignaturas);//Ejecuta los comandos del fichero "ejecucion.txt".
 		guardarFicheroPersonas(profesores, alumnos, asignaturas); //Guarda la información de las personas contenidas en el sistema en el fichero "personas.txt". 
 		guardarFicheroAsignaturas(profesores, asignaturas); //Guarda la informacion de las asignaturas contenidas en el sistema en el fichero "asignaturas.txt".
 		
@@ -378,7 +378,7 @@ public class Gestion  {
 						pw.print(grupoA.getAsignatura().getIdAsignatura() + " " + grupoA.getTipoGrupo() + " " + grupoA.getIdGrupo());
 						if(it5.hasNext()) pw.print("; ");
 						else {
-							if(setDocenciaRecibidaB.isEmpty() & setAsignaturasSinGrupo.isEmpty()){//----
+							if(setDocenciaRecibidaB.isEmpty() & setAsignaturasSinGrupo.isEmpty()){
 								pw.print("\n");
 							} else pw.print("; ");	
 						}
@@ -504,6 +504,13 @@ public class Gestion  {
 						break;
 					}
 					funcionalidad.asignarCoordinador(linea, profesores, asignaturas);		
+					break;
+				case "Matricula": 
+					if(campos.length!=3){
+						funcionalidad.comandoIncorrecto();
+						break;
+					}
+					funcionalidad.matricularAlumno(linea, alumnos, asignaturas);
 					break;
 				default:
 					funcionalidad.comandoIncorrecto();

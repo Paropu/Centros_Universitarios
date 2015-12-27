@@ -1,3 +1,4 @@
+=================personas.txt===================
 profesor
 33218765X
 Jose
@@ -72,3 +73,21 @@ titular
 Teoria de la Señal y Comunicaciones
 15
 6 A 1; 6 B 1
+
+===============ejecucion.txt==============
+*comando incorrecto
+Matricula ñlkajsdf asdflkj fdjks fdjslk
+*alumno inexistente
+Matricula 44444444H RO
+*asignatura inexistente
+Matricula 44497152H ROOO
+*alumno ya matriculado
+Matricula 44497152H CD
+*No cumple prerrequisitos
+Matricula 44497152H SEG
+*Comando correcto
+Matricula 44497152H P-II
+*Comando correcto
+Matricula 55555555P CAL-I
+*Comando correcto
+Matricula 55555555P PE

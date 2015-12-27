@@ -12,7 +12,7 @@ Probabilidad y Estadistica
 PE
 1
 
-1
+
 1 L 11 12
 1 L 12 14
 *
@@ -27,7 +27,7 @@ P-I
 *
 4
 Programacion II
-P-I
+P-II
 2
 
 3
@@ -47,7 +47,7 @@ CD
 Redes de Ordenadores
 RO
 2
-33218765X
+
 5
 1 L 15 16
 1 L 15 16

@@ -1,0 +1,5 @@
+ -- Comando incorrecto --
+MAT -- Alumno inexistente
+MAT -- Asignatura inexistente
+MAT -- Ya es alumno de la asignatura indicada
+MAT -- No cumple requisitos

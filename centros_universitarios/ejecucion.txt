@@ -1,3 +1,16 @@
-AsignaCoordinador RO
-AsignaCoordinador 33218765X RO
-AsignaCoordinador 37834521S RO
+*comando incorrecto
+Matricula ñlkajsdf asdflkj fdjks fdjslk
+*alumno inexistente
+Matricula 44444444H RO
+*asignatura inexistente
+Matricula 44497152H ROOO
+*alumno ya matriculado
+Matricula 44497152H CD
+*No cumple prerrequisitos
+Matricula 44497152H SEG
+*Comando correcto
+Matricula 44497152H P-II
+*Comando correcto
+Matricula 55555555P CAL-I
+*Comando correcto
+Matricula 55555555P PE
