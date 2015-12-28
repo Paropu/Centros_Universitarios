@@ -208,7 +208,6 @@ public class Gestion {
 							asignaturas.get(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i])));
 				}
 				asignatura.setPrerrequisitos(nuevosPrerrequisitos);
-				System.out.println();
 			}
 		}
 		return asignaturas;
@@ -313,8 +312,19 @@ public class Gestion {
 				pw.println(profesor.getDni());
 				pw.println(profesor.getNombre());
 				pw.println(profesor.getApellidos());
-				pw.println(profesor.getfechaNacimiento().get(Calendar.DATE) + "/" + (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1)
-						+ "/" + profesor.getfechaNacimiento().get(Calendar.YEAR));
+				if (profesor.getfechaNacimiento().get(Calendar.DATE) < 10 && (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1) < 10) {
+					pw.println("0" + profesor.getfechaNacimiento().get(Calendar.DATE) + "/" + "0"
+							+ (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/"
+							+ profesor.getfechaNacimiento().get(Calendar.YEAR));
+				} else if (profesor.getfechaNacimiento().get(Calendar.DATE) < 10) {
+					pw.println("0" + profesor.getfechaNacimiento().get(Calendar.DATE) + "/"
+							+ (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/"
+							+ profesor.getfechaNacimiento().get(Calendar.YEAR));
+				} else if ((profesor.getfechaNacimiento().get(Calendar.MONTH) + 1) < 10) {
+					pw.println(profesor.getfechaNacimiento().get(Calendar.DATE) + "/" + "0"
+							+ (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/"
+							+ profesor.getfechaNacimiento().get(Calendar.YEAR));
+				}
 				pw.println(profesor.getCategoria());
 				pw.println(profesor.getDepartamento());
 				pw.println(profesor.getHorasDocenciaAsignables());
@@ -359,10 +369,26 @@ public class Gestion {
 				pw.println(alumno.getDni());
 				pw.println(alumno.getNombre());
 				pw.println(alumno.getApellidos());
-				pw.println(alumno.getfechaNacimiento().get(Calendar.DATE) + "/" + (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1)
-						+ "/" + alumno.getfechaNacimiento().get(Calendar.YEAR));
-				pw.println(alumno.getFechaIngreso().get(Calendar.DATE) + "/" + (alumno.getFechaIngreso().get(Calendar.MONTH) + 1) + "/"
-						+ alumno.getFechaIngreso().get(Calendar.YEAR));
+				if (alumno.getfechaNacimiento().get(Calendar.DATE) < 10 && (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) < 10) {
+					pw.println("0" + alumno.getfechaNacimiento().get(Calendar.DATE) + "/" + "0"
+							+ (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/" + alumno.getfechaNacimiento().get(Calendar.YEAR));
+				} else if (alumno.getfechaNacimiento().get(Calendar.DATE) < 10) {
+					pw.println("0" + alumno.getfechaNacimiento().get(Calendar.DATE) + "/"
+							+ (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/" + alumno.getfechaNacimiento().get(Calendar.YEAR));
+				} else if ((alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) < 10) {
+					pw.println(alumno.getfechaNacimiento().get(Calendar.DATE) + "/" + "0"
+							+ (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/" + alumno.getfechaNacimiento().get(Calendar.YEAR));
+				}
+				if (alumno.getFechaIngreso().get(Calendar.DATE) < 10 && (alumno.getFechaIngreso().get(Calendar.MONTH) + 1) < 10) {
+					pw.println("0" + alumno.getFechaIngreso().get(Calendar.DATE) + "/" + "0"
+							+ (alumno.getFechaIngreso().get(Calendar.MONTH) + 1) + "/" + alumno.getFechaIngreso().get(Calendar.YEAR));
+				} else if (alumno.getFechaIngreso().get(Calendar.DATE) < 10) {
+					pw.println("0" + alumno.getFechaIngreso().get(Calendar.DATE) + "/" + (alumno.getFechaIngreso().get(Calendar.MONTH) + 1)
+							+ "/" + alumno.getFechaIngreso().get(Calendar.YEAR));
+				} else if ((alumno.getFechaIngreso().get(Calendar.MONTH) + 1) < 10) {
+					pw.println(alumno.getFechaIngreso().get(Calendar.DATE) + "/" + "0" + (alumno.getFechaIngreso().get(Calendar.MONTH) + 1)
+							+ "/" + alumno.getFechaIngreso().get(Calendar.YEAR));
+				}
 				Set<Integer> setAsignaturasSuperadas = alumno.getAsignaturasSuperadas().keySet();
 				Iterator<Integer> it4 = setAsignaturasSuperadas.iterator();
 				if (setAsignaturasSuperadas.isEmpty())
@@ -424,9 +450,15 @@ public class Gestion {
 				if (it3.hasNext())
 					pw.println("*");
 			}
-		} catch (Exception e) {
+		} catch (
+
+		Exception e)
+
+		{
 			e.printStackTrace();
-		} finally {
+		} finally
+
+		{
 			try {
 				if (null != fichero)
 					fichero.close();
@@ -434,6 +466,7 @@ public class Gestion {
 				e2.printStackTrace();
 			}
 		}
+
 	}
 
 	public static void guardarFicheroAsignaturas(TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
@@ -535,10 +568,10 @@ public class Gestion {
 					break;
 
 				case "asignacoordinador":
-					if (campos.length != 3) {
+					/*if (campos.length != 3) {
 						funcionalidad.comandoIncorrecto();
 						break;
-					}
+					}*/ // Esto no lo veo necesario
 					funcionalidad.asignarCoordinador(linea, profesores, asignaturas);
 					break;
 
@@ -561,7 +594,7 @@ public class Gestion {
 					break;
 
 				default:
-					funcionalidad.comandoIncorrecto();
+					funcionalidad.comandoIncorrecto(campos[0]);
 					break;
 				}
 			}

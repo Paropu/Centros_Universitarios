@@ -1,0 +1,10 @@
+IP -- Profesor ya existente
+IP -- Profesor ya existente
+IP -- Profesor ya existente
+IP -- Profesor ya existente
+ -- Comando incorrecto: InsertasdaPersona
+ -- Comando incorrecto: InsasdasdaertaPersona
+ -- Comando incorrecto: InsertasdaPersona
+ -- Comando incorrecto: InsasdasdaertaPersona
+IP -- Profesor ya existente
+IP -- Profesor ya existente

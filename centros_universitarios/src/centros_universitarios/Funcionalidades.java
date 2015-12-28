@@ -42,19 +42,19 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return;
 		}
 
-		System.out.println(dni);
+		/*System.out.println(dni);
 		System.out.println(nombre);
 		System.out.println(apellidos);
 		System.out.println(fechaNacimiento.getTime());
-
+		*/
 		// DATOS ALUMNO
 		if (lineaDesplegadaEspacios[1].compareTo("alumno") == 0) {
-			GregorianCalendar fechaIngreso = stringToCalendar(linea.substring(linea.indexOf("/") + 9, linea.indexOf("/") + 19));
+			GregorianCalendar fechaIngreso = stringToCalendar(linea.substring(linea.lastIndexOf("/") - 5, linea.lastIndexOf("/") + 5));
 			if (validarFecha(fechaIngreso)) {
 				guardarError("IP", "Fecha incorrecta");
 				return;
 			}
-			if (validarEdad(fechaNacimiento, fechaIngreso)) {
+			if (!validarEdad(fechaNacimiento, fechaIngreso)) {
 				guardarError("IP", "Fecha ingreso incorrecta");
 				return;
 			}
@@ -75,13 +75,15 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			TreeMap<Integer, Asignatura> asignaturasMatriculadas = new TreeMap<Integer, Asignatura>();
 			String[] arrayDocenciaRecibida = null;
 
-			// Falta meter datos en treemap
-			/*			Alumno alumno = new Alumno(dni, nombre, apellidos, fechaNacimiento, fechaIngreso, docenciaRecibidaA, docenciaRecibidaB,
-								asignaturasSuperadas, arrayAsignaturasSuperadas, asignaturasMatriculadas, arrayDocenciaRecibida);
-						alumnos.put(dni, alumno);*/
+			Alumno alumno = new Alumno(dni, nombre, apellidos, fechaNacimiento, fechaIngreso, docenciaRecibidaA, docenciaRecibidaB,
+					asignaturasSuperadas, arrayAsignaturasSuperadas, asignaturasMatriculadas, arrayDocenciaRecibida);
+			alumno.setAsignaturasSinGrupo(new TreeMap<Integer, Asignatura>());
+			alumnos.put(dni, alumno);
 
+			/*
 			System.out.println(fechaIngreso.getTime());
 			System.out.println(notaMedia);
+			*/
 		}
 
 		// DATOS PROFESOR
@@ -119,13 +121,14 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			String[] arrayDocenciaImpartida = null;
 
 			// Falta meter datos en treemap
-			/*	Profesor profesor = new Profesor(dni, nombre, apellidos, fechaNacimiento, categoria, departamento, horasDocenciaAsignables,
-						docenciaImpartidaA, docenciaImpartidaB, asignaturasCoordinadas, arrayDocenciaImpartida);
-				profesores.put(dni, profesor);
-			*/
+			Profesor profesor = new Profesor(dni, nombre, apellidos, fechaNacimiento, categoria, departamento, horasDocenciaAsignables,
+					docenciaImpartidaA, docenciaImpartidaB, asignaturasCoordinadas, arrayDocenciaImpartida);
+			profesores.put(dni, profesor);
+			/*
 			System.out.println(categoria);
 			System.out.println(horasDocenciaAsignables);
 			System.out.println(departamento);
+			*/
 		}
 	}
 
@@ -206,8 +209,8 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 	}
 
-	public void comandoIncorrecto() {
-		guardarError("", "Comando incorrecto --");
+	public void comandoIncorrecto(String comando) {
+		guardarError("", "Comando incorrecto: " + comando);
 	}
 
 	public Boolean profesorTitular(TreeMap<String, Profesor> profesores, String dni) {
@@ -282,9 +285,9 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			anho1++;
 		}
 		if (n_years < 15 || n_years > 65)
-			return true;
-		else
 			return false;
+		else
+			return true;
 	}
 
 	public static boolean validarDNI(String dni) {
