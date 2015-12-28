@@ -42,11 +42,6 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return;
 		}
 
-		/*System.out.println(dni);
-		System.out.println(nombre);
-		System.out.println(apellidos);
-		System.out.println(fechaNacimiento.getTime());
-		*/
 		// DATOS ALUMNO
 		if (lineaDesplegadaEspacios[1].compareTo("alumno") == 0) {
 			GregorianCalendar fechaIngreso = stringToCalendar(linea.substring(linea.lastIndexOf("/") - 5, linea.lastIndexOf("/") + 5));
@@ -63,23 +58,9 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				return;
 			}
 
-			// Otros datos
-			TreeMap<Integer, Grupo> docenciaRecibidaA = new TreeMap<Integer, Grupo>();
-			TreeMap<Integer, Grupo> docenciaRecibidaB = new TreeMap<Integer, Grupo>();
-			TreeMap<Integer, NotaFinal> asignaturasSuperadas = new TreeMap<Integer, NotaFinal>();
-			String[] arrayAsignaturasSuperadas = null;
-			TreeMap<Integer, Asignatura> asignaturasMatriculadas = new TreeMap<Integer, Asignatura>();
-			String[] arrayDocenciaRecibida = null;
-
-			Alumno alumno = new Alumno(dni, nombre, apellidos, fechaNacimiento, fechaIngreso, docenciaRecibidaA, docenciaRecibidaB,
-					asignaturasSuperadas, arrayAsignaturasSuperadas, asignaturasMatriculadas, arrayDocenciaRecibida);
+			Alumno alumno = new Alumno(dni, nombre, apellidos, fechaNacimiento, fechaIngreso);
 			alumno.setAsignaturasSinGrupo(new TreeMap<Integer, Asignatura>());
 			alumnos.put(dni, alumno);
-
-			/*
-			System.out.println(fechaIngreso.getTime());
-			System.out.println(notaMedia);
-			*/
 		}
 
 		// DATOS PROFESOR
@@ -110,21 +91,9 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				guardarError("IP", "Profesor ya existente");
 				return;
 			}
-			// OTROS DATOS
-			TreeMap<Integer, Grupo> docenciaImpartidaA = new TreeMap<Integer, Grupo>(); // VACIO
-			TreeMap<Integer, Grupo> docenciaImpartidaB = new TreeMap<Integer, Grupo>(); // VACIO
-			TreeMap<Integer, Asignatura> asignaturasCoordinadas = new TreeMap<Integer, Asignatura>(); // VACIO. En principio vacio, luego se completa al cargar las asignaturas.
-			String[] arrayDocenciaImpartida = null;
 
-			// Falta meter datos en treemap
-			Profesor profesor = new Profesor(dni, nombre, apellidos, fechaNacimiento, categoria, departamento, horasDocenciaAsignables,
-					docenciaImpartidaA, docenciaImpartidaB, asignaturasCoordinadas, arrayDocenciaImpartida);
+			Profesor profesor = new Profesor(dni, nombre, apellidos, fechaNacimiento, categoria, departamento, horasDocenciaAsignables);
 			profesores.put(dni, profesor);
-			/*
-			System.out.println(categoria);
-			System.out.println(horasDocenciaAsignables);
-			System.out.println(departamento);
-			*/
 		}
 	}
 

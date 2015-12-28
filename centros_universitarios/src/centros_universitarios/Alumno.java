@@ -102,4 +102,17 @@ public class Alumno extends Persona {
 		this.asignaturasMatriculadas = asignaturasMatriculadas;
 		this.arrayDocenciaRecibida = arrayDocenciaRecibida;
 	}
+
+	public Alumno(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, GregorianCalendar fechaIngreso) {
+		super(dni, nombre, apellidos, fechaNacimiento);
+		this.fechaIngreso = fechaIngreso;
+		this.docenciaRecibidaA = new TreeMap<Integer, Grupo>();
+		this.docenciaRecibidaB = new TreeMap<Integer, Grupo>();
+		this.asignaturasSuperadas = new TreeMap<Integer, NotaFinal>();
+		this.asignaturasMatriculadas = new TreeMap<Integer, Asignatura>();
+		/*
+		this.arrayAsignaturasSuperadas = null;
+		this.arrayDocenciaRecibida = null;
+		*/
+	}
 }

@@ -18,6 +18,16 @@ Matematica Aplicada
 1 A 1; 1 A 2; 1 B 1; 1 B 2
 *
 profesor
+39434939T
+Esteban
+Claus
+09/12/1995
+titular
+cosas
+3
+
+*
+profesor
 45632109M
 Sofia
 Carbajal Martinez
@@ -54,13 +64,22 @@ Castro Anton
 2 A 1; 4 B 1; 1; 3
 *
 alumno
+39438936T
+Pablo
+Rodriguez Perez
+09/12/1995
+01/09/2014
+
+
+*
+alumno
 44497152H
 Martin
 Puga Egea
 24/02/1995
 02/10/2013
 1 13/14 5.0; 2 14/15 5.0; 3 15/16 7.0
-4; 5
+5
 *
 alumno
 55555555P
@@ -69,4 +88,4 @@ Rodriguez Perez
 25/02/1995
 02/10/2013
 
-1; 2
+

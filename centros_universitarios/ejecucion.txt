@@ -1,16 +1,2 @@
-*comando incorrecto
-Matricula ñlkajsdf asdflkj fdjks fdjslk
-*alumno inexistente
-Matricula 44444444H RO
-*asignatura inexistente
-Matricula 44497152H ROOO
-*alumno ya matriculado
-Matricula 44497152H CD
-*No cumple prerrequisitos
-Matricula 44497152H SEG
-*Comando correcto
-Matricula 44497152H P-II
-*Comando correcto
-Matricula 55555555P CAL-I
-*Comando correcto
-Matricula 55555555P PE
+InsertaPersona alumno 39438936T "Pablo" "Rodriguez Perez" 09/12/1995 01/09/2014
+InsertaPersona profesor 39434939T "Esteban" "Claus" 09/12/1995 titular "cosas" 3

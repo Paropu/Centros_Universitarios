@@ -1,5 +1,1 @@
-MAT -- Numero de elementos incorrectos 
-MAT -- Alumno inexistente
-MAT -- Asignatura inexistente
-MAT -- Ya es alumno de la asignatura indicada
-MAT -- No cumple requisitos
+IP -- Dni incorrecto
