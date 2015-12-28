@@ -200,6 +200,9 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				break;
 			}
 		}
+		alumnos.get(alumno).getAsignaturasMatriculadas().put(key, asignaturas.get(key));
+		alumnos.get(alumno).getAsignaturasSinGrupo().put(key, asignaturas.get(key));
+
 	}
 
 	public void asignarGrupo() {

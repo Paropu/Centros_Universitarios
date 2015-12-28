@@ -568,7 +568,7 @@ public class Gestion {
 
 				case "asignacoordinador":
 					if (campos.length != 3) {
-						funcionalidad.comandoIncorrecto("ACOORD");
+						funcionalidad.argumentosIncorrectos("ACOORD");
 						break;
 					}
 					funcionalidad.asignarCoordinador(linea, profesores, asignaturas);
@@ -579,7 +579,7 @@ public class Gestion {
 
 				case "matricula":
 					if (campos.length != 3) {
-						funcionalidad.comandoIncorrecto("MAT");
+						funcionalidad.argumentosIncorrectos("MAT");
 						break;
 					}
 					funcionalidad.matricularAlumno(linea, alumnos, asignaturas);
