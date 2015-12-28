@@ -555,10 +555,11 @@ public class Gestion {
 			System.exit(-1); // Mostrar error en el fichero Avisos.txt ----------------------------------------------------- ???
 		}
 		Scanner entrada = new Scanner(flujo_entrada); // Se crea un objeto para escanear la linea del fichero
-		String linea = null; // Variable que contendra la informacion escaneada del fichero
+		String linea2 = null; // Variable que contendra la informacion escaneada del fichero
 		while (entrada.hasNextLine()) {
-			linea = entrada.nextLine();
-			if (!(linea.charAt(0) == '*')) {
+			linea2 = entrada.nextLine();
+			if (!(linea2.charAt(0) == '*')) {
+				String linea = linea2.replaceAll("\\s+", " "); // Contiene la información del fichero sin espacios duplicados
 				String[] campos = linea.split(" ");
 				String camposMinuscula = campos[0].toLowerCase();
 				switch (camposMinuscula) {

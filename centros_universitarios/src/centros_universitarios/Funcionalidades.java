@@ -27,6 +27,18 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 	public void insertarPersona(String linea, TreeMap<String, Profesor> profesores, TreeMap<String, Alumno> alumnos) { // falta a�adir treemaps
 		String[] lineaDesplegadaEspacios = linea.split(" ");
 		String[] lineaDesplegadaComillas = linea.split("\"");
+		String[] lineaDesplegadaBarras = linea.split("/");
+
+		if ((lineaDesplegadaEspacios[1].compareTo("alumno") == 0 && lineaDesplegadaComillas.length != 5)
+				|| (lineaDesplegadaEspacios[1].compareTo("profesor") == 0 && lineaDesplegadaComillas.length != 7)) {
+			guardarError("IP", "Numero de argumentos incorrecto");
+			return;
+		}
+		if ((lineaDesplegadaEspacios[1].compareTo("alumno") == 0 && lineaDesplegadaBarras.length != 5)
+				|| (lineaDesplegadaEspacios[1].compareTo("profesor") == 0 && lineaDesplegadaBarras.length != 3)) {
+			guardarError("IP", "Numero de argumentos incorrecto");
+			return;
+		}
 
 		// DATOS COMUNES
 		String dni = lineaDesplegadaEspacios[2];
@@ -72,15 +84,15 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				return;
 			}
 			String categoria = null;
-			String aux = linea.substring(linea.lastIndexOf("/") + 6, linea.lastIndexOf("/") + 13);
-			if (aux.equals("asociad")) {
+			String aux = linea.substring(linea.lastIndexOf("/") + 6, linea.lastIndexOf("/") + 14);
+			if (aux.equals("asociado")) {
 				categoria = "asociado";
 				if (horasDocenciaAsignables > 15) {
 					guardarError("IP", "Numero de horas incorrecto");
 					return;
 				}
 			}
-			if (aux.equals("titular")) {
+			if (aux.equals("titular ")) {
 				categoria = "titular";
 				if (horasDocenciaAsignables > 20) {
 					guardarError("IP", "Numero de horas incorrecto");
