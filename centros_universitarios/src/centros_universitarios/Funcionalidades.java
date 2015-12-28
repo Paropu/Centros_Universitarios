@@ -327,7 +327,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 	}
 
 	public static boolean validarDNI(String dni) {
-		// COMPRUEBO SI EL TAMA�O ES CORRECTO
+		// COMPRUEBO SI EL TAMANO ES CORRECTO
 		if (dni.length() != 9)
 			return false;
 
@@ -339,9 +339,9 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return false;
 		}
 
-		// COMPRUEBO QUE SEA UNA LETRA (MAYUS O MINUS)
+		// COMPRUEBO QUE SEA UNA LETRA MAYUS
 		char letra = dni.charAt(8);
-		if (letra < 65 || letra > 122 || (letra > 90 && letra < 97))
+		if (letra < 65 || letra > 90)
 			return false;
 
 		return true;
