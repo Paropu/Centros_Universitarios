@@ -12,10 +12,10 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	/*
 	 * FUNCIONALIDADES INCLUIDAS EN LAS ESPECIFICACIONES DEL PROYECTO:
-	 * Insertar persona
-	 * Asignar coordinador
+	 * Insertar persona						OK
+	 * Asignar coordinador					OK
 	 * Asignar carga docente
-	 * Matricular alumno
+	 * Matricular alumno					OK
 	 * Asignar grupo
 	 * Evaluar asignatura
 	 * Obtener expediente del alumno
@@ -46,8 +46,9 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			guardarError("IP", "Dni incorrecto");
 			return;
 		}
-		String nombre = lineaDesplegadaComillas[1];
-		String apellidos = lineaDesplegadaComillas[3];
+		String nombre = nombreSinEspacios(lineaDesplegadaComillas[1].split(" "));
+		System.out.println(nombre);
+		String apellidos = nombreSinEspacios(lineaDesplegadaComillas[3].split(" "));
 		GregorianCalendar fechaNacimiento = stringToCalendar(linea.substring(linea.indexOf("/") - 2, linea.indexOf("/") + 8));
 		if (validarFecha(fechaNacimiento)) {
 			guardarError("IP", "Fecha incorrecta");
@@ -77,7 +78,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 		// DATOS PROFESOR
 		if (lineaDesplegadaEspacios[1].compareTo("profesor") == 0) {
-			String departamento = lineaDesplegadaComillas[5];
+			String departamento = nombreSinEspacios(lineaDesplegadaComillas[5].split(" "));
 			Integer horasDocenciaAsignables = Integer.parseInt(lineaDesplegadaComillas[6].trim());
 			if (horasDocenciaAsignables < 0) {
 				guardarError("IP", "Numero de horas incorrecto");
@@ -186,8 +187,45 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	}
 
-	public void asignarGrupo() {
+	public void asignarGrupo(String linea, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
+		String[] campos = linea.split(" ");
+		String alumno = campos[1];
+		if (!existeAlumno(alumnos, alumno)) {
+			guardarError("AGRUPO", "Alumno inexistente");
+			return;
+		}
 
+		String siglas = campos[2];
+		if (!existeAsignatura(asignaturas, siglas)) {
+			guardarError("AGRUPO", "Asignatura inexistente");
+			return;
+		}
+
+		if (!matriculaExistente(alumnos, asignaturas, alumno, siglas)) {
+			guardarError("AGRUPO", "Alumno no matriculado");
+			return;
+		}
+
+		if (!(campos[3].equals("A") || campos[3].equals("B"))) {
+			guardarError("AGRUPO", "Tipo de grupo incorrecto");
+			return;
+		}
+
+		if (campos[3].equals("A")) {
+			if (!existeGrupo(asignaturas, campos[4], campos[3], campos[2])) {
+				guardarError("AGRUPO", "Grupo inexistente");
+				return;
+			}
+		} else if (campos[3].equals("B")) {
+			if (!existeGrupo(asignaturas, campos[4], campos[3], campos[2])) {
+				guardarError("AGRUPO", "Grupo inexistente");
+				return;
+			}
+		}
+
+		// Se genera solape
+
+		// Meter datos en TreeMap
 	}
 
 	public void evaluarAsignatura() {
@@ -338,6 +376,49 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				return true;
 		}
 		return false;
+	}
+
+	public String nombreSinEspacios(String[] entrada) {
+		String nombre = null;
+		int i = 0;
+		for (; nombre == null; i++) {
+			if (entrada[i].length() > 0) {
+				nombre = entrada[i];
+			}
+		}
+		for (int j = entrada.length; i != j; i++) {
+			if (entrada[i].length() > 0) {
+				nombre = nombre + " " + entrada[i];
+			}
+		}
+		return nombre;
+	}
+
+	public Boolean existeGrupo(TreeMap<Integer, Asignatura> asignaturas, String grupo, String tipoGrupo, String siglas) {
+		Set<Integer> setAsignaturas = asignaturas.keySet();
+		Iterator<Integer> it = setAsignaturas.iterator();
+		Integer key = 0; // EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
+		while (it.hasNext()) {
+			key = it.next();
+			Asignatura asignaturaId = asignaturas.get(key);
+			if (asignaturaId.getSiglas().contentEquals(siglas)) {
+				key = asignaturaId.getIdAsignatura();
+				break;
+			}
+		}
+		Integer grupo2 = Integer.parseInt(grupo);
+		if (tipoGrupo.contains("A")) {
+			if (asignaturas.get(key).getGruposA().lastKey() < grupo2) {
+				// System.out.println("No existe A");
+				return false;
+			}
+		} else if (tipoGrupo.contains("B")) {
+			if (asignaturas.get(key).getGruposB().lastKey() < grupo2) {
+				// System.out.println("No existe B");
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public Boolean cumplePrerrequisitos(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno,

@@ -587,6 +587,11 @@ public class Gestion {
 					break;
 
 				case "asignagrupo":
+					if (campos.length != 5) {
+						funcionalidad.argumentosIncorrectos("AGRUPO");
+						break;
+					}
+					funcionalidad.asignarGrupo(linea, alumnos, asignaturas);
 					break;
 
 				case "evalua":
