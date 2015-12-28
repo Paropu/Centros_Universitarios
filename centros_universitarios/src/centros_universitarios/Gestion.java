@@ -11,8 +11,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class Gestion  {
-
+public class Gestion {
 
 	/* MAIN */
 
@@ -21,7 +20,7 @@ public class Gestion  {
 		TreeMap<String, Profesor> profesores = new TreeMap<String, Profesor>();
 		TreeMap<String, Alumno> alumnos = new TreeMap<String, Alumno>();
 		TreeMap<Integer, Asignatura> asignaturas = new TreeMap<Integer, Asignatura>();
-		//NOTA IMPORTANTE:No se hace en un metodo directamente, hay que hacerlo por partes para poder cargar todos los datos sin problemas. No se puede cargar toda la info de golpe, ya que se necesita relacionar las clases.
+		// NOTA IMPORTANTE:No se hace en un metodo directamente, hay que hacerlo por partes para poder cargar todos los datos sin problemas. No se puede cargar toda la info de golpe, ya que se necesita relacionar las clases.
 		profesores = cargarProfesores(); // Carga toda la informacioon de los profesores excepto la docencia impartida, que requiere que existan los grupos relacionados.
 		alumnos = cargarAlumnos(); // Carga toda la informacion de los alumnos excepto las asignaturas aprobadas y la docencia recibida.
 		asignaturas = cargarAsignaturas(profesores); // Carga toda la info de las asignaturas en dos fases. En la primera fase carga los datos básico y en la segunda, los prerrequisitos.
@@ -33,7 +32,6 @@ public class Gestion  {
 		guardarFicheroAsignaturas(profesores, asignaturas); //Guarda la informacion de las asignaturas contenidas en el sistema en el fichero "asignaturas.txt".
 		
 	}
-
 
 
 	/* METODOS */
@@ -112,12 +110,12 @@ public class Gestion  {
 				TreeMap<Integer, NotaFinal> asignaturasSuperadas = new TreeMap<Integer, NotaFinal>();
 				String[] arrayDocenciaRecibida = entrada.nextLine().split("; ");// Carga de la docencia recibida por el alumno.
 				TreeMap<Integer, Grupo> docenciaRecibidaA = new TreeMap<Integer, Grupo>();
-				//TreeMap<Integer, Grupo> docenciaRecibidaA =null;//--------------------------------------
+				// TreeMap<Integer, Grupo> docenciaRecibidaA =null;//--------------------------------------
 				TreeMap<Integer, Grupo> docenciaRecibidaB = new TreeMap<Integer, Grupo>();
-				//TreeMap<Integer, Grupo> docenciaRecibidaB =null;
+				// TreeMap<Integer, Grupo> docenciaRecibidaB =null;
 				TreeMap<Integer, Asignatura> asignaturasMatriculadas = new TreeMap<Integer, Asignatura>();
-				Alumno alumno = new Alumno(dni, nombre, apellidos, fechaNacimiento, fechaIngreso, docenciaRecibidaA, docenciaRecibidaB, asignaturasSuperadas,
-						arrayAsignaturasSuperadas, asignaturasMatriculadas, arrayDocenciaRecibida);
+				Alumno alumno = new Alumno(dni, nombre, apellidos, fechaNacimiento, fechaIngreso, docenciaRecibidaA, docenciaRecibidaB,
+						asignaturasSuperadas, arrayAsignaturasSuperadas, asignaturasMatriculadas, arrayDocenciaRecibida);
 				alumnos.put(dni, alumno);
 			} else { // Se salta el bloque del profesor.
 				int i;
@@ -207,10 +205,10 @@ public class Gestion  {
 				TreeMap<Integer, Asignatura> nuevosPrerrequisitos = new TreeMap<Integer, Asignatura>(); // Nuevo TreeMap donde se guardaran los nuevos prerrequisitos, para posteriormente añadirlos a la asignatura mediante un setPrerrequisitos().
 				int i;
 				for (i = 0; i < asignatura.getArrayPrerrequisitos().length; i++) { // Bucle en el que se accede a la info de las asignaturas prerrequisito y se añaden estas al TreeMap de nuevosPrerrequisitos para posteriormente hacer un set().
-					nuevosPrerrequisitos.put(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i]),asignaturas.get(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i])));
+					nuevosPrerrequisitos.put(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i]),
+							asignaturas.get(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i])));
 				}
 				asignatura.setPrerrequisitos(nuevosPrerrequisitos);
-				System.out.println();
 			}
 		}
 		return asignaturas;
@@ -287,35 +285,47 @@ public class Gestion  {
 							docenciaRecibidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
 						else
 							docenciaRecibidaB.put(idGrupo, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
-					} else {//asignaturasSinGrupo -------------------
-						asignaturasSinGrupo.put(idAsignatura, asignaturas.get(idAsignatura));//NEW
+					} else {// asignaturasSinGrupo -------------------
+						asignaturasSinGrupo.put(idAsignatura, asignaturas.get(idAsignatura));// NEW
 					}
 					alumno.getAsignaturasMatriculadas().put(idAsignatura, asignaturas.get(idAsignatura));
 				}
-			}	
+			}
 			alumno.setDocenciaRecibidaA(docenciaRecibidaA);
 			alumno.setDocenciaRecibidaB(docenciaRecibidaB);
 			alumno.setAsignaturasSinGrupo(asignaturasSinGrupo);
 		}
 	}
 
-	public static void guardarFicheroPersonas(TreeMap<String, Profesor> profesores, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas){
+	public static void guardarFicheroPersonas(TreeMap<String, Profesor> profesores, TreeMap<String, Alumno> alumnos,
+			TreeMap<Integer, Asignatura> asignaturas) {
 		FileWriter fichero = null;
 		PrintWriter pw = null;
-		try
-		{
+		try {
 			fichero = new FileWriter("salidapersonas.txt");
 			pw = new PrintWriter(fichero);
-			//Guardado de profesores.
-			Set<String> setProfesores = profesores.keySet(); 
-			Iterator<String> it0 = setProfesores.iterator(); 
-			while (it0.hasNext()) { 
+			// Guardado de profesores.
+			Set<String> setProfesores = profesores.keySet();
+			Iterator<String> it0 = setProfesores.iterator();
+			while (it0.hasNext()) {
 				Profesor profesor = profesores.get(it0.next());
 				pw.println("profesor");
 				pw.println(profesor.getDni());
 				pw.println(profesor.getNombre());
 				pw.println(profesor.getApellidos());
-				pw.println(profesor.getfechaNacimiento().get(Calendar.DATE) + "/" + profesor.getfechaNacimiento().get(Calendar.MONTH) +"/"+ profesor.getfechaNacimiento().get(Calendar.YEAR));
+				if (profesor.getfechaNacimiento().get(Calendar.DATE) < 10 && (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1) < 10) {
+					pw.println("0" + profesor.getfechaNacimiento().get(Calendar.DATE) + "/" + "0"
+							+ (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/"
+							+ profesor.getfechaNacimiento().get(Calendar.YEAR));
+				} else if (profesor.getfechaNacimiento().get(Calendar.DATE) < 10) {
+					pw.println("0" + profesor.getfechaNacimiento().get(Calendar.DATE) + "/"
+							+ (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/"
+							+ profesor.getfechaNacimiento().get(Calendar.YEAR));
+				} else if ((profesor.getfechaNacimiento().get(Calendar.MONTH) + 1) < 10) {
+					pw.println(profesor.getfechaNacimiento().get(Calendar.DATE) + "/" + "0"
+							+ (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/"
+							+ profesor.getfechaNacimiento().get(Calendar.YEAR));
+				}
 				pw.println(profesor.getCategoria());
 				pw.println(profesor.getDepartamento());
 				pw.println(profesor.getHorasDocenciaAsignables());
@@ -323,47 +333,76 @@ public class Gestion  {
 				Iterator<Integer> it1 = setDocenciaImpartidaA.iterator();
 				Set<Integer> setDocenciaImpartidaB = profesor.getDocenciaImpartidaB().keySet();
 				Iterator<Integer> it2 = setDocenciaImpartidaB.iterator();
-				if(!setDocenciaImpartidaA.isEmpty()){
-					while(it1.hasNext()){
+				if (!setDocenciaImpartidaA.isEmpty()) {
+					while (it1.hasNext()) {
 						Grupo grupoA = profesor.getDocenciaImpartidaA().get(it1.next());
 						pw.print(grupoA.getAsignatura().getIdAsignatura() + " " + grupoA.getTipoGrupo() + " " + grupoA.getIdGrupo());
-						if(it1.hasNext()) pw.print("; ");
-						else if(setDocenciaImpartidaB.isEmpty()){
+						if (it1.hasNext())
+							pw.print("; ");
+						else if (setDocenciaImpartidaB.isEmpty()) {
 							pw.print("\n");
-						} else pw.print("; ");	
+						} else
+							pw.print("; ");
 					}
 				}
-				if(!setDocenciaImpartidaB.isEmpty()){
-					while(it2.hasNext()){
+				if (!setDocenciaImpartidaB.isEmpty()) {
+					while (it2.hasNext()) {
 						Grupo grupoB = profesor.getDocenciaImpartidaB().get(it2.next());
 						pw.print(grupoB.getAsignatura().getIdAsignatura() + " " + grupoB.getTipoGrupo() + " " + grupoB.getIdGrupo());
-						if(it2.hasNext()) pw.print("; ");
-						else pw.print("\n");
+						if (it2.hasNext())
+							pw.print("; ");
+						else
+							pw.print("\n");
 					}
-				}else pw.println();	
-				if (it0.hasNext())pw.print("*\n");
+				} else
+					pw.println();
+				if (it0.hasNext())
+					pw.print("*\n");
 			}
-			//Guardado de alumnos.
-			if(!setProfesores.isEmpty())pw.println("*");
-			Set<String> setAlumnos = alumnos.keySet(); 
+			// Guardado de alumnos.
+			if (!setProfesores.isEmpty())
+				pw.println("*");
+			Set<String> setAlumnos = alumnos.keySet();
 			Iterator<String> it3 = setAlumnos.iterator();
-			while (it3.hasNext()){
+			while (it3.hasNext()) {
 				Alumno alumno = alumnos.get(it3.next());
 				pw.println("alumno");
 				pw.println(alumno.getDni());
 				pw.println(alumno.getNombre());
 				pw.println(alumno.getApellidos());
-				pw.println(alumno.getfechaNacimiento().get(Calendar.DATE) + "/" + alumno.getfechaNacimiento().get(Calendar.MONTH) +"/"+ alumno.getfechaNacimiento().get(Calendar.YEAR));
-				pw.println(alumno.getFechaIngreso().get(Calendar.DATE) + "/" + alumno.getFechaIngreso().get(Calendar.MONTH) +"/"+ alumno.getFechaIngreso().get(Calendar.YEAR));
+				if (alumno.getfechaNacimiento().get(Calendar.DATE) < 10 && (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) < 10) {
+					pw.println("0" + alumno.getfechaNacimiento().get(Calendar.DATE) + "/" + "0"
+							+ (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/" + alumno.getfechaNacimiento().get(Calendar.YEAR));
+				} else if (alumno.getfechaNacimiento().get(Calendar.DATE) < 10) {
+					pw.println("0" + alumno.getfechaNacimiento().get(Calendar.DATE) + "/"
+							+ (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/" + alumno.getfechaNacimiento().get(Calendar.YEAR));
+				} else if ((alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) < 10) {
+					pw.println(alumno.getfechaNacimiento().get(Calendar.DATE) + "/" + "0"
+							+ (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/" + alumno.getfechaNacimiento().get(Calendar.YEAR));
+				}
+				if (alumno.getFechaIngreso().get(Calendar.DATE) < 10 && (alumno.getFechaIngreso().get(Calendar.MONTH) + 1) < 10) {
+					pw.println("0" + alumno.getFechaIngreso().get(Calendar.DATE) + "/" + "0"
+							+ (alumno.getFechaIngreso().get(Calendar.MONTH) + 1) + "/" + alumno.getFechaIngreso().get(Calendar.YEAR));
+				} else if (alumno.getFechaIngreso().get(Calendar.DATE) < 10) {
+					pw.println("0" + alumno.getFechaIngreso().get(Calendar.DATE) + "/" + (alumno.getFechaIngreso().get(Calendar.MONTH) + 1)
+							+ "/" + alumno.getFechaIngreso().get(Calendar.YEAR));
+				} else if ((alumno.getFechaIngreso().get(Calendar.MONTH) + 1) < 10) {
+					pw.println(alumno.getFechaIngreso().get(Calendar.DATE) + "/" + "0" + (alumno.getFechaIngreso().get(Calendar.MONTH) + 1)
+							+ "/" + alumno.getFechaIngreso().get(Calendar.YEAR));
+				}
 				Set<Integer> setAsignaturasSuperadas = alumno.getAsignaturasSuperadas().keySet();
-				Iterator<Integer> it4= setAsignaturasSuperadas.iterator();
-				if(setAsignaturasSuperadas.isEmpty())pw.println();
+				Iterator<Integer> it4 = setAsignaturasSuperadas.iterator();
+				if (setAsignaturasSuperadas.isEmpty())
+					pw.println();
 				else {
-					while(it4.hasNext()){
+					while (it4.hasNext()) {
 						NotaFinal notaFinal = alumno.getAsignaturasSuperadas().get(it4.next());
-						pw.print(notaFinal.getAsignatura().getIdAsignatura()+ " " + notaFinal.getCursoAcademico() + " " + notaFinal.getNota());
-						if(it4.hasNext()) pw.print("; ");
-						else pw.print("\n");	
+						pw.print(notaFinal.getAsignatura().getIdAsignatura() + " " + notaFinal.getCursoAcademico() + " "
+								+ notaFinal.getNota());
+						if (it4.hasNext())
+							pw.print("; ");
+						else
+							pw.print("\n");
 					}
 				}
 				Set<Integer> setDocenciaRecibidaA = alumno.getDocenciaRecibidaA().keySet();
@@ -372,41 +411,55 @@ public class Gestion  {
 				Iterator<Integer> it6 = setDocenciaRecibidaB.iterator();
 				Set<Integer> setAsignaturasSinGrupo = alumno.getAsignaturasSinGrupo().keySet();
 				Iterator<Integer> it7 = setAsignaturasSinGrupo.iterator();
-				if(!setDocenciaRecibidaA.isEmpty()){
-					while(it5.hasNext()){
+				if (!setDocenciaRecibidaA.isEmpty()) {
+					while (it5.hasNext()) {
 						Grupo grupoA = alumno.getDocenciaRecibidaA().get(it5.next());
 						pw.print(grupoA.getAsignatura().getIdAsignatura() + " " + grupoA.getTipoGrupo() + " " + grupoA.getIdGrupo());
-						if(it5.hasNext()) pw.print("; ");
+						if (it5.hasNext())
+							pw.print("; ");
 						else {
 							if(setDocenciaRecibidaB.isEmpty() & setAsignaturasSinGrupo.isEmpty()){
 								pw.print("\n");
-							} else pw.print("; ");	
+							} else
+								pw.print("; ");
 						}
 					}
 				}
-				if(!setDocenciaRecibidaB.isEmpty()){
-					while(it6.hasNext()){
+				if (!setDocenciaRecibidaB.isEmpty()) {
+					while (it6.hasNext()) {
 						Grupo grupoB = alumno.getDocenciaRecibidaB().get(it6.next());
 						pw.print(grupoB.getAsignatura().getIdAsignatura() + " " + grupoB.getTipoGrupo() + " " + grupoB.getIdGrupo());
-						if(it6.hasNext()) pw.print("; ");
+						if (it6.hasNext())
+							pw.print("; ");
 						else {
-							if(setAsignaturasSinGrupo.isEmpty()) {
-								pw.print("\n");//NEW
-							} else pw.print("; ");
+							if (setAsignaturasSinGrupo.isEmpty()) {
+								pw.print("\n");// NEW
+							} else
+								pw.print("; ");
 						}
 					}
-				} else if(setAsignaturasSinGrupo.isEmpty()) pw.println();
-				while(it7.hasNext()){
-					Asignatura asignatura=alumno.getAsignaturasSinGrupo().get(it7.next());
+				} else if (setAsignaturasSinGrupo.isEmpty())
+					pw.println();
+				while (it7.hasNext()) {
+					Asignatura asignatura = alumno.getAsignaturasSinGrupo().get(it7.next());
 					pw.print(asignatura.getIdAsignatura());
-					if(it7.hasNext())pw.print("; ");
-					else pw.print("\n");
-				}	
-				if (it3.hasNext())pw.println("*");
+					if (it7.hasNext())
+						pw.print("; ");
+					else
+						pw.print("\n");
+				}
+				if (it3.hasNext())
+					pw.println("*");
 			}
-		} catch (Exception e) {
+		} catch (
+
+		Exception e)
+
+		{
 			e.printStackTrace();
-		} finally {
+		} finally
+
+		{
 			try {
 				if (null != fichero)
 					fichero.close();
@@ -414,58 +467,70 @@ public class Gestion  {
 				e2.printStackTrace();
 			}
 		}
+
 	}
 
-	public static void guardarFicheroAsignaturas(TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas){
+	public static void guardarFicheroAsignaturas(TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
 		FileWriter fichero = null;
 		PrintWriter pw = null;
-		try
-		{
+		try {
 			fichero = new FileWriter("salidaasignaturas.txt");
 			pw = new PrintWriter(fichero);
-			Set<Integer> setAsignaturas = asignaturas.keySet(); 
-			Iterator<Integer> it0 = setAsignaturas.iterator(); 
-			while (it0.hasNext()) { 
+			Set<Integer> setAsignaturas = asignaturas.keySet();
+			Iterator<Integer> it0 = setAsignaturas.iterator();
+			while (it0.hasNext()) {
 				Asignatura asignatura = asignaturas.get(it0.next());
 				pw.println(asignatura.getIdAsignatura());
 				pw.println(asignatura.getNombre());
 				pw.println(asignatura.getSiglas());
 				pw.println(asignatura.getCurso());
-				if(asignatura.getCoordinador().getDni()==null) pw.print("\n");
-				else  pw.println(asignatura.getCoordinador().getDni());
-				Set <Integer> setPrerrequisitos = asignatura.getPrerrequisitos().keySet();
-				Iterator<Integer> it1=setPrerrequisitos.iterator();
-				if(!setPrerrequisitos.isEmpty()){
+				if (asignatura.getCoordinador().getDni() == null)
+					pw.print("\n");
+				else
+					pw.println(asignatura.getCoordinador().getDni());
+				Set<Integer> setPrerrequisitos = asignatura.getPrerrequisitos().keySet();
+				Iterator<Integer> it1 = setPrerrequisitos.iterator();
+				if (!setPrerrequisitos.isEmpty()) {
 
-					while(it1.hasNext()){
+					while (it1.hasNext()) {
 						Asignatura prerrequisito = asignaturas.get(it1.next());
 						pw.print(prerrequisito.getIdAsignatura());
-						if(it1.hasNext())pw.print(", ");
-						else pw.print("\n");
+						if (it1.hasNext())
+							pw.print(", ");
+						else
+							pw.print("\n");
 					}
-				} else pw.print("\n");
+				} else
+					pw.print("\n");
 				Set<Integer> setGruposA = asignatura.getGruposA().keySet();
 				Iterator<Integer> it2 = setGruposA.iterator();
-				if(!setGruposA.isEmpty()){
-					while(it2.hasNext()){
-						Grupo grupo = asignatura.getGruposA().get(it2.next()); 
-						pw.print(grupo.getIdGrupo() +" "+ grupo.getDia()+" "+grupo.getHoraInicio()+" "+grupo.getHoraFin());
-						if(it2.hasNext())pw.print("; ");
-						else pw.print("\n");
+				if (!setGruposA.isEmpty()) {
+					while (it2.hasNext()) {
+						Grupo grupo = asignatura.getGruposA().get(it2.next());
+						pw.print(grupo.getIdGrupo() + " " + grupo.getDia() + " " + grupo.getHoraInicio() + " " + grupo.getHoraFin());
+						if (it2.hasNext())
+							pw.print("; ");
+						else
+							pw.print("\n");
 					}
-				} else pw.print("\n");
+				} else
+					pw.print("\n");
 
 				Set<Integer> setGruposB = asignatura.getGruposB().keySet();
 				Iterator<Integer> it3 = setGruposB.iterator();
-				if(!setGruposB.isEmpty()){
-					while(it3.hasNext()){
+				if (!setGruposB.isEmpty()) {
+					while (it3.hasNext()) {
 						Grupo grupo = asignatura.getGruposB().get(it3.next());
-						pw.print(grupo.getIdGrupo() +" "+ grupo.getDia()+" "+grupo.getHoraInicio()+" "+grupo.getHoraFin());
-						if(it3.hasNext())pw.print("; ");
-						else pw.print("\n");
+						pw.print(grupo.getIdGrupo() + " " + grupo.getDia() + " " + grupo.getHoraInicio() + " " + grupo.getHoraFin());
+						if (it3.hasNext())
+							pw.print("; ");
+						else
+							pw.print("\n");
 					}
-				} else pw.print("\n");
-				if(it0.hasNext())pw.print("*\n");
+				} else
+					pw.print("\n");
+				if (it0.hasNext())
+					pw.print("*\n");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -479,10 +544,10 @@ public class Gestion  {
 		}
 	}
 
-	public static void ejecucion(TreeMap<String, Profesor> profesores, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas){
+	public static void ejecucion(TreeMap<String, Profesor> profesores, TreeMap<String, Alumno> alumnos,
+			TreeMap<Integer, Asignatura> asignaturas) {
 
 		Funcionalidades funcionalidad = new Funcionalidades(); // Composicion de Funcionalidades.
-		
 
 		FileInputStream flujo_entrada = null;
 		try {
@@ -495,25 +560,47 @@ public class Gestion  {
 		String linea = null; // Variable que contendra la informacion escaneada del fichero
 		while (entrada.hasNextLine()) {
 			linea = entrada.nextLine();
-			if(!(linea.charAt(0)=='*')){
+			if (!(linea.charAt(0) == '*')) {
 				String[] campos = linea.split(" ");
-				switch (campos[0]){
-				case "AsignaCoordinador":
-					if (campos.length!=3){
-						funcionalidad.comandoIncorrecto();
-						break;
-					}
-					funcionalidad.asignarCoordinador(linea, profesores, asignaturas);		
+				String camposMinuscula = campos[0].toLowerCase();
+				switch (camposMinuscula) {
+				case "insertapersona":
+					funcionalidad.insertarPersona(linea, profesores, alumnos);
 					break;
-				case "Matricula": 
+
+				case "asignacoordinador":
+					if (campos.length != 3) {
+						funcionalidad.comandoIncorrecto("ACOORD");
+						break;
+					} 
+					funcionalidad.asignarCoordinador(linea, profesores, asignaturas);
+					break;
+					
+				case "asignacargadocente":
+					break;
+
+				case "matricula":
 					if(campos.length!=3){
-						funcionalidad.comandoIncorrecto();
+						funcionalidad.comandoIncorrecto("MAT");
 						break;
 					}
 					funcionalidad.matricularAlumno(linea, alumnos, asignaturas);
 					break;
+
+				case "asignagrupo":
+					break;
+
+				case "evalua":
+					break;
+
+				case "expediente":
+					break;
+
+				case "obtenercalendarioclases":
+					break;
+
 				default:
-					funcionalidad.comandoIncorrecto();
+					funcionalidad.comandoIncorrecto(campos[0]);
 					break;
 				}
 			}
@@ -521,6 +608,4 @@ public class Gestion  {
 		entrada.close();
 	}
 
-
 }
-
