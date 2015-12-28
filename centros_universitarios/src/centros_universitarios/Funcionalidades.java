@@ -62,10 +62,6 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				guardarError("IP", "Alumno ya existente");
 				return;
 			}
-			String aux = linea.substring(linea.lastIndexOf("/"));
-			String[] aux2 = aux.split(" ");
-			String notaAux = aux2[1];
-			float notaMedia = Float.parseFloat(notaAux);
 
 			// Otros datos
 			TreeMap<Integer, Grupo> docenciaRecibidaA = new TreeMap<Integer, Grupo>();
@@ -170,40 +166,40 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	}
 
-	
-	public void matricularAlumno(String linea, TreeMap<String, Alumno> alumnos , TreeMap<Integer, Asignatura> asignaturas){
-			
-			String[] campos = linea.split(" ");
+	public void matricularAlumno(String linea, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
+
+		String[] campos = linea.split(" ");
 		String alumno = campos[1];
-				String asignatura = campos [2];
-			
-	if(!(existeAlumno(alumnos, alumno))){
-					guardarError("MAT", "Alumno inexistente");
-				return;
-				}
-				if(!(existeAsignatura(asignaturas, asignatura))){
-					guardarError("MAT", "Asignatura inexistente");
-					return;
-					}
-					if(matriculaExistente(alumnos, asignaturas, alumno, asignatura)){
-						guardarError("MAT", "Ya es alumno de la asignatura indicada");
-						return;
-					}
-				if(!(cumplePrerrequisitos(alumnos, asignaturas, alumno, asignatura))){
-					guardarError("MAT", "No cumple requisitos");
-					return;
-			
-			 	}
-				Set <Integer> setAsignaturas = asignaturas.keySet();
-				Iterator <Integer> it =setAsignaturas.iterator();
-				Integer key=0;
-			while (it.hasNext()){
-					key=it.next();
-					Asignatura asignaturaId = asignaturas.get(key);
-					if (asignaturaId.getSiglas().contentEquals(asignatura)){
-						key=asignaturaId.getIdAsignatura();
-						break;	}
+		String asignatura = campos[2];
+
+		if (!(existeAlumno(alumnos, alumno))) {
+			guardarError("MAT", "Alumno inexistente");
+			return;
+		}
+		if (!(existeAsignatura(asignaturas, asignatura))) {
+			guardarError("MAT", "Asignatura inexistente");
+			return;
+		}
+		if (matriculaExistente(alumnos, asignaturas, alumno, asignatura)) {
+			guardarError("MAT", "Ya es alumno de la asignatura indicada");
+			return;
+		}
+		if (!(cumplePrerrequisitos(alumnos, asignaturas, alumno, asignatura))) {
+			guardarError("MAT", "No cumple requisitos");
+			return;
+
+		}
+		Set<Integer> setAsignaturas = asignaturas.keySet();
+		Iterator<Integer> it = setAsignaturas.iterator();
+		Integer key = 0;
+		while (it.hasNext()) {
+			key = it.next();
+			Asignatura asignaturaId = asignaturas.get(key);
+			if (asignaturaId.getSiglas().contentEquals(asignatura)) {
+				key = asignaturaId.getIdAsignatura();
+				break;
 			}
+		}
 	}
 
 	public void asignarGrupo() {
@@ -245,7 +241,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 	public void comandoIncorrecto(String comando) {
 		guardarError("", "Comando incorrecto: " + comando);
 	}
-	
+
 	public void argumentosIncorrectos(String comando) {
 		guardarError(comando, "Numero de elementos incorrectos ");
 	}
@@ -348,47 +344,50 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		return true;
 	}
 
-	public Boolean matriculaExistente(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno, String asignatura){
-		Set<Integer> setAsignaturasMatriculadas= alumnos.get(alumno).getAsignaturasMatriculadas().keySet();
-		Iterator<Integer> it=setAsignaturasMatriculadas.iterator();
-		while(it.hasNext()){
+	public Boolean matriculaExistente(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno,
+			String asignatura) {
+		Set<Integer> setAsignaturasMatriculadas = alumnos.get(alumno).getAsignaturasMatriculadas().keySet();
+		Iterator<Integer> it = setAsignaturasMatriculadas.iterator();
+		while (it.hasNext()) {
 			Asignatura asignaturaMatriculada = asignaturas.get(it.next());
-			if(asignaturaMatriculada.getSiglas().contentEquals(asignatura))return true;		
+			if (asignaturaMatriculada.getSiglas().contentEquals(asignatura))
+				return true;
 		}
 		return false;
 	}
 
-	public Boolean cumplePrerrequisitos(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno, String asignatura){
-		Set <Integer> setAsignaturas = asignaturas.keySet();
-		Iterator <Integer> it =setAsignaturas.iterator();
-		Integer key=0;
-		while (it.hasNext()){
-			key=it.next();
+	public Boolean cumplePrerrequisitos(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno,
+			String asignatura) {
+		Set<Integer> setAsignaturas = asignaturas.keySet();
+		Iterator<Integer> it = setAsignaturas.iterator();
+		Integer key = 0;
+		while (it.hasNext()) {
+			key = it.next();
 			Asignatura asignaturaId = asignaturas.get(key);
-			if (asignaturaId.getSiglas().contentEquals(asignatura)){
-				key=asignaturaId.getIdAsignatura();
+			if (asignaturaId.getSiglas().contentEquals(asignatura)) {
+				key = asignaturaId.getIdAsignatura();
 				break;
 			}
 		}
-		Set<Integer> setPrerrequisitos=asignaturas.get(key).getPrerrequisitos().keySet();//Asignatura
-		Iterator<Integer> it1=setPrerrequisitos.iterator();
+		Set<Integer> setPrerrequisitos = asignaturas.get(key).getPrerrequisitos().keySet();// Asignatura
+		Iterator<Integer> it1 = setPrerrequisitos.iterator();
 		Asignatura asignaturaPrerrequisito, asignaturaSuperada;
-		Boolean flag=false;
-		while(it1.hasNext()){
-			 asignaturaPrerrequisito = asignaturas.get(it1.next());
-			 Set<Integer> setAsignaturasSuperadas = alumnos.get(alumno).getAsignaturasSuperadas().keySet();
-				Iterator<Integer> it0= setAsignaturasSuperadas.iterator(); 
-			 while(it0.hasNext()){				
+		Boolean flag = false;
+		while (it1.hasNext()) {
+			asignaturaPrerrequisito = asignaturas.get(it1.next());
+			Set<Integer> setAsignaturasSuperadas = alumnos.get(alumno).getAsignaturasSuperadas().keySet();
+			Iterator<Integer> it0 = setAsignaturasSuperadas.iterator();
+			while (it0.hasNext()) {
 				asignaturaSuperada = asignaturas.get(it0.next());
-				if(asignaturaPrerrequisito.getIdAsignatura()==asignaturaSuperada.getIdAsignatura()) flag=true;
-				if(!(it0.hasNext()) && !(flag))return false;
+				if (asignaturaPrerrequisito.getIdAsignatura() == asignaturaSuperada.getIdAsignatura())
+					flag = true;
+				if (!(it0.hasNext()) && !(flag))
+					return false;
 			}
 		}
-	return true;
+		return true;
 	}
-	
 
-	
 	/* CONSTRUCTORES */
 	public Funcionalidades() {
 	}

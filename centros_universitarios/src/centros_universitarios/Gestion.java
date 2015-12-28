@@ -27,12 +27,10 @@ public class Gestion {
 		cargarAsignaturasSuperadas(alumnos, asignaturas); // Actualiza la informacion de las asignaturas superadas de los alumnos.
 		cargarDocenciaImpartida(profesores, asignaturas); // Actualiza la informacion de la docencia impartida por los profesores.
 		cargarDocenciaRecibida(alumnos, asignaturas); // Actualiza la informacion de la docencia recibida por los alumnos.
-		ejecucion(profesores, alumnos, asignaturas);//Ejecuta los comandos del fichero "ejecucion.txt".
-		guardarFicheroPersonas(profesores, alumnos, asignaturas); //Guarda la información de las personas contenidas en el sistema en el fichero "personas.txt". 
-		guardarFicheroAsignaturas(profesores, asignaturas); //Guarda la informacion de las asignaturas contenidas en el sistema en el fichero "asignaturas.txt".
-		
+		ejecucion(profesores, alumnos, asignaturas);// Ejecuta los comandos del fichero "ejecucion.txt".
+		guardarFicheroPersonas(profesores, alumnos, asignaturas); // Guarda la información de las personas contenidas en el sistema en el fichero "personas.txt".
+		guardarFicheroAsignaturas(profesores, asignaturas); // Guarda la informacion de las asignaturas contenidas en el sistema en el fichero "asignaturas.txt".
 	}
-
 
 	/* METODOS */
 
@@ -418,7 +416,7 @@ public class Gestion {
 						if (it5.hasNext())
 							pw.print("; ");
 						else {
-							if(setDocenciaRecibidaB.isEmpty() & setAsignaturasSinGrupo.isEmpty()){
+							if (setDocenciaRecibidaB.isEmpty() & setAsignaturasSinGrupo.isEmpty()) {
 								pw.print("\n");
 							} else
 								pw.print("; ");
@@ -572,15 +570,15 @@ public class Gestion {
 					if (campos.length != 3) {
 						funcionalidad.comandoIncorrecto("ACOORD");
 						break;
-					} 
+					}
 					funcionalidad.asignarCoordinador(linea, profesores, asignaturas);
 					break;
-					
+
 				case "asignacargadocente":
 					break;
 
 				case "matricula":
-					if(campos.length!=3){
+					if (campos.length != 3) {
 						funcionalidad.comandoIncorrecto("MAT");
 						break;
 					}
