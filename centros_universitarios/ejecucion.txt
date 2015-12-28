@@ -1,2 +1,18 @@
-InsertaPersona alumno 39438936T "Pablo" "Rodriguez Perez" 09/12/1995 01/09/2014
-InsertaPersona profesor 39434939T "Esteban" "Claus" 09/12/1995 titular "cosas" 3
+*Comando inexistente
+AsignaCoordinadoor 33218765X P-I
+*Numero de argumentos incorrecto
+AsignaCoordinador asdfñólk asdfñlk asdfñlk asdfñlkd
+*Profesor inexistente
+AsignaCoordinador 11111111X P-I
+*Profesor no titular
+AsignaCoordinador 37834521S CAL-I
+*Asignatura inexistente
+AsignaCoordinador 66666666S CAL-III
+*Profesor ya coordinador de dos materias
+AsignaCoordinador 37834521S CD
+*Comando correcto con 0 asignaturas coordinadas
+AsignaCoordinador 66666666S RO
+*Comando correcto con 1 asignatura coordinada
+AsignaCoordinador 33218765X P-II
+*Comando correcto al reemplazar el coordinador existente
+AsignaCoordinador 66666666S PE

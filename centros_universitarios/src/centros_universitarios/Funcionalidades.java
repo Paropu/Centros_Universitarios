@@ -135,9 +135,9 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		while (it.hasNext()) {
 			Integer idAsignatura = it.next();
 			if (asignaturas.get(idAsignatura).getSiglas().contentEquals(asignatura)) {
+				if(!(asignaturas.get(idAsignatura).getCoordinador()==null)) asignaturas.get(idAsignatura).getCoordinador().getAsignaturasCoordinadas().remove(idAsignatura);
 				asignaturas.get(idAsignatura).setCoordinador(profesores.get(persona));
-				profesores.get(persona).getAsignaturasCoordinadas().put(asignaturas.get(idAsignatura).getIdAsignatura(),
-						asignaturas.get(idAsignatura));
+				profesores.get(persona).getAsignaturasCoordinadas().put(asignaturas.get(idAsignatura).getIdAsignatura(),asignaturas.get(idAsignatura));
 			}
 		}
 
@@ -227,7 +227,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 	}
 
 	public void argumentosIncorrectos(String comando) {
-		guardarError(comando, "Numero de elementos incorrectos ");
+		guardarError(comando, "Numero de argumentos incorrecto");
 	}
 
 	public Boolean profesorTitular(TreeMap<String, Profesor> profesores, String dni) {

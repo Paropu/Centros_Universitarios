@@ -155,6 +155,10 @@ public class Gestion {
 				asignatura.setCoordinador(coordinador);// Se le asigna un coordinador a la asignatura.
 				profesores.get(dniCoordinador).getAsignaturasCoordinadas().put(idAsignatura, asignatura); // AÃ‘ADE asignatura coordinada al profesor.
 			}
+			else {
+				Profesor coordinador =null;
+				asignatura.setCoordinador(coordinador);//--------------------------------------------------
+			}
 			TreeMap<Integer, Grupo> gruposA = new TreeMap<Integer, Grupo>(); // CARGAR gruposA
 			linea = entrada.nextLine(); // Formato: ID_grupo dia horaini horafin
 			String[] arrayGruposA = linea.split("; ");
@@ -482,7 +486,8 @@ public class Gestion {
 				pw.println(asignatura.getNombre());
 				pw.println(asignatura.getSiglas());
 				pw.println(asignatura.getCurso());
-				if (asignatura.getCoordinador().getDni() == null)
+				//if (asignatura.getCoordinador().getDni() == null)
+					if (asignatura.getCoordinador()== null)
 					pw.print("\n");
 				else
 					pw.println(asignatura.getCoordinador().getDni());
@@ -559,7 +564,7 @@ public class Gestion {
 		while (entrada.hasNextLine()) {
 			linea2 = entrada.nextLine();
 			if (!(linea2.charAt(0) == '*')) {
-				String linea = linea2.replaceAll("\\s+", " "); // Contiene la información del fichero sin espacios duplicados
+				String linea = linea2.replaceAll("\\s+", " "); // Contiene la informaciï¿½n del fichero sin espacios duplicados
 				String[] campos = linea.split(" ");
 				String camposMinuscula = campos[0].toLowerCase();
 				switch (camposMinuscula) {

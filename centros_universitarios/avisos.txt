@@ -1,1 +1,6 @@
-IP -- Dni incorrecto
+ -- Comando incorrecto: AsignaCoordinadoor
+ACOORD -- Numero de argumentos incorrecto
+ACOORD -- Profesor inexistente
+ACOORD -- Profesor ya es coordinador de 2 materias
+ACOORD -- Asignatura inexistente
+ACOORD -- Profesor ya es coordinador de 2 materias
