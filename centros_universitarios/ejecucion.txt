@@ -12,3 +12,5 @@ Asignacargadocente 37834521S P-I A 1
 Asignacargadocente 37834521S P-I B 1
 *comando correcto
 Asignacargadocente 33218765X PE A 2
+*comando correcto
+Asignacargadocente 33218765X PE A 3
