@@ -47,7 +47,6 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return;
 		}
 		String nombre = nombreSinEspacios(lineaDesplegadaComillas[1].split(" "));
-		System.out.println(nombre);
 		String apellidos = nombreSinEspacios(lineaDesplegadaComillas[3].split(" "));
 		GregorianCalendar fechaNacimiento = stringToCalendar(linea.substring(linea.indexOf("/") - 2, linea.indexOf("/") + 8));
 		if (validarFecha(fechaNacimiento)) {
@@ -408,12 +407,12 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 		Integer grupo2 = Integer.parseInt(grupo);
 		if (tipoGrupo.contains("A")) {
-			if (asignaturas.get(key).getGruposA().lastKey() < grupo2) {
+			if (!asignaturas.get(key).getGruposA().containsKey(grupo2)) {
 				// System.out.println("No existe A");
 				return false;
 			}
 		} else if (tipoGrupo.contains("B")) {
-			if (asignaturas.get(key).getGruposB().lastKey() < grupo2) {
+			if (!asignaturas.get(key).getGruposB().containsKey(grupo2)) {
 				// System.out.println("No existe B");
 				return false;
 			}

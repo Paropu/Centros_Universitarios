@@ -564,6 +564,10 @@ public class Gestion {
 				String camposMinuscula = campos[0].toLowerCase();
 				switch (camposMinuscula) {
 				case "insertapersona":
+					if (campos.length < 7) {
+						funcionalidad.argumentosIncorrectos("IP");
+						break;
+					}
 					funcionalidad.insertarPersona(linea, profesores, alumnos);
 					break;
 
