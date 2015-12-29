@@ -10,9 +10,6 @@ public class Grupo {
 	private Asignatura asignatura;// asignatura
 
 	/* METODOS */
-	/*public String toString() {
-		return tipoGrupo + " " + idGrupo + " " + dia + " " + horaInicio.get(Calendar.HOUR) + ":" + horaInicio.get(Calendar.MINUTE)  + "-" + horaFin.get(Calendar.HOUR) + ":" + horaFin.get(Calendar.MINUTE);
-	}*/
 	@Override
 	public String toString() {
 		return tipoGrupo + " " + idGrupo + " " + dia + " " + horaInicio + " " + horaFin;

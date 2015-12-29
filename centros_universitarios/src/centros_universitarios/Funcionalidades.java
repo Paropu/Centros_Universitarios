@@ -319,8 +319,8 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 	}
 
 	public static boolean validarFecha(GregorianCalendar fecha) {
-		Calendar fechaMinima = new GregorianCalendar(1950, 1, 1);
-		Calendar fechaMaxima = new GregorianCalendar(2020, 1, 1);
+		Calendar fechaMinima = new GregorianCalendar(1950, 0, 1);
+		Calendar fechaMaxima = new GregorianCalendar(2020, 0, 1);
 		fecha.setLenient(false);
 		try {
 			fecha.getTime();
