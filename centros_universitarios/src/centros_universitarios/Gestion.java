@@ -581,6 +581,11 @@ public class Gestion {
 					break;
 
 				case "asignacargadocente":
+					if(campos.length != 5){
+						funcionalidad.argumentosIncorrectos("ACDOC");
+						break;
+					}
+					funcionalidad.asignarCargaDocente(linea, profesores, asignaturas);
 					break;
 
 				case "matricula":
