@@ -599,12 +599,27 @@ public class Gestion {
 					break;
 
 				case "evalua":
+					if (campos.length != 4) {
+						funcionalidad.argumentosIncorrectos("EVALUA");
+						break;
+					}
+					funcionalidad.evaluarAsignatura();
 					break;
 
 				case "expediente":
+					if (campos.length != 3) {
+						funcionalidad.argumentosIncorrectos("EXP");
+						break;
+					}
+					funcionalidad.obtenerExpedienteAlumno();
 					break;
 
 				case "obtenercalendarioclases":
+					if (campos.length != 3) {
+						funcionalidad.argumentosIncorrectos("CALENP");
+						break;
+					}
+					funcionalidad.obtenerCalendarioProfesor(campos[1], campos[2], profesores);
 					break;
 
 				default:

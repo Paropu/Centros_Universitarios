@@ -1,2 +1,1 @@
-InsertaPersona alumno 39438936T "Pablo" "Rodriguez Perez" 09/12/1995 01/09/2014
-InsertaPersona profesor 39434939T "Esteban" "Claus" 09/12/1995 titular "cosas" 3
+ObtenerCalendarioClases 37834521S calendario2.txt

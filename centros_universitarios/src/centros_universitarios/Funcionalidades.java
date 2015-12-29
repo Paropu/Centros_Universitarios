@@ -239,8 +239,32 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	}
 
-	public void obtenerCalendarioProfesor() {
-
+	public void obtenerCalendarioProfesor(String profesor, String ficheroSalida, TreeMap<String, Profesor> profesores) {
+		if (!existeProfesor(profesores, profesor)) {
+			guardarError("CALENP", "Profesor inexistente");
+			return;
+		}
+		if (profesores.get(profesor).getArrayDocenciaImpartida()[0].compareTo("") == 0) {
+			guardarError("CALENP", "Profesor sin asignaciones");
+			return;
+		}
+		// Creamos archivo
+		FileWriter fichero = null;
+		PrintWriter pw = null;
+		try {
+			fichero = new FileWriter(ficheroSalida, true);
+			pw = new PrintWriter(fichero);
+			pw.println(profesores.get(profesor).getArrayDocenciaImpartida()[0]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != fichero)
+					fichero.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
 	}
 
 	// ===== Control de errores =====
