@@ -337,15 +337,31 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 	public static boolean validarEdad(GregorianCalendar fechaNacimiento, GregorianCalendar fechaInscripcion) {
 		int anho1 = fechaNacimiento.get(GregorianCalendar.YEAR);
 		int anho2 = fechaInscripcion.get(GregorianCalendar.YEAR);
-		int n_years = 0;
+		double n_years = 0.0;
 		while (anho1 < anho2) {
 			n_years++;
 			anho1++;
 		}
-		if (n_years < 15 || n_years > 65)
+		int dianho1 = fechaNacimiento.get(Calendar.DAY_OF_YEAR);
+		int dianho2 = fechaInscripcion.get(Calendar.DAY_OF_YEAR);
+		if (fechaInscripcion.isLeapYear(fechaInscripcion.get(Calendar.YEAR))) {
+			if (fechaInscripcion.get(Calendar.DAY_OF_YEAR) > 60) {
+				fechaInscripcion.add(Calendar.DAY_OF_YEAR, -1);
+				dianho2 = fechaInscripcion.get(Calendar.DAY_OF_YEAR);
+			}
+		}
+		double dif_dias = dianho2 - dianho1;
+		if (dif_dias < 0) {
+			n_years--;
+			dif_dias += 365;
+		}
+		n_years += dif_dias / 365;
+		fechaInscripcion.add(Calendar.DAY_OF_YEAR, 1);
+		if (n_years < 15 || n_years > 65) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 
 	public static boolean validarDNI(String dni) {
