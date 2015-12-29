@@ -619,7 +619,7 @@ public class Gestion {
 						funcionalidad.argumentosIncorrectos("CALENP");
 						break;
 					}
-					funcionalidad.obtenerCalendarioProfesor(campos[1], campos[2], profesores);
+					funcionalidad.obtenerCalendarioProfesor(campos[1], campos[2], profesores, asignaturas);
 					break;
 
 				default:

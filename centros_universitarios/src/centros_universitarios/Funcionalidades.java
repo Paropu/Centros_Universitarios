@@ -48,7 +48,13 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 		String nombre = nombreSinEspacios(lineaDesplegadaComillas[1].split(" "));
 		String apellidos = nombreSinEspacios(lineaDesplegadaComillas[3].split(" "));
-		GregorianCalendar fechaNacimiento = stringToCalendar(linea.substring(linea.indexOf("/") - 2, linea.indexOf("/") + 8));
+		GregorianCalendar fechaNacimiento = null;
+		try {
+			fechaNacimiento = stringToCalendar(linea.substring(linea.indexOf("/") - 2, linea.indexOf("/") + 8));
+		} catch (NumberFormatException e) {
+			guardarError("IP", "Numero de argumentos incorrecto");
+			return;
+		}
 		if (validarFecha(fechaNacimiento)) {
 			guardarError("IP", "Fecha incorrecta");
 			return;
@@ -56,7 +62,14 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 		// DATOS ALUMNO
 		if (lineaDesplegadaEspacios[1].compareTo("alumno") == 0) {
-			GregorianCalendar fechaIngreso = stringToCalendar(linea.substring(linea.lastIndexOf("/") - 5, linea.lastIndexOf("/") + 5));
+			GregorianCalendar fechaIngreso = null;
+			try {
+				fechaIngreso = stringToCalendar(linea.substring(linea.lastIndexOf("/") - 5, linea.lastIndexOf("/") + 5));
+			} catch (NumberFormatException e) {
+				guardarError("IP", "Numero de argumentos incorrecto");
+				return;
+			}
+
 			if (validarFecha(fechaIngreso)) {
 				guardarError("IP", "Fecha incorrecta");
 				return;
@@ -239,7 +252,8 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	}
 
-	public void obtenerCalendarioProfesor(String profesor, String ficheroSalida, TreeMap<String, Profesor> profesores) {
+	public void obtenerCalendarioProfesor(String profesor, String ficheroSalida, TreeMap<String, Profesor> profesores,
+			TreeMap<Integer, Asignatura> asignaturas) {
 		if (!existeProfesor(profesores, profesor)) {
 			guardarError("CALENP", "Profesor inexistente");
 			return;
@@ -254,7 +268,55 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		try {
 			fichero = new FileWriter(ficheroSalida, true);
 			pw = new PrintWriter(fichero);
-			pw.println(profesores.get(profesor).getArrayDocenciaImpartida()[0]);
+			pw.println("Dia;\tHora;\tAsignatura;\tTipo grupo;\tId grupo");
+			// Todas las horas se añadirán a este TreeMap
+			TreeMap<Integer, Grupo> ordenar = new TreeMap<Integer, Grupo>();
+
+			for (int i = 0; i < profesores.get(profesor).getArrayDocenciaImpartida().length; i++) {
+				String[] grupo = profesores.get(profesor).getArrayDocenciaImpartida()[i].split(" ");
+				Integer idAsignatura = Integer.parseInt(grupo[0]);
+				Integer idGrupo = Integer.parseInt(grupo[2]);
+				Grupo nuevoGrupo = null;
+				if (grupo[1].compareTo("A") == 0) {
+					nuevoGrupo = asignaturas.get(idAsignatura).getGruposA().get(idGrupo);
+				} else {
+					nuevoGrupo = asignaturas.get(idAsignatura).getGruposB().get(idGrupo);
+				}
+				Integer n_orden = nuevoGrupo.getHoraInicio();
+
+				// Sumo 20 unidades por dia para que el TreeMap esté ordenado
+				if (nuevoGrupo.getDia().compareTo("L") == 0) {
+					ordenar.put(n_orden, nuevoGrupo);
+				}
+				if (nuevoGrupo.getDia().compareTo("M") == 0) {
+					n_orden += 20;
+					ordenar.put(n_orden, nuevoGrupo);
+				}
+				if (nuevoGrupo.getDia().compareTo("X") == 0) {
+					n_orden += 40;
+					ordenar.put(n_orden, nuevoGrupo);
+				}
+				if (nuevoGrupo.getDia().compareTo("J") == 0) {
+					n_orden += 60;
+					ordenar.put(n_orden, nuevoGrupo);
+				}
+				if (nuevoGrupo.getDia().compareTo("V") == 0) {
+					n_orden += 80;
+					ordenar.put(n_orden, nuevoGrupo);
+				}
+			}
+			for (int i = 9; i < 101; i++) {
+				if (ordenar.get(i) != null) {
+					System.out.println(ordenar.get(i).getAsignatura().getSiglas().length());
+					if (ordenar.get(i).getAsignatura().getSiglas().length() > 6) {
+						pw.println(ordenar.get(i));
+					} else if (ordenar.get(i).getAsignatura().getSiglas().length() > 2) {
+						pw.println(ordenar.get(i).toString2());
+					} else if (ordenar.get(i).getAsignatura().getSiglas().length() < 3) {
+						pw.println(ordenar.get(i).toString3());
+					}
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

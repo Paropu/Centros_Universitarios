@@ -12,7 +12,15 @@ public class Grupo {
 	/* METODOS */
 	@Override
 	public String toString() {
-		return tipoGrupo + " " + idGrupo + " " + dia + " " + horaInicio + " " + horaFin;
+		return dia + ";\t\t" + horaInicio + ";\t\t" + asignatura.getSiglas() + ";\t" + tipoGrupo + ";\t\t\t" + idGrupo;
+	}
+
+	public String toString2() {
+		return dia + ";\t\t" + horaInicio + ";\t\t" + asignatura.getSiglas() + ";\t\t" + tipoGrupo + ";\t\t\t" + idGrupo;
+	}
+
+	public String toString3() {
+		return dia + ";\t\t" + horaInicio + ";\t\t" + asignatura.getSiglas() + ";\t\t\t" + tipoGrupo + ";\t\t\t" + idGrupo;
 	}
 
 	/* GETTERS & SETTERS */
