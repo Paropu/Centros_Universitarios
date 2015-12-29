@@ -150,28 +150,44 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		String asignatura=campos[2];
 		String tipoGrupo=campos[3];
 		Integer idGrupo=Integer.parseInt(campos[4]);
+		Boolean flagError=false;
+		Boolean flagErrorAsignatura=false;
 		
 		if (!(existeProfesor(profesores, persona))) {
-			guardarError("ACDOC", "Profesor inexistente");	
+			guardarError("ACDOC", "Profesor inexistente");
+			flagError=true;
 		}	
 		if (!(existeAsignatura(asignaturas, asignatura))) {
 			guardarError("ACDOC", "Asignatura inexistente");	
+			flagError=true;
+			flagErrorAsignatura=true;
 		}
-		if(!(tipoGrupo=="a" || tipoGrupo=="b")){
+		if(!(tipoGrupo.contentEquals("A")|| tipoGrupo.contentEquals("B"))){
 			guardarError("ACDOC", "Tipo de grupo incorrecto");
+			flagError=true;
 		}
+		if(!flagErrorAsignatura){
+			if(existeGrupo(asignaturas, idGrupo, tipoGrupo, asignatura)){	//existeGrupo(); if(existeGrupo() se comprueba grupoYa asignado y sigue horasasignables y con solape
+				if(grupoYaAsignado(persona, asignatura, tipoGrupo, idGrupo, asignaturas, profesores)){
+					guardarError("ACDOC", "Grupo ya asignado");	
+					flagError=true;
+				}
+				if(horasAsignablesSuperiorMaximo(persona, asignatura, tipoGrupo, idGrupo, profesores, asignaturas)){
+					guardarError("ACDOC", "Horas asignables superior al maximo");
+					flagError =true;
+				}
+				if(generaSolape(persona, asignatura, tipoGrupo, idGrupo, profesores, asignaturas)){
+					guardarError("ACDOC", "Se genera solape");
+					flagError=true;
+				}
+			}
+			else{
+				guardarError("ACDOC", "Grupo inexistente");
+				return;
+			}
+		}
+		if(flagError)return;
 		
-		//existeGrupo();
-		
-		if(grupoYaAsignado(persona, asignatura, tipoGrupo, idGrupo, asignaturas, profesores)){
-			guardarError("ACDOC", "Grupo ya asignaado");	
-		}
-		if(horasAsignablesSuperiorMaximo(persona, asignatura, tipoGrupo, idGrupo, profesores, asignaturas)){
-			guardarError("ACDOC", "Horas asignables superior al maximo");	
-		}
-		if(generaSolape(persona, asignatura, tipoGrupo, idGrupo, profesores, asignaturas)){
-			guardarError("ACDOC", "Se genera solape");
-		}
 		Set<Integer> setAsignaturas = asignaturas.keySet();
 		Iterator<Integer> it = setAsignaturas.iterator();
 		Integer key = 0; //EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
@@ -183,7 +199,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				break;
 			}
 		}
-		if(tipoGrupo=="a"){
+		if(tipoGrupo.contentEquals("A")){
 			Grupo grupo=asignaturas.get(key).getGruposA().get(idGrupo);
 			profesores.get(persona).getDocenciaImpartidaA().put(grupo.getIdGrupo(), grupo);
 		}
@@ -425,11 +441,11 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		Set <String> setProfesores = profesores.keySet();
 	Iterator<String> it0 = setProfesores.iterator();
 	while(it0.hasNext()){
-		Profesor profesor =profesores.get(it0);
-		if(tipoGrupo=="a") {
-			if(profesor.getDocenciaImpartidaA().containsKey(idGrupo) && profesor.getDocenciaImpartidaA().get(idGrupo).getAsignatura().getSiglas()==asignatura) return true;
+		Profesor profesor =profesores.get(it0.next());
+		if(tipoGrupo.contentEquals("A")) {
+			if(profesor.getDocenciaImpartidaA().containsKey(idGrupo) && profesor.getDocenciaImpartidaA().get(idGrupo).getAsignatura().getSiglas().contentEquals(asignatura)) return true;
 		}
-		else if(profesor.getDocenciaImpartidaB().containsKey(idGrupo) && profesor.getDocenciaImpartidaB().get(idGrupo).getAsignatura().getSiglas()==asignatura) return true;
+		else if(profesor.getDocenciaImpartidaB().containsKey(idGrupo) && profesor.getDocenciaImpartidaB().get(idGrupo).getAsignatura().getSiglas().contentEquals(asignatura)) return true;
 	}
 	return false;
 	}
@@ -467,7 +483,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
             }
         }
         Integer duracionGrupo=0;
-        if(tipoGrupo=="a"){
+        if(tipoGrupo=="A"){
         	Grupo grupo=asignaturas.get(key).getGruposA().get(idGrupo);
         	duracionGrupo=grupo.getHoraFin()-grupo.getHoraInicio();
         }
@@ -493,35 +509,68 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 		Integer horaInicio=0;
 		Integer horaFin=0;
-		if(tipoGrupo=="a"){
+		String dia;	 
+		if(tipoGrupo.contentEquals("A")){
 			Grupo grupo=asignaturas.get(key).getGruposA().get(idGrupo);
-			horaInicio=grupo.getHoraInicio();
+			horaInicio=grupo.getHoraInicio();//Hora de inicio y fin del grupo que se quiere asignar
 			horaFin=grupo.getHoraFin();
+			dia=grupo.getDia();
 		}
 		else{
 			Grupo grupo=asignaturas.get(key).getGruposB().get(idGrupo);
 			horaInicio=grupo.getHoraInicio();
 			horaFin=grupo.getHoraFin();
+			dia=grupo.getDia();
 		}
-		Set<Integer> setGruposA = profesores.get(persona).getDocenciaImpartidaA().keySet();
+		Set<Integer> setGruposA = profesores.get(persona).getDocenciaImpartidaA().keySet(); //Comparar el grupo que se quiere asignar con los existentes
 		Iterator<Integer> itA = setGruposA.iterator();
 		if(!setGruposA.isEmpty()){
 			while(itA.hasNext()){
-				Grupo grupoA = asignaturas.get(key).getGruposA().get(itA.next());
-				if((grupoA.getHoraInicio()<horaInicio && grupoA.getHoraFin()>horaInicio) || (grupoA.getHoraInicio()<horaFin && grupoA.getHoraFin()>horaFin)) return true;
+				System.out.println(setGruposA);
+				Grupo grupoA=profesores.get(persona).getDocenciaImpartidaA().get(itA.next());
+				System.out.println(grupoA);
+				if(!((!grupoA.getDia().contentEquals(dia)) && (((horaInicio<grupoA.getHoraInicio() && horaFin<=grupoA.getHoraInicio()) || (grupoA.getHoraFin()>=horaInicio && horaFin>grupoA.getHoraFin()))))) return true;
 			}
 		}
-
 		Set<Integer> setGruposB = profesores.get(persona).getDocenciaImpartidaB().keySet();
 		Iterator<Integer> itB = setGruposB.iterator();
 		if(!setGruposB.isEmpty()){
-			while(itA.hasNext()){
-				Grupo grupoB = asignaturas.get(key).getGruposA().get(itB.next());
-				if((grupoB.getHoraInicio()<horaInicio && grupoB.getHoraFin()>horaInicio) || (grupoB.getHoraInicio()<horaFin && grupoB.getHoraFin()>horaFin)) return true;
+			while(itB.hasNext()){
+				Grupo grupoB=profesores.get(persona).getDocenciaImpartidaB().get(itB.next());
+				if(!((!grupoB.getDia().contentEquals(dia)) && (((horaInicio<grupoB.getHoraInicio() && horaFin<=grupoB.getHoraInicio()) || (grupoB.getHoraFin()>=horaInicio && horaFin>grupoB.getHoraFin()))))) return true;
 			}
 		}
 		return false;
 	}
+	
+	public Boolean existeGrupo(TreeMap<Integer, Asignatura> asignaturas, Integer grupo, String tipoGrupo, String asignatura) {
+        // Busco el ID de la asignatura usando las siglas
+        //Integer key = siglasToID(asignaturas, siglas); // EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
+		Set<Integer> setAsignaturas = asignaturas.keySet();
+        Iterator<Integer> it = setAsignaturas.iterator();
+        Integer key = 0; //EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
+        while (it.hasNext()) {
+            key = it.next(); 
+            Asignatura asignaturaId = asignaturas.get(key);
+            if (asignaturaId.getSiglas().contentEquals(asignatura)) {
+                key = asignaturaId.getIdAsignatura();
+                break;
+            }
+        }
+        // Busco si el treemap GruposX contiene a "grupo"
+        if (tipoGrupo.contains("A")) {
+            if (!asignaturas.get(key).getGruposA().containsKey(grupo)) {
+                // System.out.println("No existe A");
+                return false;
+            }
+        } else if (tipoGrupo.contains("B")) {
+            if (!asignaturas.get(key).getGruposB().containsKey(grupo)) {
+                // System.out.println("No existe B");
+                return false;
+            }
+        }
+        return true;
+    }
 
 
 	

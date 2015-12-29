@@ -1,6 +1,26 @@
- -- Comando incorrecto: AsignaCoordinadoor
-ACOORD -- Numero de argumentos incorrecto
-ACOORD -- Profesor inexistente
-ACOORD -- Profesor ya es coordinador de 2 materias
-ACOORD -- Asignatura inexistente
-ACOORD -- Profesor ya es coordinador de 2 materias
+ -- Comando incorrecto: asignaaacargadoocentee
+ACDOC -- Numero de argumentos incorrecto
+ACDOC -- Profesor inexistente
+ACDOC -- Asignatura inexistente
+ACDOC -- Tipo de grupo incorrecto
+ACDOC -- Grupo inexistente
+ACDOC -- Grupo ya asignado
+ACDOC -- Horas asignables superior al maximo
+ACDOC -- Se genera solape
+ACDOC -- Grupo ya asignado
+ACDOC -- Horas asignables superior al maximo
+ACDOC -- Se genera solape
+ACDOC -- Se genera solape
+--------------------------------- -- Comando incorrecto: asignaaacargadoocentee
+ACDOC -- Numero de argumentos incorrecto
+ACDOC -- Profesor inexistente
+ACDOC -- Asignatura inexistente
+ACDOC -- Tipo de grupo incorrecto
+ACDOC -- Grupo inexistente
+ACDOC -- Grupo ya asignado
+ACDOC -- Horas asignables superior al maximo
+ACDOC -- Se genera solape
+ACDOC -- Grupo ya asignado
+ACDOC -- Horas asignables superior al maximo
+ACDOC -- Se genera solape
+ACDOC -- Se genera solape
