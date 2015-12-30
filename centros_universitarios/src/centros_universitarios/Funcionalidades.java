@@ -597,34 +597,6 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		return false;
 	}
 
-	public Boolean existeGrupo(TreeMap<Integer, Asignatura> asignaturas, Integer grupo, String tipoGrupo, String asignatura) {
-		// Busco el ID de la asignatura usando las siglas
-		//Integer key = siglasToID(asignaturas, siglas); // EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
-		Set<Integer> setAsignaturas = asignaturas.keySet();
-		Iterator<Integer> it = setAsignaturas.iterator();
-		Integer key = 0; //EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
-        while (it.hasNext()) {
-            key = it.next(); 
-            Asignatura asignaturaId = asignaturas.get(key);
-            if (asignaturaId.getSiglas().contentEquals(asignatura)) {
-                key = asignaturaId.getIdAsignatura();
-                break;
-            }
-        }
-        // Busco si el treemap GruposX contiene a "grupo"
-        if (tipoGrupo.contains("A")) {
-            if (!asignaturas.get(key).getGruposA().containsKey(grupo)) {
-                // System.out.println("No existe A");
-                return false;
-            }
-        } else if (tipoGrupo.contains("B")) {
-            if (!asignaturas.get(key).getGruposB().containsKey(grupo)) {
-                // System.out.println("No existe B");
-                return false;
-            }
-        }
-        return true;
-    }
 
 	public Boolean expedienteVacio(TreeMap<String, Alumno> alumnos, String alumno){
 		if(alumnos.get(alumno).getAsignaturasSuperadas().isEmpty())return true;
