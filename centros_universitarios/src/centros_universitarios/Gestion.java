@@ -255,9 +255,11 @@ public class Gestion {
 					String tipoGrupo = campos[1];
 					Integer idGrupo = Integer.parseInt(campos[2]);
 					if (tipoGrupo.contains("A"))
-						docenciaImpartidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
-					else
-						docenciaImpartidaB.put(idGrupo, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
+						//docenciaImpartidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));//Cambiar por idAsignatura------------------
+						docenciaImpartidaA.put(idAsignatura, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
+						else
+						//docenciaImpartidaB.put(idGrupo, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));//------------------------------------------
+							docenciaImpartidaB.put(idAsignatura, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
 				}
 				profesor.setDocenciaImpartidaA(docenciaImpartidaA);
 				profesor.setDocenciaImpartidaB(docenciaImpartidaB);
@@ -283,9 +285,12 @@ public class Gestion {
 						String tipoGrupo = campos[1];
 						Integer idGrupo = Integer.parseInt(campos[2]);
 						if (tipoGrupo.contains("A"))
-							docenciaRecibidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
-						else
-							docenciaRecibidaB.put(idGrupo, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
+						//	docenciaRecibidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));//Cambiar por idAsignatura------------------
+							docenciaRecibidaA.put(idAsignatura, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
+							else
+							//docenciaRecibidaB.put(idGrupo, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));//------------------------------------------
+								docenciaRecibidaB.put(idAsignatura, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
+
 					} else {// asignaturasSinGrupo -------------------
 						asignaturasSinGrupo.put(idAsignatura, asignaturas.get(idAsignatura));// NEW
 					}

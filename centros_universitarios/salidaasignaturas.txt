@@ -1,62 +1,62 @@
-8
-C�lculo II
-CAL-II
 1
+Calculo I
+CAL-I
+1
+37834521S
 
-
-1 M 10 12; 2 X 9 11; 3 J 12 14
-1 M 12 14; 2 M 16 18; 3 J 9 11; 4 J 11 13; 5 V 10 12; 6 V 12 14
+1 L 9 10; 2 M 9 10
+1 L 10 11; 2 M 10 11
 *
-9
-Probabilidad y Estadística
+2
+Probabilidad y Estadistica
 PE
 1
-45632109V
+37834521S
 
-1 L 10 12; 2 M 9 11; 3 M 15 17
-1 L 12 14; 2 L 15 17; 3 M 11 13; 4 M 15 17; 5 X 9 11; 6 X 11 13
+1 L 11 12; 2 V 15 16; 3 M 12 15
+1 L 12 14
 *
-10
-Programación I
+3
+Programacion I
 P-I
 1
+33218765X
 
-
-1 L 10 12; 2 M 9 11; 3 M 12 14
-1 L 12 14; 2 L 16 18; 3 X 9 11; 4 X 11 13; 5 J 12 14; 6 J 16 18
+1 M 9 10
+1 M 10 12
 *
-11
-Comunicación de Datos
+4
+Programacion II
+P-II
+2
+
+3
+1 J 9 10
+1 V 9 10
+*
+5
+Comunicacion de Datos
 CD
 2
 
-9
-1 L 9 11; 2 M 11 13
-1 L 12 14; 2 M 15 17; 3 X 11 13; 4 X 16 18
+1, 2
+1 J 11 12
+1 V 11 12
 *
-12
-Programación II
-P-II
-2
-33218765A
-10
-1 L 9 11; 2 J 9 11
-1 L 12 14; 2 M 9 11; 3 M 16 18; 4 J 11 13
-*
-18
+6
 Redes de Ordenadores
 RO
 2
 
-9
-1 M 9 11; 2 X 9 11
-1 X 11 13; 2 X 16 18; 3 J 11 13; 4 J 16 18
+5
+1 L 15 16
+1 M 15 16
 *
-34
+7
 Seguridad
 SEG
 3
-33218765A
-18
-1 L 12 14
-1 L 15 17; 2 X 16 18; 3 J 11 13; 4 V 11 13
+
+6
+1 M 15 16
+1 M 16 17

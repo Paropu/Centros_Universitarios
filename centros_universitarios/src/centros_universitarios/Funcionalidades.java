@@ -314,16 +314,16 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return;
 		}
 		Scanner entrada = new Scanner(flujo_entrada); 
-		String linea, lineaSinEspaciosDuplicados = null; 
-		Integer numeroLinea=1;
+		String linea, lineaSinEspaciosDuplicados; 
+		Integer numeroLinea=0;
 
 		while(entrada.hasNext()){
 			linea=entrada.nextLine();
 			lineaSinEspaciosDuplicados= linea.replaceAll("\\s+", " "); // Contiene la informaci�n del fichero sin espacios duplicados
-			String[] camposLinea = linea.split(" ");
+			String[] camposLinea = lineaSinEspaciosDuplicados.split(" ");
 			String alumno=camposLinea[0];
-			Float notaGrupoA=Float.parseFloat(campos[1]);
-			Float notaGrupoB=Float.parseFloat(campos[2]);
+			Float notaGrupoA=Float.parseFloat(camposLinea[1]);
+			Float notaGrupoB=Float.parseFloat(camposLinea[2]);
 			numeroLinea++;
 			Boolean error=false;
 			if (!(existeAlumno(alumnos, alumno))) {
@@ -363,6 +363,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				Set<Integer> setGruposA = alumnos.get(alumno).getDocenciaRecibidaA().keySet();
 				Iterator<Integer> itA=setGruposA.iterator();
 				if(!setGruposA.isEmpty()){
+					System.out.println(setGruposA);
 					Integer idGrupoA;
 					while(itA.hasNext()){
 						idGrupoA=itA.next();
@@ -372,6 +373,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				Set<Integer> setGruposB = alumnos.get(alumno).getDocenciaRecibidaB().keySet();
 				Iterator<Integer> itB=setGruposB.iterator();
 				if(!setGruposB.isEmpty()){
+					System.out.println(setGruposB);
 					Integer idGrupoB;
 					while(itB.hasNext()){
 						idGrupoB=itB.next();
