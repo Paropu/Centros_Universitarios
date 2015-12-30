@@ -612,7 +612,7 @@ public class Gestion {
 						funcionalidad.argumentosIncorrectos("EVALUA");
 						break;
 					}
-					funcionalidad.evaluarAsignatura();
+					funcionalidad.evaluarAsignatura(linea, alumnos, asignaturas);
 					break;
 
 				case "expediente":

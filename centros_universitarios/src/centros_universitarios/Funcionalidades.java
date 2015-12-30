@@ -1,10 +1,13 @@
 package centros_universitarios;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -14,12 +17,12 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 	 * FUNCIONALIDADES INCLUIDAS EN LAS ESPECIFICACIONES DEL PROYECTO:
 	 * Insertar persona						OK
 	 * Asignar coordinador					OK
-	 * Asignar carga docente
+	 * Asignar carga docente				OK
 	 * Matricular alumno					OK
-	 * Asignar grupo
+	 * Asignar grupo						OK
 	 * Evaluar asignatura
-	 * Obtener expediente del alumno
-	 * Obtener calendario del profesor 
+	 * Obtener expediente del alumno		OK
+	 * Obtener calendario del profesor 		OK
 	 */
 
 	/* METODOS */
@@ -288,8 +291,95 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		alumnos.get(alumno).getAsignaturasSinGrupo().remove(idAsignatura);
 	}
 
-	public void evaluarAsignatura() {
+	public void evaluarAsignatura(String lineaComando, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
 
+		String[] campos =lineaComando.split(" ");
+		String asignatura= campos[1];
+		String cursoAcademico=campos[2];
+		String fichero=campos[3];
+
+		if (!(existeAsignatura(asignaturas, asignatura))) {
+			guardarError("EVALUA", "Asignatura inexistente");
+			return;
+		}
+		FileInputStream flujo_entrada = null;
+		try {
+			flujo_entrada = new FileInputStream(fichero); 
+		} catch (FileNotFoundException NoExisteFichero) { 
+			guardarError("EVALUA", "Fichero de notas inexistente");
+			return;
+		}
+		if(asignaturaYaEvaluada(alumnos, asignaturas, asignatura, cursoAcademico)){
+			guardarError("EVALUA", "Asignatura ya evaluada en este curso acadÃ©mico");
+			return;
+		}
+		Scanner entrada = new Scanner(flujo_entrada); 
+		String linea, lineaSinEspaciosDuplicados = null; 
+		Integer numeroLinea=1;
+
+		while(entrada.hasNext()){
+			linea=entrada.nextLine();
+			lineaSinEspaciosDuplicados= linea.replaceAll("\\s+", " "); // Contiene la informaciï¿½n del fichero sin espacios duplicados
+			String[] camposLinea = linea.split(" ");
+			String alumno=camposLinea[0];
+			Float notaGrupoA=Float.parseFloat(campos[1]);
+			Float notaGrupoB=Float.parseFloat(campos[2]);
+			numeroLinea++;
+			Boolean error=false;
+			if (!(existeAlumno(alumnos, alumno))) {
+				guardarErrorFicheroNotas(numeroLinea, "Alumno inexistente: "+alumno);
+				error=true;
+				continue;
+			}
+			if(!matriculaExistente(alumnos, asignaturas, alumno, asignatura)){
+				guardarErrorFicheroNotas(numeroLinea, "Alumno no matriculado: "+alumno);
+				error=true;
+				continue;
+			}
+			if(notaGrupoA<0 || notaGrupoA>5){
+				guardarErrorFicheroNotas(numeroLinea, "Nota grupo A/B incorrecta");
+				error=true;
+				continue;
+
+			}
+			if(notaGrupoB<0 || notaGrupoB>5){
+				guardarErrorFicheroNotas(numeroLinea, "Nota grupo A/B incorrecta");
+				error=true;
+				continue;
+			}
+			if(!error){
+				Float notaTotal=notaGrupoA+notaGrupoB;
+				if(notaTotal>=5){
+					alumnos.get(alumno).getAsignaturasSuperadas().put(siglasToID(asignaturas, asignatura), new NotaFinal(siglasToID(asignaturas, asignatura), cursoAcademico, notaTotal, asignaturas.get(siglasToID(asignaturas, asignatura))));
+				}
+				alumnos.get(alumno).getAsignaturasMatriculadas().remove(siglasToID(asignaturas, asignatura));
+				Set <Integer> setAsignaturasSinGrupo = alumnos.get(alumno).getAsignaturasSinGrupo().keySet();
+				Iterator<Integer> it0 =setAsignaturasSinGrupo.iterator();
+				if(!setAsignaturasSinGrupo.isEmpty()){
+					while(it0.hasNext()){
+						if(asignaturas.get(it0.next()).getSiglas().contentEquals(asignatura)) alumnos.get(alumno).getAsignaturasSinGrupo().remove(siglasToID(asignaturas, asignatura));
+					}
+				}
+				Set<Integer> setGruposA = alumnos.get(alumno).getDocenciaRecibidaA().keySet();
+				Iterator<Integer> itA=setGruposA.iterator();
+				if(!setGruposA.isEmpty()){
+					Integer idGrupoA;
+					while(itA.hasNext()){
+						idGrupoA=itA.next();
+						if(alumnos.get(alumno).getDocenciaRecibidaA().get(idGrupoA).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura))==0) alumnos.get(alumno).getDocenciaRecibidaA().remove(idGrupoA);
+					}
+				}
+				Set<Integer> setGruposB = alumnos.get(alumno).getDocenciaRecibidaB().keySet();
+				Iterator<Integer> itB=setGruposB.iterator();
+				if(!setGruposB.isEmpty()){
+					Integer idGrupoB;
+					while(itB.hasNext()){
+						idGrupoB=itB.next();
+						if(alumnos.get(alumno).getDocenciaRecibidaB().get(idGrupoB).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura))==0) alumnos.get(alumno).getDocenciaRecibidaB().remove(idGrupoB);
+					}
+				}
+			}
+		}
 	}
 
 	public void obtenerExpedienteAlumno(String linea, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
@@ -359,7 +449,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			fichero = new FileWriter(ficheroSalida, true);
 			pw = new PrintWriter(fichero);
 			pw.println("Dia;\tHora;\tAsignatura;\tTipo grupo;\tId grupo");
-			// Todas las horas se añadirán a este TreeMap
+			// Todas las horas se aï¿½adirï¿½n a este TreeMap
 			TreeMap<Integer, Grupo> ordenar = new TreeMap<Integer, Grupo>();
 
 			for (int i = 0; i < profesores.get(profesor).getArrayDocenciaImpartida().length; i++) {
@@ -374,7 +464,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				}
 				Integer n_orden = nuevoGrupo.getHoraInicio();
 
-				// Sumo 20 unidades por dia para que el TreeMap esté ordenado
+				// Sumo 20 unidades por dia para que el TreeMap estï¿½ ordenado
 				if (nuevoGrupo.getDia().compareTo("L") == 0) {
 					ordenar.put(n_orden, nuevoGrupo);
 				}
@@ -752,6 +842,45 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return false;
 	}
 
+	public Boolean asignaturaYaEvaluada(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String asignatura, String cursoAcademico){
+		Set<String> setAlumnos=alumnos.keySet();
+		Iterator<String> it=setAlumnos.iterator();
+		NotaFinal asignaturaSuperada;
+		Alumno alumno;
+		while(it.hasNext()){
+			alumno=alumnos.get(it.next());
+			Set<Integer> setAsignaturasSuperadas = alumno.getAsignaturasSuperadas().keySet();
+			Iterator<Integer> it0=setAsignaturasSuperadas.iterator();
+			if(!setAsignaturasSuperadas.isEmpty()){
+				while(it0.hasNext()){
+					asignaturaSuperada = alumno.getAsignaturasSuperadas().get(it0.next());
+					if(asignaturaSuperada.getAsignatura().getSiglas().contentEquals(asignatura) && asignaturaSuperada.getCursoAcademico().contentEquals(cursoAcademico))return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public void guardarErrorFicheroNotas(Integer numeroLinea, String info) { // Metodo que permite la escritura en el fichero "avisos.txt".
+		FileWriter fichero = null;
+		PrintWriter pw = null;
+		try {
+			fichero = new FileWriter("avisos.txt", true);
+			pw = new PrintWriter(fichero);
+			pw.println("Error en linea "+numeroLinea + ": " + info);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != fichero)
+					fichero.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+	
+	
 	/* CONSTRUCTORES */
 	public Funcionalidades() {
 	}
