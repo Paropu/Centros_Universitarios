@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -15,14 +16,15 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	/*
 	 * FUNCIONALIDADES INCLUIDAS EN LAS ESPECIFICACIONES DEL PROYECTO:
-	 * Insertar persona						OK
-	 * Asignar coordinador					OK
-	 * Asignar carga docente				OK
-	 * Matricular alumno					OK
-	 * Asignar grupo						OK
+	
+	 * Insertar persona
+	 * Asignar coordinador
+	 * Asignar carga docente
+	 * Matricular alumn
+	 * Asignar grupo
 	 * Evaluar asignatura
-	 * Obtener expediente del alumno		OK
-	 * Obtener calendario del profesor 		OK
+	 * Obtener expediente del alumno
+	 * Obtener calendario del profesor
 	 */
 
 	/* METODOS */
@@ -277,8 +279,10 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return;
 		}
 
-		// Se genera solape
-
+		if (generaSolapeAlumnos(alumno, siglas, campos[3], idGrupo, alumnos, asignaturas)) {
+			guardarError("AGRUPO", "Se genera solape");
+			return;
+		}
 		// Meter datos en TreeMap
 		Integer idAsignatura = siglasToID(asignaturas, siglas);
 		if (campos[3].equals("A")) {
@@ -293,10 +297,10 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	public void evaluarAsignatura(String lineaComando, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
 
-		String[] campos =lineaComando.split(" ");
-		String asignatura= campos[1];
-		String cursoAcademico=campos[2];
-		String fichero=campos[3];
+		String[] campos = lineaComando.split(" ");
+		String asignatura = campos[1];
+		String cursoAcademico = campos[2];
+		String fichero = campos[3];
 
 		if (!(existeAsignatura(asignaturas, asignatura))) {
 			guardarError("EVALUA", "Asignatura inexistente");
@@ -304,80 +308,87 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 		FileInputStream flujo_entrada = null;
 		try {
-			flujo_entrada = new FileInputStream(fichero); 
-		} catch (FileNotFoundException NoExisteFichero) { 
+			flujo_entrada = new FileInputStream(fichero);
+		} catch (FileNotFoundException NoExisteFichero) {
 			guardarError("EVALUA", "Fichero de notas inexistente");
 			return;
 		}
-		if(asignaturaYaEvaluada(alumnos, asignaturas, asignatura, cursoAcademico)){
+		if (asignaturaYaEvaluada(alumnos, asignaturas, asignatura, cursoAcademico)) {
 			guardarError("EVALUA", "Asignatura ya evaluada en este curso académico");
 			return;
 		}
-		Scanner entrada = new Scanner(flujo_entrada); 
-		String linea, lineaSinEspaciosDuplicados; 
-		Integer numeroLinea=0;
+		Scanner entrada = new Scanner(flujo_entrada);
+		String linea, lineaSinEspaciosDuplicados;
+		Integer numeroLinea = 0;
 
-		while(entrada.hasNext()){
-			linea=entrada.nextLine();
-			lineaSinEspaciosDuplicados= linea.replaceAll("\\s+", " "); // Contiene la informaci�n del fichero sin espacios duplicados
+		while (entrada.hasNext()) {
+			linea = entrada.nextLine();
+			lineaSinEspaciosDuplicados = linea.replaceAll("\\s+", " "); // Contiene la informaci�n del fichero sin espacios duplicados
 			String[] camposLinea = lineaSinEspaciosDuplicados.split(" ");
-			String alumno=camposLinea[0];
-			Float notaGrupoA=Float.parseFloat(camposLinea[1]);
-			Float notaGrupoB=Float.parseFloat(camposLinea[2]);
+			String alumno = camposLinea[0];
+			Float notaGrupoA = Float.parseFloat(camposLinea[1]);
+			Float notaGrupoB = Float.parseFloat(camposLinea[2]);
 			numeroLinea++;
-			Boolean error=false;
+			Boolean error = false;
 			if (!(existeAlumno(alumnos, alumno))) {
-				guardarErrorFicheroNotas(numeroLinea, "Alumno inexistente: "+alumno);
-				error=true;
+				guardarErrorFicheroNotas(numeroLinea, "Alumno inexistente: " + alumno);
+				error = true;
 				continue;
 			}
-			if(!matriculaExistente(alumnos, asignaturas, alumno, asignatura)){
-				guardarErrorFicheroNotas(numeroLinea, "Alumno no matriculado: "+alumno);
-				error=true;
+			if (!matriculaExistente(alumnos, asignaturas, alumno, asignatura)) {
+				guardarErrorFicheroNotas(numeroLinea, "Alumno no matriculado: " + alumno);
+				error = true;
 				continue;
 			}
-			if(notaGrupoA<0 || notaGrupoA>5){
+			if (notaGrupoA < 0 || notaGrupoA > 5) {
 				guardarErrorFicheroNotas(numeroLinea, "Nota grupo A/B incorrecta");
-				error=true;
+				error = true;
 				continue;
 
 			}
-			if(notaGrupoB<0 || notaGrupoB>5){
+			if (notaGrupoB < 0 || notaGrupoB > 5) {
 				guardarErrorFicheroNotas(numeroLinea, "Nota grupo A/B incorrecta");
-				error=true;
+				error = true;
 				continue;
 			}
-			if(!error){
-				Float notaTotal=notaGrupoA+notaGrupoB;
-				if(notaTotal>=5){
-					alumnos.get(alumno).getAsignaturasSuperadas().put(siglasToID(asignaturas, asignatura), new NotaFinal(siglasToID(asignaturas, asignatura), cursoAcademico, notaTotal, asignaturas.get(siglasToID(asignaturas, asignatura))));
+			if (!error) {
+				Float notaTotal = notaGrupoA + notaGrupoB;
+				if (notaTotal >= 5) {
+					alumnos.get(alumno).getAsignaturasSuperadas().put(siglasToID(asignaturas, asignatura),
+							new NotaFinal(siglasToID(asignaturas, asignatura), cursoAcademico, notaTotal,
+									asignaturas.get(siglasToID(asignaturas, asignatura))));
 				}
 				alumnos.get(alumno).getAsignaturasMatriculadas().remove(siglasToID(asignaturas, asignatura));
-				Set <Integer> setAsignaturasSinGrupo = alumnos.get(alumno).getAsignaturasSinGrupo().keySet();
-				Iterator<Integer> it0 =setAsignaturasSinGrupo.iterator();
-				if(!setAsignaturasSinGrupo.isEmpty()){
-					while(it0.hasNext()){
-						if(asignaturas.get(it0.next()).getSiglas().contentEquals(asignatura)) alumnos.get(alumno).getAsignaturasSinGrupo().remove(siglasToID(asignaturas, asignatura));
+				Set<Integer> setAsignaturasSinGrupo = alumnos.get(alumno).getAsignaturasSinGrupo().keySet();
+				Iterator<Integer> it0 = setAsignaturasSinGrupo.iterator();
+				if (!setAsignaturasSinGrupo.isEmpty()) {
+					while (it0.hasNext()) {
+						if (asignaturas.get(it0.next()).getSiglas().contentEquals(asignatura))
+							alumnos.get(alumno).getAsignaturasSinGrupo().remove(siglasToID(asignaturas, asignatura));
 					}
 				}
 				Set<Integer> setGruposA = alumnos.get(alumno).getDocenciaRecibidaA().keySet();
-				Iterator<Integer> itA=setGruposA.iterator();
-				if(!setGruposA.isEmpty()){
+				Iterator<Integer> itA = setGruposA.iterator();
+				if (!setGruposA.isEmpty()) {
 					System.out.println(setGruposA);
 					Integer idGrupoA;
-					while(itA.hasNext()){
-						idGrupoA=itA.next();
-						if(alumnos.get(alumno).getDocenciaRecibidaA().get(idGrupoA).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura))==0) alumnos.get(alumno).getDocenciaRecibidaA().remove(idGrupoA);
+					while (itA.hasNext()) {
+						idGrupoA = itA.next();
+						if (alumnos.get(alumno).getDocenciaRecibidaA().get(idGrupoA).getAsignatura().getIdAsignatura()
+								.compareTo(siglasToID(asignaturas, asignatura)) == 0)
+							alumnos.get(alumno).getDocenciaRecibidaA().remove(idGrupoA);
 					}
 				}
 				Set<Integer> setGruposB = alumnos.get(alumno).getDocenciaRecibidaB().keySet();
-				Iterator<Integer> itB=setGruposB.iterator();
-				if(!setGruposB.isEmpty()){
+				Iterator<Integer> itB = setGruposB.iterator();
+				if (!setGruposB.isEmpty()) {
 					System.out.println(setGruposB);
 					Integer idGrupoB;
-					while(itB.hasNext()){
-						idGrupoB=itB.next();
-						if(alumnos.get(alumno).getDocenciaRecibidaB().get(idGrupoB).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura))==0) alumnos.get(alumno).getDocenciaRecibidaB().remove(idGrupoB);
+					while (itB.hasNext()) {
+						idGrupoB = itB.next();
+						if (alumnos.get(alumno).getDocenciaRecibidaB().get(idGrupoB).getAsignatura().getIdAsignatura()
+								.compareTo(siglasToID(asignaturas, asignatura)) == 0)
+							alumnos.get(alumno).getDocenciaRecibidaB().remove(idGrupoB);
 					}
 				}
 			}
@@ -507,6 +518,77 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 					fichero.close();
 			} catch (Exception e2) {
 				e2.printStackTrace();
+			}
+		}
+	}
+
+	public void ordenarAlumnosPorExpediente(String ficheroSalida, TreeMap<String, Alumno> alumnos) {
+		TreeMap<String, Alumno> NotasMediasMap = new TreeMap<String, Alumno>(new ComparadorNota());
+		Set<String> setAlumnos = alumnos.keySet();
+		Iterator<String> it = setAlumnos.iterator();
+		while (it.hasNext()) {
+			Alumno alumnoAlumno = alumnos.get(it.next());
+			String caracterVacio = "";
+			String alumno = alumnoAlumno.getDni();
+			if (alumnos.get(alumno).getArrayAsignaturasSuperadas()[0].compareTo(caracterVacio) != 0) {
+				Float notaMedia = (float) 0;
+				TreeMap<String, NotaFinal> treeMapNotas = new TreeMap<String, NotaFinal>();
+				Set<Integer> setNotas = alumnos.get(alumno).getAsignaturasSuperadas().keySet();
+				Iterator<Integer> it2 = setNotas.iterator();
+				while (it2.hasNext()) {
+					NotaFinal nota = alumnos.get(alumno).getAsignaturasSuperadas().get(it2.next());
+					treeMapNotas.put(nota.getAsignatura().getNombre(), nota);
+				}
+				Iterator<String> it0 = treeMapNotas.keySet().iterator();
+				while (it0.hasNext()) {
+					String key = it0.next();
+					notaMedia += treeMapNotas.get(key).getNota();
+				}
+				notaMedia = notaMedia / setNotas.size();
+				alumnos.get(alumno).setNotaMedia(notaMedia);
+				NotasMediasMap.put(notaMedia + " " + alumnos.get(alumno).getApellidos() + " " + alumnos.get(alumno).getNombre(),
+						alumnoAlumno);
+			}
+		}
+		// Escribir en fichero
+		FileWriter fichero = null;
+		PrintWriter pw = null;
+		try {
+			fichero = new FileWriter(ficheroSalida, true);
+			pw = new PrintWriter(fichero);
+			Set<String> setNotas = NotasMediasMap.keySet();
+			Iterator<String> it3 = setNotas.iterator();
+			while (it3.hasNext()) {
+				String key = it3.next();
+				pw.println(NotasMediasMap.get(key).getApellidos() + " " + NotasMediasMap.get(key).getNombre() + " "
+						+ NotasMediasMap.get(key).getDni() + " " + NotasMediasMap.get(key).getNotaMedia());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != fichero)
+					fichero.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	class ComparadorNota implements Comparator<String> {
+		@Override
+		public int compare(String e1, String e2) {
+			String[] campos1 = e1.split(" ");
+			Float n1 = Float.parseFloat(campos1[0]);
+			String[] campos2 = e2.split(" ");
+			Float n2 = Float.parseFloat(campos2[0]);
+			if (n1 > n2) {
+				return -1;
+			} else if (n1 < n2) {
+				return 1;
+			} else {
+				return campos1[1].compareTo(campos2[1]);
 			}
 		}
 	}
@@ -837,6 +919,52 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		return false;
 	}
 
+	public Boolean generaSolapeAlumnos(String persona, String asignatura, String tipoGrupo, Integer idGrupo,
+			TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
+		Integer key = siglasToID(asignaturas, asignatura);
+		Integer horaInicio = 0;
+		Integer horaFin = 0;
+		String dia;
+		if (tipoGrupo.contentEquals("A")) {
+			Grupo grupo = asignaturas.get(key).getGruposA().get(idGrupo);
+			horaInicio = grupo.getHoraInicio();// Hora de inicio y fin del grupo que se quiere asignar
+			horaFin = grupo.getHoraFin();
+			dia = grupo.getDia();
+		} else {
+			Grupo grupo = asignaturas.get(key).getGruposB().get(idGrupo);
+			horaInicio = grupo.getHoraInicio();
+			horaFin = grupo.getHoraFin();
+			dia = grupo.getDia();
+		}
+		Set<Integer> setGruposA = alumnos.get(persona).getDocenciaRecibidaA().keySet(); // Comparar el grupo que se quiere asignar con los existentes
+		Iterator<Integer> itA = setGruposA.iterator();
+		if (!setGruposA.isEmpty()) {
+			Grupo grupoA;
+			while (itA.hasNext()) {
+				grupoA = alumnos.get(persona).getDocenciaRecibidaA().get(itA.next());
+				if (grupoA.getDia().contentEquals(dia)) {
+					if (!((horaInicio < grupoA.getHoraInicio() && horaFin <= grupoA.getHoraInicio())
+							|| (horaInicio >= grupoA.getHoraFin() && horaFin > grupoA.getHoraFin())))
+						return true;
+				}
+			}
+		}
+		Set<Integer> setGruposB = alumnos.get(persona).getDocenciaRecibidaB().keySet();
+		Iterator<Integer> itB = setGruposB.iterator();
+		if (!setGruposB.isEmpty()) {
+			Grupo grupoB;
+			while (itB.hasNext()) {
+				grupoB = alumnos.get(persona).getDocenciaRecibidaB().get(itB.next());
+				if (grupoB.getDia().contentEquals(dia)) {
+					if (!((horaInicio < grupoB.getHoraInicio() && horaFin <= grupoB.getHoraInicio())
+							|| (horaInicio >= grupoB.getHoraFin() && horaFin > grupoB.getHoraFin())))
+						return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public Boolean expedienteVacio(TreeMap<String, Alumno> alumnos, String alumno) {
 		if (alumnos.get(alumno).getAsignaturasSuperadas().isEmpty())
 			return true;
@@ -844,32 +972,35 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return false;
 	}
 
-	public Boolean asignaturaYaEvaluada(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String asignatura, String cursoAcademico){
-		Set<String> setAlumnos=alumnos.keySet();
-		Iterator<String> it=setAlumnos.iterator();
+	public Boolean asignaturaYaEvaluada(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String asignatura,
+			String cursoAcademico) {
+		Set<String> setAlumnos = alumnos.keySet();
+		Iterator<String> it = setAlumnos.iterator();
 		NotaFinal asignaturaSuperada;
 		Alumno alumno;
-		while(it.hasNext()){
-			alumno=alumnos.get(it.next());
+		while (it.hasNext()) {
+			alumno = alumnos.get(it.next());
 			Set<Integer> setAsignaturasSuperadas = alumno.getAsignaturasSuperadas().keySet();
-			Iterator<Integer> it0=setAsignaturasSuperadas.iterator();
-			if(!setAsignaturasSuperadas.isEmpty()){
-				while(it0.hasNext()){
+			Iterator<Integer> it0 = setAsignaturasSuperadas.iterator();
+			if (!setAsignaturasSuperadas.isEmpty()) {
+				while (it0.hasNext()) {
 					asignaturaSuperada = alumno.getAsignaturasSuperadas().get(it0.next());
-					if(asignaturaSuperada.getAsignatura().getSiglas().contentEquals(asignatura) && asignaturaSuperada.getCursoAcademico().contentEquals(cursoAcademico))return true;
+					if (asignaturaSuperada.getAsignatura().getSiglas().contentEquals(asignatura)
+							&& asignaturaSuperada.getCursoAcademico().contentEquals(cursoAcademico))
+						return true;
 				}
 			}
 		}
 		return false;
 	}
-	
+
 	public void guardarErrorFicheroNotas(Integer numeroLinea, String info) { // Metodo que permite la escritura en el fichero "avisos.txt".
 		FileWriter fichero = null;
 		PrintWriter pw = null;
 		try {
 			fichero = new FileWriter("avisos.txt", true);
 			pw = new PrintWriter(fichero);
-			pw.println("Error en linea "+numeroLinea + ": " + info);
+			pw.println("Error en linea " + numeroLinea + ": " + info);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -881,8 +1012,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			}
 		}
 	}
-	
-	
+
 	/* CONSTRUCTORES */
 	public Funcionalidades() {
 	}

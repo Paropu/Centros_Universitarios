@@ -15,6 +15,7 @@ public class Alumno extends Persona {
 	private TreeMap<Integer, Asignatura> asignaturasMatriculadas;
 	private String[] arrayDocenciaRecibida;
 	private TreeMap<Integer, Asignatura> asignaturasSinGrupo;
+	private Float notaMedia;
 
 	/* METODOS */
 	@Override
@@ -88,6 +89,14 @@ public class Alumno extends Persona {
 		this.asignaturasSinGrupo = asignaturasSinGrupo;
 	}
 
+	public Float getNotaMedia() {
+		return notaMedia;
+	}
+
+	public void setNotaMedia(Float notaMedia) {
+		this.notaMedia = notaMedia;
+	}
+
 	/* CONSTRUCTORES */
 	public Alumno(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, GregorianCalendar fechaIngreso,
 			TreeMap<Integer, Grupo> docenciaRecibidaA, TreeMap<Integer, Grupo> docenciaRecibidaB,
@@ -110,9 +119,5 @@ public class Alumno extends Persona {
 		this.docenciaRecibidaB = new TreeMap<Integer, Grupo>();
 		this.asignaturasSuperadas = new TreeMap<Integer, NotaFinal>();
 		this.asignaturasMatriculadas = new TreeMap<Integer, Asignatura>();
-		/*
-		this.arrayAsignaturasSuperadas = null;
-		this.arrayDocenciaRecibida = null;
-		*/
 	}
 }
