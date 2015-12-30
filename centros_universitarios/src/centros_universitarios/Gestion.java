@@ -631,6 +631,13 @@ public class Gestion {
 					funcionalidad.obtenerCalendarioProfesor(campos[1], campos[2], profesores, asignaturas);
 					break;
 
+				case "ordenaalumnosxnota":
+					if (campos.length != 2) {
+						funcionalidad.argumentosIncorrectos("CALENP");
+						break;
+					}
+					funcionalidad.ordenarAlumnosPorExpediente(campos[1], alumnos);
+					break;
 				default:
 					funcionalidad.comandoIncorrecto(campos[0]);
 					break;

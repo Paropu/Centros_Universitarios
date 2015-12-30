@@ -24,7 +24,6 @@ public class Grupo {
 		return dia + ";\t\t" + horaInicio + ";\t\t" + asignatura.getSiglas() + ";\t\t\t" + tipoGrupo + ";\t\t\t" + idGrupo;
 	}
 
-
 	/* GETTERS & SETTERS */
 	public String getTipoGrupo() {
 		return tipoGrupo;

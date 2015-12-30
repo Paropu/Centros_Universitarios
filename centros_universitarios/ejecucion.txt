@@ -1,9 +1,1 @@
-*numero de argumentos incorrecto
-Expediente
-*Alumno inexistente
-Expediente 33218765A salida.txt
-*Expediente vacio
-Expediente 53456789M salida.txt
-*Comando correcto
-Expediente 53456789M expediente.txt
-Expediente 51567824F expediente.txt
+ordenaalumnosxnota amigossssssss.txt

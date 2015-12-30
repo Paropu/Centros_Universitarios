@@ -3,6 +3,7 @@ package centros_universitarios;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Set;
@@ -12,10 +13,10 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	/*
 	 * FUNCIONALIDADES INCLUIDAS EN LAS ESPECIFICACIONES DEL PROYECTO:
-	 * Insertar persona						OK
-	 * Asignar coordinador					OK
+	 * Insertar persona						
+	 * Asignar coordinador					
 	 * Asignar carga docente
-	 * Matricular alumno					OK
+	 * Matricular alumno					
 	 * Asignar grupo
 	 * Evaluar asignatura
 	 * Obtener expediente del alumno
@@ -417,6 +418,77 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 					fichero.close();
 			} catch (Exception e2) {
 				e2.printStackTrace();
+			}
+		}
+	}
+
+	public void ordenarAlumnosPorExpediente(String ficheroSalida, TreeMap<String, Alumno> alumnos) {
+		TreeMap<String, Alumno> NotasMediasMap = new TreeMap<String, Alumno>(new ComparadorNota());
+		Set<String> setAlumnos = alumnos.keySet();
+		Iterator<String> it = setAlumnos.iterator();
+		while (it.hasNext()) {
+			Alumno alumnoAlumno = alumnos.get(it.next());
+			String caracterVacio = "";
+			String alumno = alumnoAlumno.getDni();
+			if (alumnos.get(alumno).getArrayAsignaturasSuperadas()[0].compareTo(caracterVacio) != 0) {
+				Float notaMedia = (float) 0;
+				TreeMap<String, NotaFinal> treeMapNotas = new TreeMap<String, NotaFinal>();
+				Set<Integer> setNotas = alumnos.get(alumno).getAsignaturasSuperadas().keySet();
+				Iterator<Integer> it2 = setNotas.iterator();
+				while (it2.hasNext()) {
+					NotaFinal nota = alumnos.get(alumno).getAsignaturasSuperadas().get(it2.next());
+					treeMapNotas.put(nota.getAsignatura().getNombre(), nota);
+				}
+				Iterator<String> it0 = treeMapNotas.keySet().iterator();
+				while (it0.hasNext()) {
+					String key = it0.next();
+					notaMedia += treeMapNotas.get(key).getNota();
+				}
+				notaMedia = notaMedia / setNotas.size();
+				alumnos.get(alumno).setNotaMedia(notaMedia);
+				NotasMediasMap.put(notaMedia + " " + alumnos.get(alumno).getApellidos() + " " + alumnos.get(alumno).getNombre(),
+						alumnoAlumno);
+			}
+		}
+		// Escribir en fichero
+		FileWriter fichero = null;
+		PrintWriter pw = null;
+		try {
+			fichero = new FileWriter(ficheroSalida, true);
+			pw = new PrintWriter(fichero);
+			Set<String> setNotas = NotasMediasMap.keySet();
+			Iterator<String> it3 = setNotas.iterator();
+			while (it3.hasNext()) {
+				String key = it3.next();
+				pw.println(NotasMediasMap.get(key).getApellidos() + " " + NotasMediasMap.get(key).getNombre() + " "
+						+ NotasMediasMap.get(key).getDni() + " " + NotasMediasMap.get(key).getNotaMedia());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != fichero)
+					fichero.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+	}
+
+	class ComparadorNota implements Comparator<String> {
+		@Override
+		public int compare(String e1, String e2) {
+			String[] campos1 = e1.split(" ");
+			Float n1 = Float.parseFloat(campos1[0]);
+			String[] campos2 = e2.split(" ");
+			Float n2 = Float.parseFloat(campos2[0]);
+			if (n1 > n2) {
+				return -1;
+			} else if (n1 < n2) {
+				return 1;
+			} else {
+				return campos1[1].compareTo(campos2[1]);
 			}
 		}
 	}
