@@ -1,6 +1,6 @@
 package centros_universitarios;
 
-public class Grupo {
+public class Grupo implements Comparable<Grupo>{
 	/* ATRIBUTOS */
 	private String tipoGrupo;
 	private Integer idGrupo;
@@ -24,6 +24,16 @@ public class Grupo {
 		return dia + ";\t\t" + horaInicio + ";\t\t" + asignatura.getSiglas() + ";\t\t\t" + tipoGrupo + ";\t\t\t" + idGrupo;
 	}
 
+	public int compareTo(Grupo grupoComparado) {
+		if(this.getAsignatura().getIdAsignatura().compareTo(grupoComparado.getAsignatura().getIdAsignatura())==0){
+			if(this.getTipoGrupo().compareTo(grupoComparado.getTipoGrupo())==0){
+				return this.getIdGrupo().compareTo(grupoComparado.getIdGrupo());
+			}
+			else return this.getTipoGrupo().compareTo(grupoComparado.getTipoGrupo());
+		}
+		else return this.getAsignatura().getIdAsignatura().compareTo(grupoComparado.getAsignatura().getIdAsignatura());
+	}
+	
 	/* GETTERS & SETTERS */
 	public String getTipoGrupo() {
 		return tipoGrupo;
@@ -83,5 +93,7 @@ public class Grupo {
 		this.horaFin = horaFin;
 		this.asignatura = asignatura;
 	}
+
+	
 
 }

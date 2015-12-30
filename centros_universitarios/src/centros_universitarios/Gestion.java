@@ -60,8 +60,8 @@ public class Gestion {
 				String departamento = entrada.nextLine();
 				Integer horasDocenciaAsignables = Integer.parseInt(entrada.nextLine());
 				String[] arrayDocenciaImpartida = entrada.nextLine().split("; ");// Carga de docencia impartida por el profesor.
-				TreeMap<Integer, Grupo> docenciaImpartidaA = new TreeMap<Integer, Grupo>(); // VACIO
-				TreeMap<Integer, Grupo> docenciaImpartidaB = new TreeMap<Integer, Grupo>(); // VACIO
+				TreeMap<Grupo, Grupo> docenciaImpartidaA = new TreeMap<Grupo, Grupo>(); // VACIO
+				TreeMap<Grupo, Grupo> docenciaImpartidaB = new TreeMap<Grupo, Grupo>(); // VACIO
 				TreeMap<Integer, Asignatura> asignaturasCoordinadas = new TreeMap<Integer, Asignatura>(); // VACIO. En principio vacio, luego se completa al cargar las asignaturas.
 				Profesor profesor = new Profesor(dni, nombre, apellidos, fechaNacimiento, categoria, departamento, horasDocenciaAsignables,
 						docenciaImpartidaA, docenciaImpartidaB, asignaturasCoordinadas, arrayDocenciaImpartida);
@@ -246,8 +246,10 @@ public class Gestion {
 			Profesor profesor = profesores.get(it.next()); // Se recoge el profesor del TreeMap mediante la key
 			String caracterVacio = "";
 			if (profesor.getArrayDocenciaImpartida()[0].compareTo(caracterVacio) != 0) {
-				TreeMap<Integer, Grupo> docenciaImpartidaA = new TreeMap<Integer, Grupo>(); // Nuevo TreeMap donde se guardaran los grupos impartidos por el profesor, para posteriormente añadirlos al profesor mediante un set()..
-				TreeMap<Integer, Grupo> docenciaImpartidaB = new TreeMap<Integer, Grupo>();
+				//TreeMap<Integer, Grupo> docenciaImpartidaA = new TreeMap<Integer, Grupo>(); // Nuevo TreeMap donde se guardaran los grupos impartidos por el profesor, para posteriormente añadirlos al profesor mediante un set()..
+				//TreeMap<Integer, Grupo> docenciaImpartidaB = new TreeMap<Integer, Grupo>();
+				TreeMap<Grupo, Grupo> docenciaImpartidaA = new TreeMap<Grupo, Grupo>();
+				TreeMap<Grupo, Grupo> docenciaImpartidaB = new TreeMap<Grupo, Grupo>();
 				int i;
 				for (i = 0; i < profesor.getArrayDocenciaImpartida().length; i++) { // Bucle en el que se accede a la info de las asignaturas prerrequisito y se añaden estas al TreeMap de nuevosPrerrequisitos para posteriormente hacer un set().
 					String[] campos = profesor.getArrayDocenciaImpartida()[i].split(" ");
@@ -256,11 +258,14 @@ public class Gestion {
 					Integer idGrupo = Integer.parseInt(campos[2]);
 					if (tipoGrupo.contains("A"))
 						//docenciaImpartidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));//Cambiar por idAsignatura------------------
-						docenciaImpartidaA.put(idAsignatura, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
-						else
+						//docenciaImpartidaA.put(idAsignatura, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
+						docenciaImpartidaA.put(asignaturas.get(idAsignatura).getGruposA().get(idGrupo), asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
+					else
 						//docenciaImpartidaB.put(idGrupo, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));//------------------------------------------
-							docenciaImpartidaB.put(idAsignatura, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
+						//docenciaImpartidaB.put(idAsignatura, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
+						docenciaImpartidaB.put(asignaturas.get(idAsignatura).getGruposB().get(idGrupo), asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
 				}
+
 				profesor.setDocenciaImpartidaA(docenciaImpartidaA);
 				profesor.setDocenciaImpartidaB(docenciaImpartidaB);
 			}
@@ -285,11 +290,11 @@ public class Gestion {
 						String tipoGrupo = campos[1];
 						Integer idGrupo = Integer.parseInt(campos[2]);
 						if (tipoGrupo.contains("A"))
-						//	docenciaRecibidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));//Cambiar por idAsignatura------------------
+							//	docenciaRecibidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));//Cambiar por idAsignatura------------------
 							docenciaRecibidaA.put(idAsignatura, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
-							else
+						else
 							//docenciaRecibidaB.put(idGrupo, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));//------------------------------------------
-								docenciaRecibidaB.put(idAsignatura, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
+							docenciaRecibidaB.put(idAsignatura, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
 
 					} else {// asignaturasSinGrupo -------------------
 						asignaturasSinGrupo.put(idAsignatura, asignaturas.get(idAsignatura));// NEW
@@ -335,10 +340,10 @@ public class Gestion {
 				pw.println(profesor.getCategoria());
 				pw.println(profesor.getDepartamento());
 				pw.println(profesor.getHorasDocenciaAsignables());
-				Set<Integer> setDocenciaImpartidaA = profesor.getDocenciaImpartidaA().keySet();
-				Iterator<Integer> it1 = setDocenciaImpartidaA.iterator();
-				Set<Integer> setDocenciaImpartidaB = profesor.getDocenciaImpartidaB().keySet();
-				Iterator<Integer> it2 = setDocenciaImpartidaB.iterator();
+				Set<Grupo> setDocenciaImpartidaA = profesor.getDocenciaImpartidaA().keySet();
+				Iterator<Grupo> it1 = setDocenciaImpartidaA.iterator();
+				Set<Grupo> setDocenciaImpartidaB = profesor.getDocenciaImpartidaB().keySet();
+				Iterator<Grupo> it2 = setDocenciaImpartidaB.iterator();
 				if (!setDocenciaImpartidaA.isEmpty()) {
 					while (it1.hasNext()) {
 						Grupo grupoA = profesor.getDocenciaImpartidaA().get(it1.next());
@@ -459,7 +464,7 @@ public class Gestion {
 			}
 		} catch (
 
-		Exception e)
+				Exception e)
 
 		{
 			e.printStackTrace();
@@ -568,7 +573,7 @@ public class Gestion {
 		while (entrada.hasNextLine()) {
 			linea2 = entrada.nextLine();
 			if (!(linea2.charAt(0) == '*')) {
-				String linea = linea2.replaceAll("\\s+", " "); // Contiene la informaci�n del fichero sin espacios duplicados
+				String linea = linea2.replaceAll("\\s+", " "); // Contiene la informacion del fichero sin espacios duplicados
 				String[] campos = linea.split(" ");
 				String camposMinuscula = campos[0].toLowerCase();
 				switch (camposMinuscula) {
