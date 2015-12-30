@@ -274,8 +274,10 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return;
 		}
 
-		// Se genera solape
-
+		if (generaSolapeAlumnos(alumno, siglas, campos[3], idGrupo, alumnos, asignaturas)) {
+			guardarError("AGRUPO", "Se genera solape");
+			return;
+		}
 		// Meter datos en TreeMap
 		Integer idAsignatura = siglasToID(asignaturas, siglas);
 		if (campos[3].equals("A")) {
@@ -735,6 +737,52 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			Grupo grupoB;
 			while (itB.hasNext()) {
 				grupoB = profesores.get(persona).getDocenciaImpartidaB().get(itB.next());
+				if (grupoB.getDia().contentEquals(dia)) {
+					if (!((horaInicio < grupoB.getHoraInicio() && horaFin <= grupoB.getHoraInicio())
+							|| (horaInicio >= grupoB.getHoraFin() && horaFin > grupoB.getHoraFin())))
+						return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public Boolean generaSolapeAlumnos(String persona, String asignatura, String tipoGrupo, Integer idGrupo,
+			TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
+		Integer key = siglasToID(asignaturas, asignatura);
+		Integer horaInicio = 0;
+		Integer horaFin = 0;
+		String dia;
+		if (tipoGrupo.contentEquals("A")) {
+			Grupo grupo = asignaturas.get(key).getGruposA().get(idGrupo);
+			horaInicio = grupo.getHoraInicio();// Hora de inicio y fin del grupo que se quiere asignar
+			horaFin = grupo.getHoraFin();
+			dia = grupo.getDia();
+		} else {
+			Grupo grupo = asignaturas.get(key).getGruposB().get(idGrupo);
+			horaInicio = grupo.getHoraInicio();
+			horaFin = grupo.getHoraFin();
+			dia = grupo.getDia();
+		}
+		Set<Integer> setGruposA = alumnos.get(persona).getDocenciaRecibidaA().keySet(); // Comparar el grupo que se quiere asignar con los existentes
+		Iterator<Integer> itA = setGruposA.iterator();
+		if (!setGruposA.isEmpty()) {
+			Grupo grupoA;
+			while (itA.hasNext()) {
+				grupoA = alumnos.get(persona).getDocenciaRecibidaA().get(itA.next());
+				if (grupoA.getDia().contentEquals(dia)) {
+					if (!((horaInicio < grupoA.getHoraInicio() && horaFin <= grupoA.getHoraInicio())
+							|| (horaInicio >= grupoA.getHoraFin() && horaFin > grupoA.getHoraFin())))
+						return true;
+				}
+			}
+		}
+		Set<Integer> setGruposB = alumnos.get(persona).getDocenciaRecibidaB().keySet();
+		Iterator<Integer> itB = setGruposB.iterator();
+		if (!setGruposB.isEmpty()) {
+			Grupo grupoB;
+			while (itB.hasNext()) {
+				grupoB = alumnos.get(persona).getDocenciaRecibidaB().get(itB.next());
 				if (grupoB.getDia().contentEquals(dia)) {
 					if (!((horaInicio < grupoB.getHoraInicio() && horaFin <= grupoB.getHoraInicio())
 							|| (horaInicio >= grupoB.getHoraFin() && horaFin > grupoB.getHoraFin())))
