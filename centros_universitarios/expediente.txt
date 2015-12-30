@@ -1,4 +1,5 @@
-1; Calculo I; 5.0; 13/14
-1; Probabilidad y Estadistica; 5.0; 14/15
-1; Programacion I; 7.0; 15/16
-Nota media del expediente: 5.6666665
+1; C�lculo II; 7.6; 12/13
+1; Probabilidad y Estadística; 6.2; 12/13
+2; Programación II; 5.8; 13/14
+2; Redes de Ordenadores; 7.2; 13/14
+Nota media del expediente: 6.7

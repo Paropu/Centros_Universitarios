@@ -1,3 +1,11 @@
 EXP -- Numero de argumentos incorrecto
 EXP -- Alumno inexistente
 EXP -- Expediente vacio
+EXP -- Numero de argumentos incorrecto
+EXP -- Alumno inexistente
+EXP -- Numero de argumentos incorrecto
+EXP -- Alumno inexistente
+EXP -- Numero de argumentos incorrecto
+EXP -- Alumno inexistente
+EXP -- Numero de argumentos incorrecto
+EXP -- Alumno inexistente

@@ -203,17 +203,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		if (flagError)
 			return;
 
-		Set<Integer> setAsignaturas = asignaturas.keySet();
-		Iterator<Integer> it = setAsignaturas.iterator();
-		Integer key = 0; // EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
-		while (it.hasNext()) {
-			key = it.next();
-			Asignatura asignaturaId = asignaturas.get(key);
-			if (asignaturaId.getSiglas().contentEquals(asignatura)) {
-				key = asignaturaId.getIdAsignatura();
-				break;
-			}
-		}
+		Integer key = siglasToID(asignaturas, asignatura);
 		if (tipoGrupo.contentEquals("A")) {
 			Grupo grupo = asignaturas.get(key).getGruposA().get(idGrupo);
 			profesores.get(persona).getDocenciaImpartidaA().put(grupo.getIdGrupo(), grupo);
@@ -247,17 +237,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return;
 
 		}
-		Set<Integer> setAsignaturas = asignaturas.keySet();
-		Iterator<Integer> it = setAsignaturas.iterator();
-		Integer key = 0;
-		while (it.hasNext()) {
-			key = it.next();
-			Asignatura asignaturaId = asignaturas.get(key);
-			if (asignaturaId.getSiglas().contentEquals(asignatura)) {
-				key = asignaturaId.getIdAsignatura();
-				break;
-			}
-		}
+		Integer key = siglasToID(asignaturas, asignatura);
 		alumnos.get(alumno).getAsignaturasMatriculadas().put(key, asignaturas.get(key));
 		alumnos.get(alumno).getAsignaturasSinGrupo().put(key, asignaturas.get(key));
 
@@ -344,7 +324,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			Iterator<String> it0 = treeMapNotas.keySet().iterator();
 			while (it0.hasNext()) {
 				String key = it0.next();
-				pw.print(treeMapNotas.get(key) + "\n");
+				pw.println(treeMapNotas.get(key));
 				notaMedia += treeMapNotas.get(key).getNota();
 			}
 			notaMedia = notaMedia / setNotas.size();
@@ -645,17 +625,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	public Boolean cumplePrerrequisitos(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno,
 			String asignatura) {
-		Set<Integer> setAsignaturas = asignaturas.keySet();
-		Iterator<Integer> it = setAsignaturas.iterator();
-		Integer key = 0;
-		while (it.hasNext()) {
-			key = it.next();
-			Asignatura asignaturaId = asignaturas.get(key);
-			if (asignaturaId.getSiglas().contentEquals(asignatura)) {
-				key = asignaturaId.getIdAsignatura();
-				break;
-			}
-		}
+		Integer key = siglasToID(asignaturas, asignatura);
 		Set<Integer> setPrerrequisitos = asignaturas.get(key).getPrerrequisitos().keySet();// Asignatura
 		Iterator<Integer> it1 = setPrerrequisitos.iterator();
 		Asignatura asignaturaPrerrequisito, asignaturaSuperada;
@@ -714,17 +684,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				horasAsignadas += duracion;
 			}
 		}
-		Set<Integer> setAsignaturas = asignaturas.keySet();
-		Iterator<Integer> it = setAsignaturas.iterator();
-		Integer key = 0; // EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
-		while (it.hasNext()) {
-			key = it.next();
-			Asignatura asignaturaId = asignaturas.get(key);
-			if (asignaturaId.getSiglas().contentEquals(asignatura)) {
-				key = asignaturaId.getIdAsignatura();
-				break;
-			}
-		}
+		Integer key = siglasToID(asignaturas, asignatura);
 		Integer duracionGrupo = 0;
 		if (tipoGrupo == "A") {
 			Grupo grupo = asignaturas.get(key).getGruposA().get(idGrupo);
@@ -741,17 +701,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	public Boolean generaSolape(String persona, String asignatura, String tipoGrupo, Integer idGrupo, TreeMap<String, Profesor> profesores,
 			TreeMap<Integer, Asignatura> asignaturas) {
-		Set<Integer> setAsignaturas = asignaturas.keySet();
-		Iterator<Integer> it = setAsignaturas.iterator();
-		Integer key = 0; // EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
-		while (it.hasNext()) {
-			key = it.next();
-			Asignatura asignaturaId = asignaturas.get(key);
-			if (asignaturaId.getSiglas().contentEquals(asignatura)) {
-				key = asignaturaId.getIdAsignatura();
-				break;
-			}
-		}
+		Integer key = siglasToID(asignaturas, asignatura);
 		Integer horaInicio = 0;
 		Integer horaFin = 0;
 		String dia;

@@ -135,7 +135,7 @@ public class Gestion {
 			flujo_entrada = new FileInputStream("asignaturas.txt"); // Se crea un flujo de datos al fichero.
 		} catch (FileNotFoundException NoExisteFichero) { // Si el fichero no existe, salta excepcion y se muestra mensaje por pantalla.
 			System.out.println("Fichero \"asignaturas.txt\" inexistente");
-			System.exit(-1); // Mostrar error en el fichero Avisos.txt ----- ???
+			System.exit(-1);
 		}
 		Scanner entrada = new Scanner(flujo_entrada); // Se crea un objeto para escanear la linea del fichero
 		String linea = null; // Variable que contendra la informacion escaneada del fichero

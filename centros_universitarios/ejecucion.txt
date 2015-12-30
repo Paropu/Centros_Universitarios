@@ -1,9 +1,9 @@
 *numero de argumentos incorrecto
 Expediente
 *Alumno inexistente
-Expediente 12345678Z salida.txt
+Expediente 33218765A salida.txt
 *Expediente vacio
-Expediente 12345678B salida.txt
+Expediente 53456789M salida.txt
 *Comando correcto
-Expediente 44497152H expediente.txt
-ObtenerCalendarioClases 37834521S calendario2.txt
+Expediente 53456789M expediente.txt
+Expediente 51567824F expediente.txt
