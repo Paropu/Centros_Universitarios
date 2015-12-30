@@ -48,7 +48,13 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 		String nombre = nombreSinEspacios(lineaDesplegadaComillas[1].split(" "));
 		String apellidos = nombreSinEspacios(lineaDesplegadaComillas[3].split(" "));
-		GregorianCalendar fechaNacimiento = stringToCalendar(linea.substring(linea.indexOf("/") - 2, linea.indexOf("/") + 8));
+		GregorianCalendar fechaNacimiento = null;
+		try {
+			fechaNacimiento = stringToCalendar(linea.substring(linea.indexOf("/") - 2, linea.indexOf("/") + 8));
+		} catch (NumberFormatException e) {
+			guardarError("IP", "Numero de argumentos incorrecto");
+			return;
+		}
 		if (validarFecha(fechaNacimiento)) {
 			guardarError("IP", "Fecha incorrecta");
 			return;
@@ -56,7 +62,14 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 		// DATOS ALUMNO
 		if (lineaDesplegadaEspacios[1].compareTo("alumno") == 0) {
-			GregorianCalendar fechaIngreso = stringToCalendar(linea.substring(linea.lastIndexOf("/") - 5, linea.lastIndexOf("/") + 5));
+			GregorianCalendar fechaIngreso = null;
+			try {
+				fechaIngreso = stringToCalendar(linea.substring(linea.lastIndexOf("/") - 5, linea.lastIndexOf("/") + 5));
+			} catch (NumberFormatException e) {
+				guardarError("IP", "Numero de argumentos incorrecto");
+				return;
+			}
+
 			if (validarFecha(fechaIngreso)) {
 				guardarError("IP", "Fecha incorrecta");
 				return;
@@ -135,81 +148,80 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		while (it.hasNext()) {
 			Integer idAsignatura = it.next();
 			if (asignaturas.get(idAsignatura).getSiglas().contentEquals(asignatura)) {
-				if(!(asignaturas.get(idAsignatura).getCoordinador()==null)) asignaturas.get(idAsignatura).getCoordinador().getAsignaturasCoordinadas().remove(idAsignatura);
+				if (!(asignaturas.get(idAsignatura).getCoordinador() == null))
+					asignaturas.get(idAsignatura).getCoordinador().getAsignaturasCoordinadas().remove(idAsignatura);
 				asignaturas.get(idAsignatura).setCoordinador(profesores.get(persona));
-				profesores.get(persona).getAsignaturasCoordinadas().put(asignaturas.get(idAsignatura).getIdAsignatura(),asignaturas.get(idAsignatura));
+				profesores.get(persona).getAsignaturasCoordinadas().put(asignaturas.get(idAsignatura).getIdAsignatura(),
+						asignaturas.get(idAsignatura));
 			}
 		}
 
 	}
 
-	public void asignarCargaDocente(String linea, TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) { 
+	public void asignarCargaDocente(String linea, TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
 
 		String[] campos = linea.split(" ");
-		String persona=campos[1];
-		String asignatura=campos[2];
-		String tipoGrupo=campos[3];
-		Integer idGrupo=Integer.parseInt(campos[4]);
-		Boolean flagError=false;
-		Boolean flagErrorAsignatura=false;
-		
+		String persona = campos[1];
+		String asignatura = campos[2];
+		String tipoGrupo = campos[3];
+		Integer idGrupo = Integer.parseInt(campos[4]);
+		Boolean flagError = false;
+		Boolean flagErrorAsignatura = false;
+
 		if (!(existeProfesor(profesores, persona))) {
 			guardarError("ACDOC", "Profesor inexistente");
-			flagError=true;
-		}	
+			flagError = true;
+		}
 		if (!(existeAsignatura(asignaturas, asignatura))) {
-			guardarError("ACDOC", "Asignatura inexistente");	
-			flagError=true;
-			flagErrorAsignatura=true;
+			guardarError("ACDOC", "Asignatura inexistente");
+			flagError = true;
+			flagErrorAsignatura = true;
 		}
-		if(!(tipoGrupo.contentEquals("A")|| tipoGrupo.contentEquals("B"))){
+		if (!(tipoGrupo.contentEquals("A") || tipoGrupo.contentEquals("B"))) {
 			guardarError("ACDOC", "Tipo de grupo incorrecto");
-			flagError=true;
+			flagError = true;
 		}
-		if(!flagErrorAsignatura){
-			if(existeGrupo(asignaturas, idGrupo, tipoGrupo, asignatura)){	
-				if(grupoYaAsignado(persona, asignatura, tipoGrupo, idGrupo, asignaturas, profesores)){
-					guardarError("ACDOC", "Grupo ya asignado");	
-					flagError=true;
+		if (!flagErrorAsignatura) {
+			if (existeGrupo(asignaturas, idGrupo, tipoGrupo, asignatura)) {
+				if (grupoYaAsignado(persona, asignatura, tipoGrupo, idGrupo, asignaturas, profesores)) {
+					guardarError("ACDOC", "Grupo ya asignado");
+					flagError = true;
 				}
-				if(horasAsignablesSuperiorMaximo(persona, asignatura, tipoGrupo, idGrupo, profesores, asignaturas)){
+				if (horasAsignablesSuperiorMaximo(persona, asignatura, tipoGrupo, idGrupo, profesores, asignaturas)) {
 					guardarError("ACDOC", "Horas asignables superior al maximo");
-					flagError =true;
+					flagError = true;
 				}
-				if(generaSolape(persona, asignatura, tipoGrupo, idGrupo, profesores, asignaturas)){
+				if (generaSolape(persona, asignatura, tipoGrupo, idGrupo, profesores, asignaturas)) {
 					guardarError("ACDOC", "Se genera solape");
-					flagError=true;
+					flagError = true;
 				}
-			}
-			else{
+			} else {
 				guardarError("ACDOC", "Grupo inexistente");
 				return;
 			}
 		}
-		if(flagError)return;
-		
+		if (flagError)
+			return;
+
 		Set<Integer> setAsignaturas = asignaturas.keySet();
 		Iterator<Integer> it = setAsignaturas.iterator();
-		Integer key = 0; //EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
+		Integer key = 0; // EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
 		while (it.hasNext()) {
-			key = it.next(); 
+			key = it.next();
 			Asignatura asignaturaId = asignaturas.get(key);
 			if (asignaturaId.getSiglas().contentEquals(asignatura)) {
 				key = asignaturaId.getIdAsignatura();
 				break;
 			}
 		}
-		if(tipoGrupo.contentEquals("A")){
-			Grupo grupo=asignaturas.get(key).getGruposA().get(idGrupo);
+		if (tipoGrupo.contentEquals("A")) {
+			Grupo grupo = asignaturas.get(key).getGruposA().get(idGrupo);
 			profesores.get(persona).getDocenciaImpartidaA().put(grupo.getIdGrupo(), grupo);
-		}
-		else{
-			Grupo grupo=asignaturas.get(key).getGruposB().get(idGrupo);
+		} else {
+			Grupo grupo = asignaturas.get(key).getGruposB().get(idGrupo);
 			profesores.get(persona).getDocenciaImpartidaB().put(grupo.getIdGrupo(), grupo);
 		}
-		
-		
-		
+
 	}
 
 	public void matricularAlumno(String linea, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
@@ -302,15 +314,15 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	public void obtenerExpedienteAlumno(String linea, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
 
-		String[] campos=linea.split(" ");
-		String alumno=campos[1];
-		String salida=campos[2];
+		String[] campos = linea.split(" ");
+		String alumno = campos[1];
+		String salida = campos[2];
 
-		if(!existeAlumno(alumnos, alumno)){
+		if (!existeAlumno(alumnos, alumno)) {
 			guardarError("EXP", "Alumno inexistente");
 			return;
 		}
-		if(expedienteVacio(alumnos, alumno)){
+		if (expedienteVacio(alumnos, alumno)) {
 			guardarError("EXP", "Expediente vacio");
 			return;
 		}
@@ -320,27 +332,26 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		try {
 			fichero = new FileWriter(salida);
 			pw = new PrintWriter(fichero);
-			
-			Float notaMedia=(float) 0;
-			TreeMap<String, NotaFinal> treeMapNotas= new TreeMap<String, NotaFinal>();
-			Set<Integer> setNotas=alumnos.get(alumno).getAsignaturasSuperadas().keySet();
-			Iterator<Integer> it=setNotas.iterator();
-			while(it.hasNext()){
-				NotaFinal nota=alumnos.get(alumno).getAsignaturasSuperadas().get(it.next());
+
+			Float notaMedia = (float) 0;
+			TreeMap<String, NotaFinal> treeMapNotas = new TreeMap<String, NotaFinal>();
+			Set<Integer> setNotas = alumnos.get(alumno).getAsignaturasSuperadas().keySet();
+			Iterator<Integer> it = setNotas.iterator();
+			while (it.hasNext()) {
+				NotaFinal nota = alumnos.get(alumno).getAsignaturasSuperadas().get(it.next());
 				treeMapNotas.put(nota.getAsignatura().getNombre(), nota);
 			}
-			Iterator<String> it0=treeMapNotas.keySet().iterator();
-			while(it0.hasNext()){
-				String key =(String) it0.next();
-				pw.print(treeMapNotas.get(key)+"\n");
-				notaMedia+=treeMapNotas.get(key).getNota();
+			Iterator<String> it0 = treeMapNotas.keySet().iterator();
+			while (it0.hasNext()) {
+				String key = it0.next();
+				pw.print(treeMapNotas.get(key) + "\n");
+				notaMedia += treeMapNotas.get(key).getNota();
 			}
-			notaMedia=notaMedia/setNotas.size();
-					pw.println("Nota media del expediente: "+notaMedia);
-		} catch (Exception e){
+			notaMedia = notaMedia / setNotas.size();
+			pw.println("Nota media del expediente: " + notaMedia);
+		} catch (Exception e) {
 			e.printStackTrace();
-		} 
-		finally	{
+		} finally {
 			try {
 				if (null != fichero)
 					fichero.close();
@@ -351,11 +362,81 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	}
 
+	public void obtenerCalendarioProfesor(String profesor, String ficheroSalida, TreeMap<String, Profesor> profesores,
+			TreeMap<Integer, Asignatura> asignaturas) {
+		if (!existeProfesor(profesores, profesor)) {
+			guardarError("CALENP", "Profesor inexistente");
+			return;
+		}
+		if (profesores.get(profesor).getArrayDocenciaImpartida()[0].compareTo("") == 0) {
+			guardarError("CALENP", "Profesor sin asignaciones");
+			return;
+		}
+		// Creamos archivo
+		FileWriter fichero = null;
+		PrintWriter pw = null;
+		try {
+			fichero = new FileWriter(ficheroSalida, true);
+			pw = new PrintWriter(fichero);
+			pw.println("Dia;\tHora;\tAsignatura;\tTipo grupo;\tId grupo");
+			// Todas las horas se añadirán a este TreeMap
+			TreeMap<Integer, Grupo> ordenar = new TreeMap<Integer, Grupo>();
 
+			for (int i = 0; i < profesores.get(profesor).getArrayDocenciaImpartida().length; i++) {
+				String[] grupo = profesores.get(profesor).getArrayDocenciaImpartida()[i].split(" ");
+				Integer idAsignatura = Integer.parseInt(grupo[0]);
+				Integer idGrupo = Integer.parseInt(grupo[2]);
+				Grupo nuevoGrupo = null;
+				if (grupo[1].compareTo("A") == 0) {
+					nuevoGrupo = asignaturas.get(idAsignatura).getGruposA().get(idGrupo);
+				} else {
+					nuevoGrupo = asignaturas.get(idAsignatura).getGruposB().get(idGrupo);
+				}
+				Integer n_orden = nuevoGrupo.getHoraInicio();
 
-
-	public void obtenerCalendarioProfesor() {
-
+				// Sumo 20 unidades por dia para que el TreeMap esté ordenado
+				if (nuevoGrupo.getDia().compareTo("L") == 0) {
+					ordenar.put(n_orden, nuevoGrupo);
+				}
+				if (nuevoGrupo.getDia().compareTo("M") == 0) {
+					n_orden += 20;
+					ordenar.put(n_orden, nuevoGrupo);
+				}
+				if (nuevoGrupo.getDia().compareTo("X") == 0) {
+					n_orden += 40;
+					ordenar.put(n_orden, nuevoGrupo);
+				}
+				if (nuevoGrupo.getDia().compareTo("J") == 0) {
+					n_orden += 60;
+					ordenar.put(n_orden, nuevoGrupo);
+				}
+				if (nuevoGrupo.getDia().compareTo("V") == 0) {
+					n_orden += 80;
+					ordenar.put(n_orden, nuevoGrupo);
+				}
+			}
+			for (int i = 9; i < 101; i++) {
+				if (ordenar.get(i) != null) {
+					System.out.println(ordenar.get(i).getAsignatura().getSiglas().length());
+					if (ordenar.get(i).getAsignatura().getSiglas().length() > 6) {
+						pw.println(ordenar.get(i));
+					} else if (ordenar.get(i).getAsignatura().getSiglas().length() > 2) {
+						pw.println(ordenar.get(i).toString2());
+					} else if (ordenar.get(i).getAsignatura().getSiglas().length() < 3) {
+						pw.println(ordenar.get(i).toString3());
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (null != fichero)
+					fichero.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
 	}
 
 	// ===== Control de errores =====
@@ -452,15 +533,31 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 	public static boolean validarEdad(GregorianCalendar fechaNacimiento, GregorianCalendar fechaInscripcion) {
 		int anho1 = fechaNacimiento.get(GregorianCalendar.YEAR);
 		int anho2 = fechaInscripcion.get(GregorianCalendar.YEAR);
-		int n_years = 0;
+		double n_years = 0.0;
 		while (anho1 < anho2) {
 			n_years++;
 			anho1++;
 		}
-		if (n_years < 15 || n_years > 65)
+		int dianho1 = fechaNacimiento.get(Calendar.DAY_OF_YEAR);
+		int dianho2 = fechaInscripcion.get(Calendar.DAY_OF_YEAR);
+		if (fechaInscripcion.isLeapYear(fechaInscripcion.get(Calendar.YEAR))) {
+			if (fechaInscripcion.get(Calendar.DAY_OF_YEAR) > 60) {
+				fechaInscripcion.add(Calendar.DAY_OF_YEAR, -1);
+				dianho2 = fechaInscripcion.get(Calendar.DAY_OF_YEAR);
+			}
+		}
+		double dif_dias = dianho2 - dianho1;
+		if (dif_dias < 0) {
+			n_years--;
+			dif_dias += 365;
+		}
+		n_years += dif_dias / 365;
+		fechaInscripcion.add(Calendar.DAY_OF_YEAR, 1);
+		if (n_years < 15 || n_years > 65) {
 			return false;
-		else
+		} else {
 			return true;
+		}
 	}
 
 	public static boolean validarDNI(String dni) {
@@ -578,123 +675,133 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		return true;
 	}
 
-	public Boolean grupoYaAsignado(String persona, String asignatura, String tipoGrupo, Integer idGrupo, TreeMap<Integer, Asignatura> asignaturas, TreeMap<String, Profesor> profesores){
-		Set <String> setProfesores = profesores.keySet();
-	Iterator<String> it0 = setProfesores.iterator();
-	while(it0.hasNext()){
-		Profesor profesor =profesores.get(it0.next());
-		if(tipoGrupo.contentEquals("A")) {
-			if(profesor.getDocenciaImpartidaA().containsKey(idGrupo) && profesor.getDocenciaImpartidaA().get(idGrupo).getAsignatura().getSiglas().contentEquals(asignatura)) return true;
+	public Boolean grupoYaAsignado(String persona, String asignatura, String tipoGrupo, Integer idGrupo,
+			TreeMap<Integer, Asignatura> asignaturas, TreeMap<String, Profesor> profesores) {
+		Set<String> setProfesores = profesores.keySet();
+		Iterator<String> it0 = setProfesores.iterator();
+		while (it0.hasNext()) {
+			Profesor profesor = profesores.get(it0.next());
+			if (tipoGrupo.contentEquals("A")) {
+				if (profesor.getDocenciaImpartidaA().containsKey(idGrupo)
+						&& profesor.getDocenciaImpartidaA().get(idGrupo).getAsignatura().getSiglas().contentEquals(asignatura))
+					return true;
+			} else if (profesor.getDocenciaImpartidaB().containsKey(idGrupo)
+					&& profesor.getDocenciaImpartidaB().get(idGrupo).getAsignatura().getSiglas().contentEquals(asignatura))
+				return true;
 		}
-		else if(profesor.getDocenciaImpartidaB().containsKey(idGrupo) && profesor.getDocenciaImpartidaB().get(idGrupo).getAsignatura().getSiglas().contentEquals(asignatura)) return true;
-	}
-	return false;
-	}
-	
-	public Boolean horasAsignablesSuperiorMaximo(String persona, String asignatura, String tipoGrupo, Integer idGrupo, TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas){
-		Integer maxHorasAsignables=profesores.get(persona).getHorasDocenciaAsignables();
-		Set<Integer> setDocenciaA=profesores.get(persona).getDocenciaImpartidaA().keySet();
-		Iterator<Integer> itA =setDocenciaA.iterator();
-		Set<Integer> setDocenciaB=profesores.get(persona).getDocenciaImpartidaB().keySet();
-		Iterator<Integer> itB =setDocenciaB.iterator();
-		Integer horasAsignadas=0;
-		if(!setDocenciaA.isEmpty()){
-			while(itA.hasNext()){
-				Grupo grupo=profesores.get(persona).getDocenciaImpartidaA().get(itA.next());
-				Integer duracion=grupo.getHoraFin()-grupo.getHoraInicio();
-				horasAsignadas+=duracion;
-			}
-		}
-		if(!setDocenciaB.isEmpty()){
-			while(itB.hasNext()){
-				Grupo grupo=profesores.get(persona).getDocenciaImpartidaB().get(itB.next());
-				Integer duracion=grupo.getHoraFin()-grupo.getHoraInicio();
-				horasAsignadas+=duracion;
-			}
-		}
-		Set<Integer> setAsignaturas = asignaturas.keySet();
-        Iterator<Integer> it = setAsignaturas.iterator();
-        Integer key = 0; //EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
-        while (it.hasNext()) {
-            key = it.next(); 
-            Asignatura asignaturaId = asignaturas.get(key);
-            if (asignaturaId.getSiglas().contentEquals(asignatura)) {
-                key = asignaturaId.getIdAsignatura();
-                break;
-            }
-        }
-        Integer duracionGrupo=0;
-        if(tipoGrupo=="A"){
-        	Grupo grupo=asignaturas.get(key).getGruposA().get(idGrupo);
-        	duracionGrupo=grupo.getHoraFin()-grupo.getHoraInicio();
-        }
-        else{
-        	Grupo grupo=asignaturas.get(key).getGruposA().get(idGrupo);
-        	duracionGrupo=grupo.getHoraFin()-grupo.getHoraInicio();
-        }
-		if((duracionGrupo+horasAsignadas>maxHorasAsignables)) return true;
-		else return false;
+		return false;
 	}
 
-	public Boolean generaSolape(String persona, String asignatura, String tipoGrupo, Integer idGrupo, TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas){
+	public Boolean horasAsignablesSuperiorMaximo(String persona, String asignatura, String tipoGrupo, Integer idGrupo,
+			TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
+		Integer maxHorasAsignables = profesores.get(persona).getHorasDocenciaAsignables();
+		Set<Integer> setDocenciaA = profesores.get(persona).getDocenciaImpartidaA().keySet();
+		Iterator<Integer> itA = setDocenciaA.iterator();
+		Set<Integer> setDocenciaB = profesores.get(persona).getDocenciaImpartidaB().keySet();
+		Iterator<Integer> itB = setDocenciaB.iterator();
+		Integer horasAsignadas = 0;
+		if (!setDocenciaA.isEmpty()) {
+			while (itA.hasNext()) {
+				Grupo grupo = profesores.get(persona).getDocenciaImpartidaA().get(itA.next());
+				Integer duracion = grupo.getHoraFin() - grupo.getHoraInicio();
+				horasAsignadas += duracion;
+			}
+		}
+		if (!setDocenciaB.isEmpty()) {
+			while (itB.hasNext()) {
+				Grupo grupo = profesores.get(persona).getDocenciaImpartidaB().get(itB.next());
+				Integer duracion = grupo.getHoraFin() - grupo.getHoraInicio();
+				horasAsignadas += duracion;
+			}
+		}
 		Set<Integer> setAsignaturas = asignaturas.keySet();
 		Iterator<Integer> it = setAsignaturas.iterator();
-		Integer key = 0; //EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
+		Integer key = 0; // EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
 		while (it.hasNext()) {
-			key = it.next(); 
+			key = it.next();
 			Asignatura asignaturaId = asignaturas.get(key);
 			if (asignaturaId.getSiglas().contentEquals(asignatura)) {
 				key = asignaturaId.getIdAsignatura();
 				break;
 			}
 		}
-		Integer horaInicio=0;
-		Integer horaFin=0;
-		String dia;	 
-		if(tipoGrupo.contentEquals("A")){
-			Grupo grupo=asignaturas.get(key).getGruposA().get(idGrupo);
-			horaInicio=grupo.getHoraInicio();//Hora de inicio y fin del grupo que se quiere asignar
-			horaFin=grupo.getHoraFin();
-			dia=grupo.getDia();
+		Integer duracionGrupo = 0;
+		if (tipoGrupo == "A") {
+			Grupo grupo = asignaturas.get(key).getGruposA().get(idGrupo);
+			duracionGrupo = grupo.getHoraFin() - grupo.getHoraInicio();
+		} else {
+			Grupo grupo = asignaturas.get(key).getGruposA().get(idGrupo);
+			duracionGrupo = grupo.getHoraFin() - grupo.getHoraInicio();
 		}
-		else{
-			Grupo grupo=asignaturas.get(key).getGruposB().get(idGrupo);
-			horaInicio=grupo.getHoraInicio();
-			horaFin=grupo.getHoraFin();
-			dia=grupo.getDia();
+		if ((duracionGrupo + horasAsignadas > maxHorasAsignables))
+			return true;
+		else
+			return false;
+	}
+
+	public Boolean generaSolape(String persona, String asignatura, String tipoGrupo, Integer idGrupo, TreeMap<String, Profesor> profesores,
+			TreeMap<Integer, Asignatura> asignaturas) {
+		Set<Integer> setAsignaturas = asignaturas.keySet();
+		Iterator<Integer> it = setAsignaturas.iterator();
+		Integer key = 0; // EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
+		while (it.hasNext()) {
+			key = it.next();
+			Asignatura asignaturaId = asignaturas.get(key);
+			if (asignaturaId.getSiglas().contentEquals(asignatura)) {
+				key = asignaturaId.getIdAsignatura();
+				break;
+			}
 		}
-		Set<Integer> setGruposA = profesores.get(persona).getDocenciaImpartidaA().keySet(); //Comparar el grupo que se quiere asignar con los existentes
+		Integer horaInicio = 0;
+		Integer horaFin = 0;
+		String dia;
+		if (tipoGrupo.contentEquals("A")) {
+			Grupo grupo = asignaturas.get(key).getGruposA().get(idGrupo);
+			horaInicio = grupo.getHoraInicio();// Hora de inicio y fin del grupo que se quiere asignar
+			horaFin = grupo.getHoraFin();
+			dia = grupo.getDia();
+		} else {
+			Grupo grupo = asignaturas.get(key).getGruposB().get(idGrupo);
+			horaInicio = grupo.getHoraInicio();
+			horaFin = grupo.getHoraFin();
+			dia = grupo.getDia();
+		}
+		Set<Integer> setGruposA = profesores.get(persona).getDocenciaImpartidaA().keySet(); // Comparar el grupo que se quiere asignar con los existentes
 		Iterator<Integer> itA = setGruposA.iterator();
-		if(!setGruposA.isEmpty()){
+		if (!setGruposA.isEmpty()) {
 			Grupo grupoA;
-			while(itA.hasNext()){
-				grupoA=profesores.get(persona).getDocenciaImpartidaA().get(itA.next());
-				if(grupoA.getDia().contentEquals(dia)){
-					if( !((horaInicio<grupoA.getHoraInicio() && horaFin<=grupoA.getHoraInicio()) || (horaInicio>=grupoA.getHoraFin() && horaFin>grupoA.getHoraFin()))) return true;
+			while (itA.hasNext()) {
+				grupoA = profesores.get(persona).getDocenciaImpartidaA().get(itA.next());
+				if (grupoA.getDia().contentEquals(dia)) {
+					if (!((horaInicio < grupoA.getHoraInicio() && horaFin <= grupoA.getHoraInicio())
+							|| (horaInicio >= grupoA.getHoraFin() && horaFin > grupoA.getHoraFin())))
+						return true;
 				}
 			}
 		}
 		Set<Integer> setGruposB = profesores.get(persona).getDocenciaImpartidaB().keySet();
 		Iterator<Integer> itB = setGruposB.iterator();
-		if(!setGruposB.isEmpty()){
-			Grupo grupoB;			
-			while(itB.hasNext()){
-				grupoB=profesores.get(persona).getDocenciaImpartidaB().get(itB.next());
-				if(grupoB.getDia().contentEquals(dia)){
-					if( !((horaInicio<grupoB.getHoraInicio() && horaFin<=grupoB.getHoraInicio()) || (horaInicio>=grupoB.getHoraFin() && horaFin>grupoB.getHoraFin()))) return true;
+		if (!setGruposB.isEmpty()) {
+			Grupo grupoB;
+			while (itB.hasNext()) {
+				grupoB = profesores.get(persona).getDocenciaImpartidaB().get(itB.next());
+				if (grupoB.getDia().contentEquals(dia)) {
+					if (!((horaInicio < grupoB.getHoraInicio() && horaFin <= grupoB.getHoraInicio())
+							|| (horaInicio >= grupoB.getHoraFin() && horaFin > grupoB.getHoraFin())))
+						return true;
 				}
 			}
 		}
 		return false;
 	}
 
-
-	public Boolean expedienteVacio(TreeMap<String, Alumno> alumnos, String alumno){
-		if(alumnos.get(alumno).getAsignaturasSuperadas().isEmpty())return true;
-		else return false;
+	public Boolean expedienteVacio(TreeMap<String, Alumno> alumnos, String alumno) {
+		if (alumnos.get(alumno).getAsignaturasSuperadas().isEmpty())
+			return true;
+		else
+			return false;
 	}
 
-	
 	/* CONSTRUCTORES */
 	public Funcionalidades() {
 	}

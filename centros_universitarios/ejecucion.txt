@@ -6,3 +6,4 @@ Expediente 12345678Z salida.txt
 Expediente 12345678B salida.txt
 *Comando correcto
 Expediente 44497152H expediente.txt
+ObtenerCalendarioClases 37834521S calendario2.txt

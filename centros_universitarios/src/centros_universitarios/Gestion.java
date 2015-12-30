@@ -154,10 +154,9 @@ public class Gestion {
 				Profesor coordinador = profesores.get(dniCoordinador);
 				asignatura.setCoordinador(coordinador);// Se le asigna un coordinador a la asignatura.
 				profesores.get(dniCoordinador).getAsignaturasCoordinadas().put(idAsignatura, asignatura); // AÑADE asignatura coordinada al profesor.
-			}
-			else {
-				Profesor coordinador =null;
-				asignatura.setCoordinador(coordinador);//--------------------------------------------------
+			} else {
+				Profesor coordinador = null;
+				asignatura.setCoordinador(coordinador);// --------------------------------------------------
 			}
 			TreeMap<Integer, Grupo> gruposA = new TreeMap<Integer, Grupo>(); // CARGAR gruposA
 			linea = entrada.nextLine(); // Formato: ID_grupo dia horaini horafin
@@ -486,8 +485,8 @@ public class Gestion {
 				pw.println(asignatura.getNombre());
 				pw.println(asignatura.getSiglas());
 				pw.println(asignatura.getCurso());
-				//if (asignatura.getCoordinador().getDni() == null)
-					if (asignatura.getCoordinador()== null)
+				// if (asignatura.getCoordinador().getDni() == null)
+				if (asignatura.getCoordinador() == null)
 					pw.print("\n");
 				else
 					pw.println(asignatura.getCoordinador().getDni());
@@ -585,7 +584,7 @@ public class Gestion {
 					break;
 
 				case "asignacargadocente":
-					if(campos.length != 5){
+					if (campos.length != 5) {
 						funcionalidad.argumentosIncorrectos("ACDOC");
 						break;
 					}
@@ -609,10 +608,15 @@ public class Gestion {
 					break;
 
 				case "evalua":
+					if (campos.length != 4) {
+						funcionalidad.argumentosIncorrectos("EVALUA");
+						break;
+					}
+					funcionalidad.evaluarAsignatura();
 					break;
 
 				case "expediente":
-					if(campos.length!=3){
+					if (campos.length != 3) {
 						funcionalidad.argumentosIncorrectos("EXP");
 						break;
 					}
@@ -620,6 +624,11 @@ public class Gestion {
 					break;
 
 				case "obtenercalendarioclases":
+					if (campos.length != 3) {
+						funcionalidad.argumentosIncorrectos("CALENP");
+						break;
+					}
+					funcionalidad.obtenerCalendarioProfesor(campos[1], campos[2], profesores, asignaturas);
 					break;
 
 				default:
