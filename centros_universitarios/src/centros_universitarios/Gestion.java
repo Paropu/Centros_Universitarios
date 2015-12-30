@@ -155,6 +155,10 @@ public class Gestion {
 				asignatura.setCoordinador(coordinador);// Se le asigna un coordinador a la asignatura.
 				profesores.get(dniCoordinador).getAsignaturasCoordinadas().put(idAsignatura, asignatura); // AÑADE asignatura coordinada al profesor.
 			}
+			else {
+				Profesor coordinador =null;
+				asignatura.setCoordinador(coordinador);//--------------------------------------------------
+			}
 			TreeMap<Integer, Grupo> gruposA = new TreeMap<Integer, Grupo>(); // CARGAR gruposA
 			linea = entrada.nextLine(); // Formato: ID_grupo dia horaini horafin
 			String[] arrayGruposA = linea.split("; ");
@@ -482,7 +486,8 @@ public class Gestion {
 				pw.println(asignatura.getNombre());
 				pw.println(asignatura.getSiglas());
 				pw.println(asignatura.getCurso());
-				if (asignatura.getCoordinador().getDni() == null)
+				//if (asignatura.getCoordinador().getDni() == null)
+					if (asignatura.getCoordinador()== null)
 					pw.print("\n");
 				else
 					pw.println(asignatura.getCoordinador().getDni());
@@ -551,15 +556,15 @@ public class Gestion {
 		try {
 			flujo_entrada = new FileInputStream("ejecucion.txt"); // Se crea un flujo de datos al fichero.
 		} catch (FileNotFoundException NoExisteFichero) { // Si el fichero no existe, salta excepcion y se muestra mensaje por pantalla.
-			System.out.println("Fichero \"personas.txt\" inexistente");
-			System.exit(-1); // Mostrar error en el fichero Avisos.txt ----------------------------------------------------- ???
+			funcionalidad.guardarError("", "Fichero de ejecución no existente");
+			System.exit(-1);
 		}
 		Scanner entrada = new Scanner(flujo_entrada); // Se crea un objeto para escanear la linea del fichero
 		String linea2 = null; // Variable que contendra la informacion escaneada del fichero
 		while (entrada.hasNextLine()) {
 			linea2 = entrada.nextLine();
 			if (!(linea2.charAt(0) == '*')) {
-				String linea = linea2.replaceAll("\\s+", " "); // Contiene la informaci�n del fichero sin espacios duplicados
+				String linea = linea2.replaceAll("\\s+", " "); // Contiene la informaci�n del fichero sin espacios duplicados
 				String[] campos = linea.split(" ");
 				String camposMinuscula = campos[0].toLowerCase();
 				switch (camposMinuscula) {
@@ -580,6 +585,11 @@ public class Gestion {
 					break;
 
 				case "asignacargadocente":
+					if(campos.length != 5){
+						funcionalidad.argumentosIncorrectos("ACDOC");
+						break;
+					}
+					funcionalidad.asignarCargaDocente(linea, profesores, asignaturas);
 					break;
 
 				case "matricula":
@@ -602,6 +612,11 @@ public class Gestion {
 					break;
 
 				case "expediente":
+					if(campos.length!=3){
+						funcionalidad.argumentosIncorrectos("EXP");
+						break;
+					}
+					funcionalidad.obtenerExpedienteAlumno(linea, alumnos, asignaturas);
 					break;
 
 				case "obtenercalendarioclases":

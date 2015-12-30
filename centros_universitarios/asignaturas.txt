@@ -11,9 +11,9 @@ CAL-I
 Probabilidad y Estadistica
 PE
 1
+37834521S
 
-
-1 L 11 12
+1 L 11 12; 2 V 15 16; 3 M 12 15
 1 L 12 14
 *
 3

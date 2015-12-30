@@ -1,2 +1,8 @@
-InsertaPersona alumno 39438936T "Pablo" "Rodriguez Perez" 09/12/1995 01/09/2014
-InsertaPersona profesor 39434939T "Esteban" "Claus" 09/12/1995 titular "cosas" 3
+*numero de argumentos incorrecto
+Expediente
+*Alumno inexistente
+Expediente 12345678Z salida.txt
+*Expediente vacio
+Expediente 12345678B salida.txt
+*Comando correcto
+Expediente 44497152H expediente.txt

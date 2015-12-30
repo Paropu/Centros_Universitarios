@@ -10,10 +10,12 @@ public class Grupo {
 	private Asignatura asignatura;// asignatura
 
 	/* METODOS */
+
 	@Override
 	public String toString() {
 		return tipoGrupo + " " + idGrupo + " " + dia + " " + horaInicio + " " + horaFin;
 	}
+
 
 	/* GETTERS & SETTERS */
 	public String getTipoGrupo() {

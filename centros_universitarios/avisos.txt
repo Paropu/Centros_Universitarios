@@ -1,1 +1,3 @@
-IP -- Dni incorrecto
+EXP -- Numero de argumentos incorrecto
+EXP -- Alumno inexistente
+EXP -- Expediente vacio
