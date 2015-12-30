@@ -16,7 +16,7 @@ Santos Suarez
 titular
 Ingenieria telematica
 20
-3 A 1; 2 A 2; 2 A 3; 3 B 1
+3 A 1; 3 B 1
 *
 profesor
 37834521S

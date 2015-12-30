@@ -259,9 +259,59 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	}
 
-	public void obtenerExpedienteAlumno() {
+	public void obtenerExpedienteAlumno(String linea, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
+
+		String[] campos=linea.split(" ");
+		String alumno=campos[1];
+		String salida=campos[2];
+
+		if(!existeAlumno(alumnos, alumno)){
+			guardarError("EXP", "Alumno inexistente");
+			return;
+		}
+		if(expedienteVacio(alumnos, alumno)){
+			guardarError("EXP", "Expediente vacio");
+			return;
+		}
+
+		FileWriter fichero = null;
+		PrintWriter pw = null;
+		try {
+			fichero = new FileWriter(salida);
+			pw = new PrintWriter(fichero);
+			
+			Float notaMedia=(float) 0;
+			TreeMap<String, NotaFinal> treeMapNotas= new TreeMap<String, NotaFinal>();
+			Set<Integer> setNotas=alumnos.get(alumno).getAsignaturasSuperadas().keySet();
+			Iterator<Integer> it=setNotas.iterator();
+			while(it.hasNext()){
+				NotaFinal nota=alumnos.get(alumno).getAsignaturasSuperadas().get(it.next());
+				treeMapNotas.put(nota.getAsignatura().getNombre(), nota);
+			}
+			Iterator<String> it0=treeMapNotas.keySet().iterator();
+			while(it0.hasNext()){
+				String key =(String) it0.next();
+				pw.print(treeMapNotas.get(key)+"\n");
+				notaMedia+=treeMapNotas.get(key).getNota();
+			}
+			notaMedia=notaMedia/setNotas.size();
+					pw.println("Nota media del expediente: "+notaMedia);
+		} catch (Exception e){
+			e.printStackTrace();
+		} 
+		finally	{
+			try {
+				if (null != fichero)
+					fichero.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
 
 	}
+
+
+
 
 	public void obtenerCalendarioProfesor() {
 
@@ -576,6 +626,10 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
         return true;
     }
 
+	public Boolean expedienteVacio(TreeMap<String, Alumno> alumnos, String alumno){
+		if(alumnos.get(alumno).getAsignaturasSuperadas().isEmpty())return true;
+		else return false;
+	}
 
 	
 	/* CONSTRUCTORES */

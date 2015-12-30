@@ -603,6 +603,11 @@ public class Gestion {
 					break;
 
 				case "expediente":
+					if(campos.length!=3){
+						funcionalidad.argumentosIncorrectos("EXP");
+						break;
+					}
+					funcionalidad.obtenerExpedienteAlumno(linea, alumnos, asignaturas);
 					break;
 
 				case "obtenercalendarioclases":
