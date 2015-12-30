@@ -25,7 +25,7 @@ Calvo Domi­nguez
 titular
 Matematica Aplicada
 4
-1 A 2; 1 B 2
+1 A 1; 1 A 2; 1 B 1; 1 B 2
 *
 profesor
 45632109M
@@ -53,7 +53,7 @@ Felipe
 Alonso Dominguez
 08/02/1996
 01/10/2014
-1 14/15 6.8; 2 14/15 5.5
+1 14/15 5.0; 2 14/15 5.0
 5 A 1; 5 B 1
 *
 alumno
@@ -79,7 +79,7 @@ Martin
 Puga Egea
 24/02/1995
 02/10/2013
-1 15/16 5.0; 2 14/15 5.0; 3 15/16 7.0
+1 13/14 5.0; 2 14/15 5.0; 3 15/16 5.0
 5
 *
 alumno
@@ -88,5 +88,5 @@ Pablo
 Rodriguez Perez
 25/02/1995
 02/10/2013
-6 16/17 7.0
-2 A 1; 2 B 1; 1; 3
+
+2 A 1; 6 A 1; 2 B 1; 6 B 1; 1; 3

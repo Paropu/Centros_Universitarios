@@ -211,10 +211,10 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		Integer key = siglasToID(asignaturas, asignatura);
 		if (tipoGrupo.contentEquals("A")) {
 			Grupo grupo = asignaturas.get(key).getGruposA().get(idGrupo);
-			profesores.get(persona).getDocenciaImpartidaA().put(grupo.getIdGrupo(), grupo);
+			profesores.get(persona).getDocenciaImpartidaA().put(grupo, grupo);
 		} else {
 			Grupo grupo = asignaturas.get(key).getGruposB().get(idGrupo);
-			profesores.get(persona).getDocenciaImpartidaB().put(grupo.getIdGrupo(), grupo);
+			profesores.get(persona).getDocenciaImpartidaB().put(grupo, grupo);
 		}
 
 	}
@@ -370,7 +370,6 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				Set<Integer> setGruposA = alumnos.get(alumno).getDocenciaRecibidaA().keySet();
 				Iterator<Integer> itA = setGruposA.iterator();
 				if (!setGruposA.isEmpty()) {
-					System.out.println(setGruposA);
 					Integer idGrupoA;
 					while (itA.hasNext()) {
 						idGrupoA = itA.next();
@@ -382,7 +381,6 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				Set<Integer> setGruposB = alumnos.get(alumno).getDocenciaRecibidaB().keySet();
 				Iterator<Integer> itB = setGruposB.iterator();
 				if (!setGruposB.isEmpty()) {
-					System.out.println(setGruposB);
 					Integer idGrupoB;
 					while (itB.hasNext()) {
 						idGrupoB = itB.next();
@@ -393,6 +391,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				}
 			}
 		}
+		entrada.close();
 	}
 
 	public void obtenerExpedienteAlumno(String linea, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
@@ -839,10 +838,10 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 	public Boolean horasAsignablesSuperiorMaximo(String persona, String asignatura, String tipoGrupo, Integer idGrupo,
 			TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
 		Integer maxHorasAsignables = profesores.get(persona).getHorasDocenciaAsignables();
-		Set<Integer> setDocenciaA = profesores.get(persona).getDocenciaImpartidaA().keySet();
-		Iterator<Integer> itA = setDocenciaA.iterator();
-		Set<Integer> setDocenciaB = profesores.get(persona).getDocenciaImpartidaB().keySet();
-		Iterator<Integer> itB = setDocenciaB.iterator();
+		Set<Grupo> setDocenciaA = profesores.get(persona).getDocenciaImpartidaA().keySet();
+		Iterator<Grupo> itA = setDocenciaA.iterator();
+		Set<Grupo> setDocenciaB = profesores.get(persona).getDocenciaImpartidaB().keySet();
+		Iterator<Grupo> itB = setDocenciaB.iterator();
 		Integer horasAsignadas = 0;
 		if (!setDocenciaA.isEmpty()) {
 			while (itA.hasNext()) {
@@ -890,8 +889,8 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			horaFin = grupo.getHoraFin();
 			dia = grupo.getDia();
 		}
-		Set<Integer> setGruposA = profesores.get(persona).getDocenciaImpartidaA().keySet(); // Comparar el grupo que se quiere asignar con los existentes
-		Iterator<Integer> itA = setGruposA.iterator();
+		Set<Grupo> setGruposA = profesores.get(persona).getDocenciaImpartidaA().keySet(); // Comparar el grupo que se quiere asignar con los existentes
+		Iterator<Grupo> itA = setGruposA.iterator();
 		if (!setGruposA.isEmpty()) {
 			Grupo grupoA;
 			while (itA.hasNext()) {
@@ -903,8 +902,8 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				}
 			}
 		}
-		Set<Integer> setGruposB = profesores.get(persona).getDocenciaImpartidaB().keySet();
-		Iterator<Integer> itB = setGruposB.iterator();
+		Set<Grupo> setGruposB = profesores.get(persona).getDocenciaImpartidaB().keySet();
+		Iterator<Grupo> itB = setGruposB.iterator();
 		if (!setGruposB.isEmpty()) {
 			Grupo grupoB;
 			while (itB.hasNext()) {
