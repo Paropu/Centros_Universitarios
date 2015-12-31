@@ -13,8 +13,8 @@ alumno
 Felipe
 Alonso Dominguez
 08/01/1996
-01/09/2014
-1 14/15 5; 3 14/15 5
+01/09/2012
+1 13/14 5; 3 13/14 5
 4 A 1; 4 B 1
 =======================asignaturas.txt=========================
 1
@@ -63,17 +63,16 @@ InsertaPersona alumno 00000003A "Alum" "Sin Exp 3" 12/10/1995 10/09/2014
 Matricula 00000001A P-I
 Matricula 00000002A P-I
 *Evaluamos alumno 1 y 2 P-I
+Evalua P-I 13/14 notasP-I.txt
 Evalua P-I 14/15 notasP-I.txt
 *Matriculas alumno 1 y 2 y sin expediente P-II
 Matricula 00000001A P-II
 Matricula 00000002A P-II
 Matricula 00000003A P-II
 
-======================errores===========================
-
-
-
 =====================avisos.txt===========================
 ACOORD -- Profesor ya es coordinador de 2 materias
 ACDOC -- Horas asignables superior al maximo
+EVALUA -- Asignatura ya evaluada en este curso académico
+Error en linea 3: Alumno no matriculado: 12345678A
 MAT -- No cumple requisitos
