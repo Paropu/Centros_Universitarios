@@ -1,0 +1,62 @@
+1
+Calculo I
+CAL-I
+1
+37834521S
+
+1 L 9 10; 2 M 9 10
+1 L 10 11; 2 M 10 11
+*
+2
+Probabilidad y Estadistica
+PE
+1
+37834521S
+
+1 L 11 12; 2 V 15 16; 3 M 12 15
+1 L 12 14
+*
+3
+Programacion I
+P-I
+1
+33218765X
+
+1 M 9 10
+1 M 10 12
+*
+4
+Programacion II
+P-II
+2
+
+3
+1 J 9 10
+1 V 9 10
+*
+5
+Comunicacion de Datos
+CD
+2
+
+1, 2
+1 J 11 12
+1 V 11 12
+*
+6
+Redes de Ordenadores
+RO
+2
+
+5
+1 L 15 16
+1 M 15 16
+*
+7
+Seguridad
+SEG
+3
+
+6
+1 M 15 16
+1 M 16 17

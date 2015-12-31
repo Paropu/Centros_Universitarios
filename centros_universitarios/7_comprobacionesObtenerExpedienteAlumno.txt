@@ -1,0 +1,6 @@
+*Alumno inexistente
+Expediente 1112223EE expedienteAlumno.txt
+*Expediente Vacio
+Expediente 12345678C expedienteAlumno.txt
+*OK
+Expediente 44497152H expedienteAlumno.txt

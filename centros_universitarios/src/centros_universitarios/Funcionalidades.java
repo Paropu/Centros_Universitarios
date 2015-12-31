@@ -397,7 +397,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 		String[] campos = linea.split(" ");
 		String alumno = campos[1];
-		String salida = campos[2];
+		String salida = correctoTXT(campos[2]);
 
 		if (!existeAlumno(alumnos, alumno)) {
 			guardarError("EXP", "Alumno inexistente");
@@ -457,9 +457,9 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		FileWriter fichero = null;
 		PrintWriter pw = null;
 		try {
-			fichero = new FileWriter(ficheroSalida, true);
+			fichero = new FileWriter(correctoTXT(ficheroSalida), true);
 			pw = new PrintWriter(fichero);
-			pw.println("Dia;\tHora;\tAsignatura;\tTipo grupo;\tId grupo");
+			pw.println("Dia; Hora; Asignatura; Tipo grupo; Id grupo");
 			// Todas las horas se a�adir�n a este TreeMap
 			TreeMap<Integer, Grupo> ordenar = new TreeMap<Integer, Grupo>();
 
@@ -546,7 +546,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		FileWriter fichero = null;
 		PrintWriter pw = null;
 		try {
-			fichero = new FileWriter(ficheroSalida, true);
+			fichero = new FileWriter(correctoTXT(ficheroSalida), true);
 			pw = new PrintWriter(fichero);
 			Set<String> setNotas = NotasMediasMap.keySet();
 			Iterator<String> it3 = setNotas.iterator();
@@ -1020,6 +1020,14 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
+		}
+	}
+
+	public String correctoTXT(String linea) {
+		if (linea.endsWith(".txt")) {
+			return linea;
+		} else {
+			return linea.concat(".txt");
 		}
 	}
 

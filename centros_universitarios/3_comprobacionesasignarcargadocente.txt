@@ -3,13 +3,13 @@
 asignaaacargadoocentee 12345668B FSI C 2
 *numero de argumentos incorrectos
 asignacargadocente dfglkñjdfgg sdfglgkj gfjdkl dfglkj dfglj df dlfkjdgf
-*profesor inexistente
+*profesor inexistente, asignatura inexistente, tipo de grupo incorrecto.
 Asignacargadocente 11122234H FSI  C 2
 *Grupo inexistente
 Asignacargadocente 33218765X P-I A 3
-*Grupo ya asignado
+*Grupo ya asignado , horas asignables superior al maximo y se genera solape
 Asignacargadocente 37834521S P-I A 1
-*Grupo ya asignado
+*Grupo ya asignado , horas asignables superior al maximo y se genera solape
 Asignacargadocente 37834521S P-I B 1
 *comando correcto
 Asignacargadocente 33218765X PE A 2

@@ -1,12 +1,11 @@
-﻿=================personas.txt===================
-profesor
+﻿profesor
 33218765X
 Jose
 Santos Suarez
 07/09/1966
 titular
 Ingenieria telematica
-14
+20
 3 B 1
 *
 alumno
@@ -15,7 +14,7 @@ Felipe
 Alonso Dominguez
 08/01/1996
 01/09/2014
-1 14/15 6.8; 2 14/15 5.5
+1 14/15 5; 2 14/15 5
 5 A 1; 5 B 1
 *
 alumno
@@ -34,7 +33,7 @@ Calvo Domi­nguez
 17/11/1972
 asociado
 Matematica Aplicada
-10
+4
 1 A 1; 1 A 2; 1 B 1; 1 B 2
 *
 alumno
@@ -43,7 +42,7 @@ Martin
 Puga Egea
 24/01/1995
 02/09/2013
-1 13/14 5; 2 14/15 5; 3 15/16 7
+1 13/14 5; 2 14/15 5; 3 15/16 5
 5
 *
 alumno
@@ -53,7 +52,7 @@ Rodriguez Perez
 25/01/1995
 02/09/2013
 
-
+6 B 1; 2 B 1; 2 A 1; 6 A 1; 3; 1
 *
 alumno
 12345678C
@@ -73,21 +72,23 @@ titular
 Teoria de la Señal y Comunicaciones
 15
 6 A 1; 6 B 1
+*
+profesor
+66666666S
+Joselito
+Marcelino Arias
+07/09/1966
+titular
+Ingenieria de sonido
+18
 
-===============ejecucion.txt==============
-*Numero de argumentos incorrecto
-Matricula ñlkajsdf asdflkj fdjks fdjslk
-*alumno inexistente
-Matricula 44444444H RO
-*asignatura inexistente
-Matricula 44497152H ROOO
-*alumno ya matriculado
-Matricula 44497152H CD
-*No cumple prerrequisitos
-Matricula 44497152H SEG
-*Comando correcto
-Matricula 44497152H P-II
-*Comando correcto
-Matricula 55555555P CAL-I
-*Comando correcto
-Matricula 55555555P PE
+*
+profesor
+11122233E
+Jose Ramon
+Mr Estadistica
+07/09/1966
+titular
+Ingenieria de estadistica
+18
+

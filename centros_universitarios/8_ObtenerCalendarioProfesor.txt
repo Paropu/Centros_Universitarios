@@ -1,0 +1,6 @@
+* Profesor inexistente
+ObtenerCalendarioClases 11811521S CalendarioProfesor.txt
+* Profesor sin Asignaciones
+ObtenerCalendarioClases 66666666S CalendarioProfesor.txt
+* OK
+ObtenerCalendarioClases 37834521S CalendarioProfesor.txt
