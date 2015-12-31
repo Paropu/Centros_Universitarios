@@ -1,6 +1,6 @@
 ﻿=================personas.txt===================
 profesor
-12345678A
+33218765X
 Jose
 Santos Suarez
 07/09/1966
@@ -64,7 +64,7 @@ InsertaPersona profesor 00000003A "J Antonio"  "Álvarez González"   01/01/2020
 InsertaPersona profesor 00000006A "J Antonio"  "Álvarez González"   01/01/2020   asociado "Ingeniería Telemática"  0
 *
 *Profesor ya existente
-InsertaPersona profesor 12345678A "J Antonio"  "Álvarez González"   01/01/2020   asociado "Ingeniería Telemática"  0
+InsertaPersona profesor 33218765X "J Antonio"  "Álvarez González"   01/01/2020   asociado "Ingeniería Telemática"  0
 *alumno ya existente
 InsertaPersona alumno 12345678B "Carlos"  "Gomez Noia"   01/01/1995     01/01/2014
 *numero de argumentos incorrecto

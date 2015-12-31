@@ -170,43 +170,40 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		String asignatura = campos[2];
 		String tipoGrupo = campos[3];
 		Integer idGrupo = Integer.parseInt(campos[4]);
-		Boolean flagError = false;
 		Boolean flagErrorAsignatura = false;
 
 		if (!(existeProfesor(profesores, persona))) {
 			guardarError("ACDOC", "Profesor inexistente");
-			flagError = true;
+			return;
 		}
 		if (!(existeAsignatura(asignaturas, asignatura))) {
 			guardarError("ACDOC", "Asignatura inexistente");
-			flagError = true;
 			flagErrorAsignatura = true;
+			return;
 		}
 		if (!(tipoGrupo.contentEquals("A") || tipoGrupo.contentEquals("B"))) {
 			guardarError("ACDOC", "Tipo de grupo incorrecto");
-			flagError = true;
+			return;
 		}
 		if (!flagErrorAsignatura) {
 			if (existeGrupo(asignaturas, idGrupo, tipoGrupo, asignatura)) {
 				if (grupoYaAsignado(persona, asignatura, tipoGrupo, idGrupo, asignaturas, profesores)) {
 					guardarError("ACDOC", "Grupo ya asignado");
-					flagError = true;
+					return;
 				}
 				if (horasAsignablesSuperiorMaximo(persona, asignatura, tipoGrupo, idGrupo, profesores, asignaturas)) {
 					guardarError("ACDOC", "Horas asignables superior al maximo");
-					flagError = true;
+					return;
 				}
 				if (generaSolape(persona, asignatura, tipoGrupo, idGrupo, profesores, asignaturas)) {
 					guardarError("ACDOC", "Se genera solape");
-					flagError = true;
+					return;
 				}
 			} else {
 				guardarError("ACDOC", "Grupo inexistente");
 				return;
 			}
 		}
-		if (flagError)
-			return;
 
 		Integer key = siglasToID(asignaturas, asignatura);
 		if (tipoGrupo.contentEquals("A")) {
@@ -499,15 +496,9 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			}
 			for (int i = 9; i < 101; i++) {
 				if (ordenar.get(i) != null) {
-					System.out.println(ordenar.get(i).getAsignatura().getSiglas().length());
-					if (ordenar.get(i).getAsignatura().getSiglas().length() > 6) {
-						pw.println(ordenar.get(i));
-					} else if (ordenar.get(i).getAsignatura().getSiglas().length() > 2) {
-						pw.println(ordenar.get(i).toString2());
-					} else if (ordenar.get(i).getAsignatura().getSiglas().length() < 3) {
-						pw.println(ordenar.get(i).toString3());
-					}
+					pw.println(ordenar.get(i).toString2());
 				}
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -825,12 +816,30 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		while (it0.hasNext()) {
 			Profesor profesor = profesores.get(it0.next());
 			if (tipoGrupo.contentEquals("A")) {
-				if (profesor.getDocenciaImpartidaA().containsKey(idGrupo)
-						&& profesor.getDocenciaImpartidaA().get(idGrupo).getAsignatura().getSiglas().contentEquals(asignatura))
-					return true;
-			} else if (profesor.getDocenciaImpartidaB().containsKey(idGrupo)
-					&& profesor.getDocenciaImpartidaB().get(idGrupo).getAsignatura().getSiglas().contentEquals(asignatura))
-				return true;
+				Set<Grupo> ks = profesor.getDocenciaImpartidaA().keySet();
+				for (Grupo keyEmp : ks) {
+					Grupo Grupo = profesor.getDocenciaImpartidaA().get(keyEmp);
+					String aux = Grupo.toString();
+					String[] campos = aux.split(" ");
+					Integer idGrupo2 = Integer.parseInt(campos[4]);
+					if (campos[2].compareTo(asignatura) == 0 && campos[3].compareTo(tipoGrupo) == 0 && idGrupo2 == idGrupo) {
+						return true;
+					}
+
+				}
+			} else if (tipoGrupo.contentEquals("B")) {
+				Set<Grupo> ks = profesor.getDocenciaImpartidaB().keySet();
+
+				for (Grupo keyEmp : ks) {
+					Grupo Grupo = profesor.getDocenciaImpartidaB().get(keyEmp);
+					String aux = Grupo.toString();
+					String[] campos = aux.split(" ");
+					Integer idGrupo2 = Integer.parseInt(campos[4]);
+					if (campos[2].compareTo(asignatura) == 0 && campos[3].compareTo(tipoGrupo) == 0 && idGrupo2 == idGrupo) {
+						return true;
+					}
+				}
+			}
 		}
 		return false;
 	}
