@@ -800,9 +800,11 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			asignaturaPrerrequisito = asignaturas.get(it1.next());
 			Set<Integer> setAsignaturasSuperadas = alumnos.get(alumno).getAsignaturasSuperadas().keySet();
 			Iterator<Integer> it0 = setAsignaturasSuperadas.iterator();
+			if (setAsignaturasSuperadas.isEmpty())
+				return false;
 			while (it0.hasNext()) {
 				asignaturaSuperada = asignaturas.get(it0.next());
-				if (asignaturaPrerrequisito.getIdAsignatura() == asignaturaSuperada.getIdAsignatura())
+				if (asignaturaPrerrequisito.getIdAsignatura().compareTo(asignaturaSuperada.getIdAsignatura()) == 0)
 					flag = true;
 				if (!(it0.hasNext()) && !(flag))
 					return false;
