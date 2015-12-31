@@ -246,8 +246,8 @@ public class Gestion {
 			Profesor profesor = profesores.get(it.next()); // Se recoge el profesor del TreeMap mediante la key
 			String caracterVacio = "";
 			if (profesor.getArrayDocenciaImpartida()[0].compareTo(caracterVacio) != 0) {
-				//TreeMap<Integer, Grupo> docenciaImpartidaA = new TreeMap<Integer, Grupo>(); // Nuevo TreeMap donde se guardaran los grupos impartidos por el profesor, para posteriormente añadirlos al profesor mediante un set()..
-				//TreeMap<Integer, Grupo> docenciaImpartidaB = new TreeMap<Integer, Grupo>();
+				// TreeMap<Integer, Grupo> docenciaImpartidaA = new TreeMap<Integer, Grupo>(); // Nuevo TreeMap donde se guardaran los grupos impartidos por el profesor, para posteriormente añadirlos al profesor mediante un set()..
+				// TreeMap<Integer, Grupo> docenciaImpartidaB = new TreeMap<Integer, Grupo>();
 				TreeMap<Grupo, Grupo> docenciaImpartidaA = new TreeMap<Grupo, Grupo>();
 				TreeMap<Grupo, Grupo> docenciaImpartidaB = new TreeMap<Grupo, Grupo>();
 				int i;
@@ -257,13 +257,15 @@ public class Gestion {
 					String tipoGrupo = campos[1];
 					Integer idGrupo = Integer.parseInt(campos[2]);
 					if (tipoGrupo.contains("A"))
-						//docenciaImpartidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));//Cambiar por idAsignatura------------------
-						//docenciaImpartidaA.put(idAsignatura, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
-						docenciaImpartidaA.put(asignaturas.get(idAsignatura).getGruposA().get(idGrupo), asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
+						// docenciaImpartidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));//Cambiar por idAsignatura------------------
+						// docenciaImpartidaA.put(idAsignatura, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
+						docenciaImpartidaA.put(asignaturas.get(idAsignatura).getGruposA().get(idGrupo),
+								asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
 					else
-						//docenciaImpartidaB.put(idGrupo, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));//------------------------------------------
-						//docenciaImpartidaB.put(idAsignatura, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
-						docenciaImpartidaB.put(asignaturas.get(idAsignatura).getGruposB().get(idGrupo), asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
+						// docenciaImpartidaB.put(idGrupo, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));//------------------------------------------
+						// docenciaImpartidaB.put(idAsignatura, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
+						docenciaImpartidaB.put(asignaturas.get(idAsignatura).getGruposB().get(idGrupo),
+								asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
 				}
 
 				profesor.setDocenciaImpartidaA(docenciaImpartidaA);
@@ -290,10 +292,10 @@ public class Gestion {
 						String tipoGrupo = campos[1];
 						Integer idGrupo = Integer.parseInt(campos[2]);
 						if (tipoGrupo.contains("A"))
-							//	docenciaRecibidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));//Cambiar por idAsignatura------------------
+							// docenciaRecibidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));//Cambiar por idAsignatura------------------
 							docenciaRecibidaA.put(idAsignatura, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
 						else
-							//docenciaRecibidaB.put(idGrupo, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));//------------------------------------------
+							// docenciaRecibidaB.put(idGrupo, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));//------------------------------------------
 							docenciaRecibidaB.put(idAsignatura, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
 
 					} else {// asignaturasSinGrupo -------------------
@@ -464,7 +466,7 @@ public class Gestion {
 			}
 		} catch (
 
-				Exception e)
+		Exception e)
 
 		{
 			e.printStackTrace();
@@ -643,7 +645,7 @@ public class Gestion {
 
 				case "ordenaalumnosxnota":
 					if (campos.length != 2) {
-						funcionalidad.argumentosIncorrectos("CALENP");
+						funcionalidad.argumentosIncorrectos("ALUMNOTA");
 						break;
 					}
 					funcionalidad.ordenarAlumnosPorExpediente(campos[1], alumnos);

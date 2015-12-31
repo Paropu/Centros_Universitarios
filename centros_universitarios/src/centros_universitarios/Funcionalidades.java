@@ -170,40 +170,43 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		String asignatura = campos[2];
 		String tipoGrupo = campos[3];
 		Integer idGrupo = Integer.parseInt(campos[4]);
+		Boolean flagError = false;
 		Boolean flagErrorAsignatura = false;
 
 		if (!(existeProfesor(profesores, persona))) {
 			guardarError("ACDOC", "Profesor inexistente");
-			return;
+			flagError = true;
 		}
 		if (!(existeAsignatura(asignaturas, asignatura))) {
 			guardarError("ACDOC", "Asignatura inexistente");
 			flagErrorAsignatura = true;
-			return;
+			flagError = true;
 		}
 		if (!(tipoGrupo.contentEquals("A") || tipoGrupo.contentEquals("B"))) {
 			guardarError("ACDOC", "Tipo de grupo incorrecto");
-			return;
+			flagError = true;
 		}
 		if (!flagErrorAsignatura) {
 			if (existeGrupo(asignaturas, idGrupo, tipoGrupo, asignatura)) {
 				if (grupoYaAsignado(persona, asignatura, tipoGrupo, idGrupo, asignaturas, profesores)) {
 					guardarError("ACDOC", "Grupo ya asignado");
-					return;
+					flagError = true;
 				}
 				if (horasAsignablesSuperiorMaximo(persona, asignatura, tipoGrupo, idGrupo, profesores, asignaturas)) {
 					guardarError("ACDOC", "Horas asignables superior al maximo");
-					return;
+					flagError = true;
 				}
 				if (generaSolape(persona, asignatura, tipoGrupo, idGrupo, profesores, asignaturas)) {
 					guardarError("ACDOC", "Se genera solape");
-					return;
+					flagError = true;
 				}
 			} else {
 				guardarError("ACDOC", "Grupo inexistente");
 				return;
 			}
 		}
+		if (flagError)
+			return;
 
 		Integer key = siglasToID(asignaturas, asignatura);
 		if (tipoGrupo.contentEquals("A")) {
@@ -213,7 +216,6 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			Grupo grupo = asignaturas.get(key).getGruposB().get(idGrupo);
 			profesores.get(persona).getDocenciaImpartidaB().put(grupo, grupo);
 		}
-
 	}
 
 	public void matricularAlumno(String linea, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
