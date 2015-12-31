@@ -179,8 +179,8 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 		if (!(existeAsignatura(asignaturas, asignatura))) {
 			guardarError("ACDOC", "Asignatura inexistente");
-			flagErrorAsignatura = true;
 			flagError = true;
+			flagErrorAsignatura = true;
 		}
 		if (!(tipoGrupo.contentEquals("A") || tipoGrupo.contentEquals("B"))) {
 			guardarError("ACDOC", "Tipo de grupo incorrecto");
@@ -358,11 +358,13 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 									asignaturas.get(siglasToID(asignaturas, asignatura))));
 				}
 				alumnos.get(alumno).getAsignaturasMatriculadas().remove(siglasToID(asignaturas, asignatura));
-				Set<Integer> setAsignaturasSinGrupo = alumnos.get(alumno).getAsignaturasSinGrupo().keySet();
-				Iterator<Integer> it0 = setAsignaturasSinGrupo.iterator();
-				if (!setAsignaturasSinGrupo.isEmpty()) {
+				TreeMap<Integer, Asignatura> asignaturasSinGrupo=new TreeMap<Integer, Asignatura> ();
+				asignaturasSinGrupo.putAll(alumnos.get(alumno).getAsignaturasSinGrupo());
+				Set<Integer> setAsignaturasSinGrupoIterable = asignaturasSinGrupo.keySet();
+				Iterator<Integer> it0 = setAsignaturasSinGrupoIterable.iterator();
+				if (!setAsignaturasSinGrupoIterable.isEmpty()) {
 					while (it0.hasNext()) {
-						if (asignaturas.get(it0.next()).getSiglas().contentEquals(asignatura))
+						if (asignaturas.get(it0.next()).getSiglas().contentEquals(asignatura)) 
 							alumnos.get(alumno).getAsignaturasSinGrupo().remove(siglasToID(asignaturas, asignatura));
 					}
 				}
@@ -789,8 +791,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		return key;
 	}
 
-	public Boolean cumplePrerrequisitos(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno,
-			String asignatura) {
+	public Boolean cumplePrerrequisitos(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno, String asignatura) {
 		Integer key = siglasToID(asignaturas, asignatura);
 		Set<Integer> setPrerrequisitos = asignaturas.get(key).getPrerrequisitos().keySet();// Asignatura
 		Iterator<Integer> it1 = setPrerrequisitos.iterator();
@@ -850,6 +851,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 	public Boolean horasAsignablesSuperiorMaximo(String persona, String asignatura, String tipoGrupo, Integer idGrupo,
 			TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
+		System.out.println(asignatura+ tipoGrupo+idGrupo);
 		Integer maxHorasAsignables = profesores.get(persona).getHorasDocenciaAsignables();
 		Set<Grupo> setDocenciaA = profesores.get(persona).getDocenciaImpartidaA().keySet();
 		Iterator<Grupo> itA = setDocenciaA.iterator();
@@ -872,11 +874,11 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 		Integer key = siglasToID(asignaturas, asignatura);
 		Integer duracionGrupo = 0;
-		if (tipoGrupo == "A") {
+		if (tipoGrupo.contentEquals("A")) {
 			Grupo grupo = asignaturas.get(key).getGruposA().get(idGrupo);
 			duracionGrupo = grupo.getHoraFin() - grupo.getHoraInicio();
 		} else {
-			Grupo grupo = asignaturas.get(key).getGruposA().get(idGrupo);
+			Grupo grupo = asignaturas.get(key).getGruposB().get(idGrupo);
 			duracionGrupo = grupo.getHoraFin() - grupo.getHoraInicio();
 		}
 		if ((duracionGrupo + horasAsignadas > maxHorasAsignables))
