@@ -1,94 +1,56 @@
-﻿profesor
-33218765X
-Jose
-Santos Suarez
-07/09/1966
+profesor
+33218765A
+Carlos
+Perez Sanchez
+07/11/1966
 titular
-Ingenieria telematica
-20
-3 B 1
-*
-alumno
-12345678A
-Felipe
-Alonso Dominguez
-08/01/1996
-01/09/2014
-1 14/15 5; 2 14/15 5
-5 A 1; 5 B 1
-*
-alumno
-12345678B
-Susana
-Prieto Vazquez
-28/5/1994
-03/09/2012
-
-1; 2
+Ingenieria Telematica
+14
+12 A 1
 *
 profesor
-37834521S
-Natividad
-Calvo Domi­nguez
-17/11/1972
+37834521G
+Jose
+Casas Dominguez
+17/01/1973
 asociado
 Matematica Aplicada
-4
-1 A 1; 1 A 2; 1 B 1; 1 B 2
+10
+8 A 1; 8 A 2; 8 B 1; 8 B 2; 8 B 3
+*
+profesor
+45632109V
+Sofi
+Carbajal Martinez
+17/10/1970
+titular
+Teoria de la Senal y Comunicaciones
+15
+9 A 1
 *
 alumno
-44497152H
-Martin
-Puga Egea
-24/01/1995
-02/09/2013
-1 13/14 5; 2 14/15 5; 3 15/16 5
-5
+51567824F
+Susana
+Prieto Vazquez
+28/07/1994
+03/11/2012
+8 12/13 7.6; 9 12/13 6.2; 12 13/14 5.8; 18 13/14 7.2
+34 A 1; 34 B 1
 *
 alumno
-55555555P
-Pablo
-Rodriguez Perez
-25/01/1995
-02/09/2013
-
-6 B 1; 2 B 1; 2 A 1; 6 A 1; 3; 1
+53456789M
+Mauro
+Alonso Dominguez
+08/03/1996
+01/11/2014
+8 14/15 6.8; 9 14/15 5.5
+12 B 2; 11
 *
 alumno
-12345678C
+56534219N
 Maria Luisa
 Castro Anton
-11/11/1997
-02/09/2015
+11/01/1998
+02/11/2015
 
-1; 2 A 1; 3; 4 B 1
-*
-profesor
-45632109M
-Sofia
-Carbajal Martinez
-17/08/1970
-titular
-Teoria de la Señal y Comunicaciones
-15
-6 A 1; 6 B 1
-*
-profesor
-66666666S
-Joselito
-Marcelino Arias
-07/09/1966
-titular
-Ingenieria de sonido
-18
-
-*
-profesor
-11122233E
-Jose Ramon
-Mr Estadistica
-07/09/1966
-titular
-Ingenieria de estadistica
-18
-
+8 A 3

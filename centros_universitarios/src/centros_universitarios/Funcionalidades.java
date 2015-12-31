@@ -700,7 +700,12 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			dif_dias += 365;
 		}
 		n_years += dif_dias / 365;
-		fechaInscripcion.add(Calendar.DAY_OF_YEAR, 1);
+		if (fechaInscripcion.isLeapYear(fechaInscripcion.get(Calendar.YEAR))) {
+			if (fechaInscripcion.get(Calendar.DAY_OF_YEAR) > 60) {
+				fechaInscripcion.add(Calendar.DAY_OF_YEAR, 1);
+				dianho2 = fechaInscripcion.get(Calendar.DAY_OF_YEAR);
+			}
+		}
 		if (n_years < 15 || n_years > 65) {
 			return false;
 		} else {

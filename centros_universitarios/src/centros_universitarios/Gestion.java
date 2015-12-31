@@ -54,7 +54,7 @@ public class Gestion {
 				String apellidos = entrada.nextLine();
 				linea = entrada.nextLine();
 				String[] fecha = linea.split("/");
-				GregorianCalendar fechaNacimiento = new GregorianCalendar(Integer.parseInt(fecha[2]), Integer.parseInt(fecha[1]),
+				GregorianCalendar fechaNacimiento = new GregorianCalendar(Integer.parseInt(fecha[2]), Integer.parseInt(fecha[1]) - 1,
 						Integer.parseInt(fecha[0]));
 				String categoria = entrada.nextLine();
 				String departamento = entrada.nextLine();
@@ -98,11 +98,11 @@ public class Gestion {
 				String apellidos = entrada.nextLine();
 				linea = entrada.nextLine();
 				String[] fecha = linea.split("/");
-				GregorianCalendar fechaNacimiento = new GregorianCalendar(Integer.parseInt(fecha[2]), Integer.parseInt(fecha[1]),
+				GregorianCalendar fechaNacimiento = new GregorianCalendar(Integer.parseInt(fecha[2]), Integer.parseInt(fecha[1]) - 1,
 						Integer.parseInt(fecha[0]));
 				linea = entrada.nextLine();
 				fecha = linea.split("/");
-				GregorianCalendar fechaIngreso = new GregorianCalendar(Integer.parseInt(fecha[2]), Integer.parseInt(fecha[1]),
+				GregorianCalendar fechaIngreso = new GregorianCalendar(Integer.parseInt(fecha[2]), Integer.parseInt(fecha[1]) - 1,
 						Integer.parseInt(fecha[0]));
 				String[] arrayAsignaturasSuperadas = entrada.nextLine().split("; ");// OMISION de asignaturas superadas del alumno.
 				TreeMap<Integer, NotaFinal> asignaturasSuperadas = new TreeMap<Integer, NotaFinal>();
@@ -315,7 +315,7 @@ public class Gestion {
 		FileWriter fichero = null;
 		PrintWriter pw = null;
 		try {
-			fichero = new FileWriter("salidapersonas.txt");
+			fichero = new FileWriter("personas.txt");
 			pw = new PrintWriter(fichero);
 			// Guardado de profesores.
 			Set<String> setProfesores = profesores.keySet();
@@ -338,6 +338,10 @@ public class Gestion {
 					pw.println(profesor.getfechaNacimiento().get(Calendar.DATE) + "/" + "0"
 							+ (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/"
 							+ profesor.getfechaNacimiento().get(Calendar.YEAR));
+				} else {
+					pw.println(
+							profesor.getfechaNacimiento().get(Calendar.DATE) + "/" + (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1)
+									+ "/" + profesor.getfechaNacimiento().get(Calendar.YEAR));
 				}
 				pw.println(profesor.getCategoria());
 				pw.println(profesor.getDepartamento());
@@ -353,7 +357,7 @@ public class Gestion {
 						if (it1.hasNext())
 							pw.print("; ");
 						else if (setDocenciaImpartidaB.isEmpty()) {
-							pw.print("\n");
+							pw.print("");
 						} else
 							pw.print("; ");
 					}
@@ -392,6 +396,9 @@ public class Gestion {
 				} else if ((alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) < 10) {
 					pw.println(alumno.getfechaNacimiento().get(Calendar.DATE) + "/" + "0"
 							+ (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/" + alumno.getfechaNacimiento().get(Calendar.YEAR));
+				} else {
+					pw.println(alumno.getfechaNacimiento().get(Calendar.DATE) + "/" + (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1)
+							+ "/" + alumno.getfechaNacimiento().get(Calendar.YEAR));
 				}
 				if (alumno.getFechaIngreso().get(Calendar.DATE) < 10 && (alumno.getFechaIngreso().get(Calendar.MONTH) + 1) < 10) {
 					pw.println("0" + alumno.getFechaIngreso().get(Calendar.DATE) + "/" + "0"
@@ -402,6 +409,9 @@ public class Gestion {
 				} else if ((alumno.getFechaIngreso().get(Calendar.MONTH) + 1) < 10) {
 					pw.println(alumno.getFechaIngreso().get(Calendar.DATE) + "/" + "0" + (alumno.getFechaIngreso().get(Calendar.MONTH) + 1)
 							+ "/" + alumno.getFechaIngreso().get(Calendar.YEAR));
+				} else {
+					pw.println(alumno.getFechaIngreso().get(Calendar.DATE) + "/" + (alumno.getFechaIngreso().get(Calendar.MONTH) + 1) + "/"
+							+ alumno.getFechaIngreso().get(Calendar.YEAR));
 				}
 				Set<Integer> setAsignaturasSuperadas = alumno.getAsignaturasSuperadas().keySet();
 				Iterator<Integer> it4 = setAsignaturasSuperadas.iterator();
@@ -432,7 +442,7 @@ public class Gestion {
 							pw.print("; ");
 						else {
 							if (setDocenciaRecibidaB.isEmpty() & setAsignaturasSinGrupo.isEmpty()) {
-								pw.print("\n");
+								pw.print("");
 							} else
 								pw.print("; ");
 						}
@@ -487,7 +497,7 @@ public class Gestion {
 		FileWriter fichero = null;
 		PrintWriter pw = null;
 		try {
-			fichero = new FileWriter("salidaasignaturas.txt");
+			fichero = new FileWriter("asignaturas.txt");
 			pw = new PrintWriter(fichero);
 			Set<Integer> setAsignaturas = asignaturas.keySet();
 			Iterator<Integer> it0 = setAsignaturas.iterator();
@@ -567,7 +577,7 @@ public class Gestion {
 		try {
 			flujo_entrada = new FileInputStream("ejecucion.txt"); // Se crea un flujo de datos al fichero.
 		} catch (FileNotFoundException NoExisteFichero) { // Si el fichero no existe, salta excepcion y se muestra mensaje por pantalla.
-			funcionalidad.guardarError("", "Fichero de ejecución no existente");
+			funcionalidad.guardarError("", "Fichero de ejecucion no existente");
 			System.exit(-1);
 		}
 		Scanner entrada = new Scanner(flujo_entrada); // Se crea un objeto para escanear la linea del fichero
