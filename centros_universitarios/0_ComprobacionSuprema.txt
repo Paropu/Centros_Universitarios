@@ -7,6 +7,15 @@
 
 2 materias corrdinadas por el mismo profesor
 1 materia que solape la anterior y que sea prerrequisito
+=======================personas.txt==========================
+alumno
+12345678A
+Felipe
+Alonso Dominguez
+08/01/1996
+01/09/2014
+1 14/15 5; 3 14/15 5
+4 A 1; 4 B 1
 =======================asignaturas.txt=========================
 1
 Calculo I
