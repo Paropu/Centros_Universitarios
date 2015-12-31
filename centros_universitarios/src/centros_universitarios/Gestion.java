@@ -643,7 +643,7 @@ public class Gestion {
 
 				case "ordenaalumnosxnota":
 					if (campos.length != 2) {
-						funcionalidad.argumentosIncorrectos("CALENP");
+						funcionalidad.argumentosIncorrectos("CALENP");//CORREGIR
 						break;
 					}
 					funcionalidad.ordenarAlumnosPorExpediente(campos[1], alumnos);
