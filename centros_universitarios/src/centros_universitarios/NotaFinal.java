@@ -1,16 +1,26 @@
 package centros_universitarios;
 
-public class NotaFinal  {
+public class NotaFinal  implements Comparable<NotaFinal>{
 
 	/* ATRIBUTOS */
 	private Integer idAsignatura;
-	private String cursoAcademico; //Gregorian calendar o String ???
+	private String cursoAcademico; 
 	private Float nota;
 	private Asignatura asignatura;
 
 
 	/*METODOS */
-
+	@Override
+	public int compareTo(NotaFinal notaFinalComparada) {
+		if(this.getAsignatura().getCurso().compareTo(notaFinalComparada.getAsignatura().getCurso())==0){
+			return this.getAsignatura().getSiglas().compareTo(notaFinalComparada.getAsignatura().getSiglas());
+		}
+		else return this.getAsignatura().getCurso().compareTo(notaFinalComparada.getAsignatura().getCurso());
+	}
+@Override
+public String toString() {
+return this.asignatura.getCurso()+"; "+this.asignatura.getNombre()+"; "+this.getNota()+"; "+this.getCursoAcademico();	
+}
 	
 	/* GETTERS & SETTERS */
 	public String getCursoAcademico() {
@@ -50,7 +60,7 @@ public class NotaFinal  {
 		this.nota=nota;
 		this.asignatura = asignatura;
 	}
-
+	
 
 
 }
