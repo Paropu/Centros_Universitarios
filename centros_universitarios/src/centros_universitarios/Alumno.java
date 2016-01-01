@@ -4,13 +4,19 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TreeMap;
 
+/**
+ * Clase con los atributos, metodos y constructores para trabajar con los alumnos.
+ * @see Persona clase padre
+ * @author Pablo Rodriguez Perez, Martin Puga Egea.
+ */
+
 public class Alumno extends Persona {
 
 	/* ATRIBUTOS */
 	private GregorianCalendar fechaIngreso;
-	private TreeMap<Integer, Grupo> docenciaRecibidaA;// docencia recibida
+	private TreeMap<Integer, Grupo> docenciaRecibidaA;
 	private TreeMap<Integer, Grupo> docenciaRecibidaB;
-	private TreeMap<Integer, NotaFinal> asignaturasSuperadas;// asignaturas aprobadas
+	private TreeMap<Integer, NotaFinal> asignaturasSuperadas;
 	private String[] arrayAsignaturasSuperadas;
 	private TreeMap<Integer, Asignatura> asignaturasMatriculadas;
 	private String[] arrayDocenciaRecibida;
@@ -19,7 +25,7 @@ public class Alumno extends Persona {
 
 	/* METODOS */
 	@Override
-	public String toString() { // Metodo toString sobreescrito reciclando el metodo de la clase padre.
+	public String toString() {
 		return super.toString() + " " + fechaIngreso.get(Calendar.DATE) + "/" + fechaIngreso.get(Calendar.MONTH) + "/"
 				+ fechaIngreso.get(Calendar.YEAR);
 	}
@@ -98,6 +104,25 @@ public class Alumno extends Persona {
 	}
 
 	/* CONSTRUCTORES */
+
+	public Alumno() {
+	}
+
+	/**
+	 * Constructor para funcion cargarAlumno();
+	 * @param dni
+	 * @param nombre
+	 * @param apellidos
+	 * @param fechaNacimiento
+	 * @param fechaIngreso
+	 * @param docenciaRecibidaA
+	 * @param docenciaRecibidaB
+	 * @param asignaturasSuperadas
+	 * @param arrayAsignaturasSuperadas
+	 * @param asignaturasMatriculadas
+	 * @param arrayDocenciaRecibida
+	 */
+
 	public Alumno(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, GregorianCalendar fechaIngreso,
 			TreeMap<Integer, Grupo> docenciaRecibidaA, TreeMap<Integer, Grupo> docenciaRecibidaB,
 			TreeMap<Integer, NotaFinal> asignaturasSuperadas, String[] arrayAsignaturasSuperadas,
@@ -111,6 +136,15 @@ public class Alumno extends Persona {
 		this.asignaturasMatriculadas = asignaturasMatriculadas;
 		this.arrayDocenciaRecibida = arrayDocenciaRecibida;
 	}
+
+	/**
+	 * Constructor para la funcion insertarPersona();
+	 * @param dni
+	 * @param nombre
+	 * @param apellidos
+	 * @param fechaNacimiento
+	 * @param fechaIngreso
+	 */
 
 	public Alumno(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, GregorianCalendar fechaIngreso) {
 		super(dni, nombre, apellidos, fechaNacimiento);

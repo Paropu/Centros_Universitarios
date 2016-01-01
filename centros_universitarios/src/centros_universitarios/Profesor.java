@@ -3,15 +3,21 @@ package centros_universitarios;
 import java.util.GregorianCalendar;
 import java.util.TreeMap;
 
+/**
+ * Clase con los atributos, metodos y constructores para trabajar con los profesores.
+ * @see Persona clase padre
+ * @author Pablo Rodriguez Perez, Martin Puga Egea
+ */
+
 public class Profesor extends Persona {
 
 	/* ATRIBUTOS */
 	private String categoria;
 	private String departamento;
 	private Integer horasDocenciaAsignables;
-	private TreeMap<Grupo, Grupo> docenciaImpartidaA;// docencia impartida
-	private TreeMap<Grupo, Grupo> docenciaImpartidaB;// docencia impartida
-	private TreeMap<Integer, Asignatura> asignaturasCoordinadas;// asignaturas coordinadas
+	private TreeMap<Grupo, Grupo> docenciaImpartidaA;
+	private TreeMap<Grupo, Grupo> docenciaImpartidaB;
+	private TreeMap<Integer, Asignatura> asignaturasCoordinadas;
 	private String[] arrayDocenciaImpartida;
 
 	/* METODOS */
@@ -86,6 +92,21 @@ public class Profesor extends Persona {
 	public Profesor() {
 	}
 
+	/**
+	 * Constructor para funcion cargarAlumno();
+	 * @param dni
+	 * @param nombre
+	 * @param apellidos
+	 * @param fechaNacimiento
+	 * @param categoria
+	 * @param departamento
+	 * @param horasDocenciaAsignables
+	 * @param docenciaImpartidaA
+	 * @param docenciaImpartidaB
+	 * @param asignaturasCoordinadas
+	 * @param arrayDocenciaImpartida
+	 */
+
 	public Profesor(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, String categoria, String departamento,
 			Integer horasDocenciaAsignables, TreeMap<Grupo, Grupo> docenciaImpartidaA, TreeMap<Grupo, Grupo> docenciaImpartidaB,
 			TreeMap<Integer, Asignatura> asignaturasCoordinadas, String[] arrayDocenciaImpartida) { // Constructor.
@@ -99,6 +120,17 @@ public class Profesor extends Persona {
 		this.arrayDocenciaImpartida = arrayDocenciaImpartida;
 	}
 
+	/**
+	 * Constructor para la funcion insertarPersona();
+	 * @param dni
+	 * @param nombre
+	 * @param apellidos
+	 * @param fechaNacimiento
+	 * @param categoria
+	 * @param departamento
+	 * @param horasDocenciaAsignables
+	 */
+
 	public Profesor(String dni, String nombre, String apellidos, GregorianCalendar fechaNacimiento, String categoria, String departamento,
 			Integer horasDocenciaAsignables) {
 		super(dni, nombre, apellidos, fechaNacimiento);
@@ -107,8 +139,7 @@ public class Profesor extends Persona {
 		this.horasDocenciaAsignables = horasDocenciaAsignables;
 		this.docenciaImpartidaA = new TreeMap<Grupo, Grupo>();
 		this.docenciaImpartidaB = new TreeMap<Grupo, Grupo>();
-		this.asignaturasCoordinadas = new TreeMap<Integer, Asignatura>();
-		// this.arrayDocenciaImpartida=null;
+		this.asignaturasCoordinadas = new TreeMap<Integer, Asignatura>(); // this.arrayDocenciaImpartida=null;
 	}
 
 }

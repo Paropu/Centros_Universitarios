@@ -1,13 +1,20 @@
 package centros_universitarios;
 
+/**
+ * Clase para trabajar comodamente con los grupos de las asignaturas de los alumnos y profesores.
+ * @author Pablo Rodriguez Perez, Martin Puga Egea.
+ */
+
 public class Grupo implements Comparable<Grupo> {
+
 	/* ATRIBUTOS */
+
 	private String tipoGrupo;
 	private Integer idGrupo;
 	private String dia;
 	private Integer horaInicio;
 	private Integer horaFin;
-	private Asignatura asignatura;// asignatura
+	private Asignatura asignatura;
 
 	/* METODOS */
 
@@ -16,9 +23,19 @@ public class Grupo implements Comparable<Grupo> {
 		return dia + " " + horaInicio + " " + asignatura.getSiglas() + " " + tipoGrupo + " " + idGrupo;
 	}
 
+	/**
+	 * Metodo para imprimir a fichero con el formato pedido.
+	 * @see obtenerCalendarioProfesor().
+	 * @return los atributos separados por "; " en lugar de por espacios.
+	 */
+
 	public String toString2() {
 		return dia + "; " + horaInicio + "; " + asignatura.getSiglas() + "; " + tipoGrupo + "; " + idGrupo;
 	}
+
+	/**
+	 * Clase sobreescrita para que los grupos en los treeMaps con el mismo "id grupo" no se sustituyan.
+	 */
 
 	@Override
 	public int compareTo(Grupo grupoComparado) {

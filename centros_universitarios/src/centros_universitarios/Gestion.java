@@ -11,44 +11,56 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 
+/**
+ * @author Pablo Rodriguez Perez, Martin Puga Egea
+ */
+
 public class Gestion {
 
-	/* MAIN */
+	/**
+	 * Contiene toda el funcionamiento del programa
+	 * Comienza creando TreeMaps con la informaci�n de los ficheros de entrada
+	 * Ordena toda la informaci�n creando las relaciones necesarias
+	 * Ejecuta las ordenes que se le hayan introducido
+	 * Guarda los cambios en los ficheros correspondientes
+	 */
 
 	public static void main(String args[]) {
 
 		TreeMap<String, Profesor> profesores = new TreeMap<String, Profesor>();
 		TreeMap<String, Alumno> alumnos = new TreeMap<String, Alumno>();
 		TreeMap<Integer, Asignatura> asignaturas = new TreeMap<Integer, Asignatura>();
-		// NOTA IMPORTANTE:No se hace en un metodo directamente, hay que hacerlo por partes para poder cargar todos los datos sin problemas. No se puede cargar toda la info de golpe, ya que se necesita relacionar las clases.
-		profesores = cargarProfesores(); // Carga toda la informacioon de los profesores excepto la docencia impartida, que requiere que existan los grupos relacionados.
-		alumnos = cargarAlumnos(); // Carga toda la informacion de los alumnos excepto las asignaturas aprobadas y la docencia recibida.
-		asignaturas = cargarAsignaturas(profesores); // Carga toda la info de las asignaturas en dos fases. En la primera fase carga los datos básico y en la segunda, los prerrequisitos.
-		cargarAsignaturasSuperadas(alumnos, asignaturas); // Actualiza la informacion de las asignaturas superadas de los alumnos.
-		cargarDocenciaImpartida(profesores, asignaturas); // Actualiza la informacion de la docencia impartida por los profesores.
-		cargarDocenciaRecibida(alumnos, asignaturas); // Actualiza la informacion de la docencia recibida por los alumnos.
-		ejecucion(profesores, alumnos, asignaturas);// Ejecuta los comandos del fichero "ejecucion.txt".
-		guardarFicheroPersonas(profesores, alumnos, asignaturas); // Guarda la información de las personas contenidas en el sistema en el fichero "personas.txt".
-		guardarFicheroAsignaturas(profesores, asignaturas); // Guarda la informacion de las asignaturas contenidas en el sistema en el fichero "asignaturas.txt".
+		profesores = cargarProfesores();
+		alumnos = cargarAlumnos();
+		asignaturas = cargarAsignaturas(profesores);
+		cargarAsignaturasSuperadas(alumnos, asignaturas);
+		cargarDocenciaImpartida(profesores, asignaturas);
+		cargarDocenciaRecibida(alumnos, asignaturas);
+		ejecucion(profesores, alumnos, asignaturas);
+		guardarFicheroPersonas(profesores, alumnos, asignaturas);
+		guardarFicheroAsignaturas(profesores, asignaturas);
 	}
 
-	/* METODOS */
+	/**
+	 * Crea un TreeMap con los profesores del archivo personas.txt y le asigna su correspondiente informacion.
+	 * @return TreeMap de profesores.
+	 */
 
 	public static TreeMap<String, Profesor> cargarProfesores() {
 
 		TreeMap<String, Profesor> profesores = new TreeMap<String, Profesor>();
 		FileInputStream flujo_entrada = null;
 		try {
-			flujo_entrada = new FileInputStream("personas.txt"); // Se crea un flujo de datos al fichero.
-		} catch (FileNotFoundException NoExisteFichero) { // Si el fichero no existe, salta excepcion y se muestra mensaje por pantalla.
+			flujo_entrada = new FileInputStream("personas.txt");
+		} catch (FileNotFoundException NoExisteFichero) {
 			System.out.println("Fichero \"personas.txt\" inexistente");
-			System.exit(-1); // Mostrar error en el fichero Avisos.txt ----- ???
+			System.exit(-1);
 		}
-		Scanner entrada = new Scanner(flujo_entrada); // Se crea un objeto para escanear la linea del fichero
-		String linea = null; // Variable que contendra la informacion escaneada del fichero
+		Scanner entrada = new Scanner(flujo_entrada);
+		String linea = null;
 		while (entrada.hasNextLine()) {
 			linea = entrada.nextLine();
-			if (linea.contains("profesor")) { // Se recogen los datos del profesor.
+			if (linea.contains("profesor")) {
 				String dni = entrada.nextLine();
 				String nombre = entrada.nextLine();
 				String apellidos = entrada.nextLine();
@@ -59,14 +71,14 @@ public class Gestion {
 				String categoria = entrada.nextLine();
 				String departamento = entrada.nextLine();
 				Integer horasDocenciaAsignables = Integer.parseInt(entrada.nextLine());
-				String[] arrayDocenciaImpartida = entrada.nextLine().split("; ");// Carga de docencia impartida por el profesor.
-				TreeMap<Grupo, Grupo> docenciaImpartidaA = new TreeMap<Grupo, Grupo>(); // VACIO
-				TreeMap<Grupo, Grupo> docenciaImpartidaB = new TreeMap<Grupo, Grupo>(); // VACIO
-				TreeMap<Integer, Asignatura> asignaturasCoordinadas = new TreeMap<Integer, Asignatura>(); // VACIO. En principio vacio, luego se completa al cargar las asignaturas.
+				String[] arrayDocenciaImpartida = entrada.nextLine().split("; ");
+				TreeMap<Grupo, Grupo> docenciaImpartidaA = new TreeMap<Grupo, Grupo>();
+				TreeMap<Grupo, Grupo> docenciaImpartidaB = new TreeMap<Grupo, Grupo>();
+				TreeMap<Integer, Asignatura> asignaturasCoordinadas = new TreeMap<Integer, Asignatura>();
 				Profesor profesor = new Profesor(dni, nombre, apellidos, fechaNacimiento, categoria, departamento, horasDocenciaAsignables,
 						docenciaImpartidaA, docenciaImpartidaB, asignaturasCoordinadas, arrayDocenciaImpartida);
 				profesores.put(dni, profesor);
-			} else { // Se salta el bloque del alumno.
+			} else { // Se salta el bloque si es un alumno.
 				int i;
 				for (i = 0; i < 7; i++)
 					linea = entrada.nextLine();
@@ -78,21 +90,26 @@ public class Gestion {
 		return profesores;
 	}
 
+	/**
+	 * Crea un TreeMap con los alumnos del archivo personas.txt y le asigna su correspondiente informacion.
+	 * @return TreeMap de alumnos.
+	 */
+
 	public static TreeMap<String, Alumno> cargarAlumnos() {
 
 		TreeMap<String, Alumno> alumnos = new TreeMap<String, Alumno>();
 		FileInputStream flujo_entrada = null;
 		try {
-			flujo_entrada = new FileInputStream("personas.txt"); // Se crea un flujo de datos al fichero.
-		} catch (FileNotFoundException NoExisteFichero) { // Si el fichero no existe, salta excepcion y se muestra mensaje por pantalla.
+			flujo_entrada = new FileInputStream("personas.txt");
+		} catch (FileNotFoundException NoExisteFichero) {
 			System.out.println("Fichero \"personas.txt\" inexistente");
-			System.exit(-1); // Mostrar error en el fichero Avisos.txt ----- ???
+			System.exit(-1);
 		}
-		Scanner entrada = new Scanner(flujo_entrada); // Se crea un objeto para escanear la linea del fichero
-		String linea = null; // Variable que contendra la informacion escaneada del fichero
+		Scanner entrada = new Scanner(flujo_entrada);
+		String linea = null;
 		while (entrada.hasNextLine()) {
 			linea = entrada.nextLine();
-			if (linea.contains("alumno")) { // Se recogen los datos del alumno.
+			if (linea.contains("alumno")) {
 				String dni = entrada.nextLine();
 				String nombre = entrada.nextLine();
 				String apellidos = entrada.nextLine();
@@ -104,18 +121,16 @@ public class Gestion {
 				fecha = linea.split("/");
 				GregorianCalendar fechaIngreso = new GregorianCalendar(Integer.parseInt(fecha[2]), Integer.parseInt(fecha[1]) - 1,
 						Integer.parseInt(fecha[0]));
-				String[] arrayAsignaturasSuperadas = entrada.nextLine().split("; ");// OMISION de asignaturas superadas del alumno.
+				String[] arrayAsignaturasSuperadas = entrada.nextLine().split("; ");
 				TreeMap<Integer, NotaFinal> asignaturasSuperadas = new TreeMap<Integer, NotaFinal>();
-				String[] arrayDocenciaRecibida = entrada.nextLine().split("; ");// Carga de la docencia recibida por el alumno.
+				String[] arrayDocenciaRecibida = entrada.nextLine().split("; ");
 				TreeMap<Integer, Grupo> docenciaRecibidaA = new TreeMap<Integer, Grupo>();
-				// TreeMap<Integer, Grupo> docenciaRecibidaA =null;//--------------------------------------
 				TreeMap<Integer, Grupo> docenciaRecibidaB = new TreeMap<Integer, Grupo>();
-				// TreeMap<Integer, Grupo> docenciaRecibidaB =null;
 				TreeMap<Integer, Asignatura> asignaturasMatriculadas = new TreeMap<Integer, Asignatura>();
 				Alumno alumno = new Alumno(dni, nombre, apellidos, fechaNacimiento, fechaIngreso, docenciaRecibidaA, docenciaRecibidaB,
 						asignaturasSuperadas, arrayAsignaturasSuperadas, asignaturasMatriculadas, arrayDocenciaRecibida);
 				alumnos.put(dni, alumno);
-			} else { // Se salta el bloque del profesor.
+			} else { // Se salta el bloque si es un profesor.
 				int i;
 				for (i = 0; i < 8; i++)
 					linea = entrada.nextLine();
@@ -127,39 +142,49 @@ public class Gestion {
 		return alumnos;
 	}
 
+	/**
+	 * Crea un TreeMap con las asignaturas del archivo asignaturas.txt y le asigna su correspondiente informacion.
+	 * @return Treemap asignaturas
+	 */
+
 	public static TreeMap<Integer, Asignatura> cargarAsignaturas(TreeMap<String, Profesor> profesores) {
-		// PRIMERA FASE.
-		TreeMap<Integer, Asignatura> asignaturas = new TreeMap<Integer, Asignatura>(); // TreeMap que contendrá las asignaturas
+		TreeMap<Integer, Asignatura> asignaturas = new TreeMap<Integer, Asignatura>();
 		FileInputStream flujo_entrada = null;
 		try {
-			flujo_entrada = new FileInputStream("asignaturas.txt"); // Se crea un flujo de datos al fichero.
-		} catch (FileNotFoundException NoExisteFichero) { // Si el fichero no existe, salta excepcion y se muestra mensaje por pantalla.
+			flujo_entrada = new FileInputStream("asignaturas.txt");
+		} catch (FileNotFoundException NoExisteFichero) {
 			System.out.println("Fichero \"asignaturas.txt\" inexistente");
 			System.exit(-1);
 		}
-		Scanner entrada = new Scanner(flujo_entrada); // Se crea un objeto para escanear la linea del fichero
-		String linea = null; // Variable que contendra la informacion escaneada del fichero
+		Scanner entrada = new Scanner(flujo_entrada);
+		String linea = null;
 		while (entrada.hasNextLine()) {
+			/**
+			 * Se recoge la informacion general de la asignatura
+			 */
 			Integer idAsignatura = Integer.parseInt(entrada.nextLine());
 			String nombre = entrada.nextLine();
 			String siglas = entrada.nextLine();
 			Integer curso = Integer.parseInt(entrada.nextLine());
-			String dniCoordinador = entrada.nextLine();// Carga del coordinador de la asignatura.
+			String dniCoordinador = entrada.nextLine();
 			String caracterVacio = "";
 			String[] arrayPrerrequisitos = entrada.nextLine().split(", ");
 			TreeMap<Integer, Asignatura> prerrequisitos = new TreeMap<Integer, Asignatura>();
 			Asignatura asignatura = new Asignatura(idAsignatura, nombre, siglas, curso, new Profesor(), prerrequisitos,
-					new TreeMap<Integer, Grupo>(), new TreeMap<Integer, Grupo>(), arrayPrerrequisitos);// AÑADIR posteriormente los grupos A y B.
+					new TreeMap<Integer, Grupo>(), new TreeMap<Integer, Grupo>(), arrayPrerrequisitos);
 			if (dniCoordinador.compareTo(caracterVacio) != 0) {
 				Profesor coordinador = profesores.get(dniCoordinador);
-				asignatura.setCoordinador(coordinador);// Se le asigna un coordinador a la asignatura.
-				profesores.get(dniCoordinador).getAsignaturasCoordinadas().put(idAsignatura, asignatura); // AÑADE asignatura coordinada al profesor.
+				asignatura.setCoordinador(coordinador);
+				profesores.get(dniCoordinador).getAsignaturasCoordinadas().put(idAsignatura, asignatura);
 			} else {
 				Profesor coordinador = null;
-				asignatura.setCoordinador(coordinador);// --------------------------------------------------
+				asignatura.setCoordinador(coordinador);
 			}
-			TreeMap<Integer, Grupo> gruposA = new TreeMap<Integer, Grupo>(); // CARGAR gruposA
-			linea = entrada.nextLine(); // Formato: ID_grupo dia horaini horafin
+			/**
+			 * Se recoge la informacion de los grupos A y B
+			 */
+			TreeMap<Integer, Grupo> gruposA = new TreeMap<Integer, Grupo>();
+			linea = entrada.nextLine();
 			String[] arrayGruposA = linea.split("; ");
 
 			int i;
@@ -170,12 +195,12 @@ public class Gestion {
 					String dia = grupo[1];
 					Integer horaInicio = Integer.parseInt(grupo[2]);
 					Integer horaFin = Integer.parseInt(grupo[3]);
-					Grupo grupoA = new Grupo("A", idGrupo, dia, horaInicio, horaFin, asignatura);// AÑADIR asignatura posteriormente.
-					gruposA.put(idGrupo, grupoA);// Se añade el grupo al Treemap de grupos A de la asignatura.
+					Grupo grupoA = new Grupo("A", idGrupo, dia, horaInicio, horaFin, asignatura);
+					gruposA.put(idGrupo, grupoA);
 				}
 			}
-			TreeMap<Integer, Grupo> gruposB = new TreeMap<Integer, Grupo>(); // CARGAR gruposB.
-			linea = entrada.nextLine(); // Formato: ID_grupo dia horaini horafin
+			TreeMap<Integer, Grupo> gruposB = new TreeMap<Integer, Grupo>();
+			linea = entrada.nextLine();
 			String[] arrayGruposB = linea.split("; ");
 			if (arrayGruposB[0].compareTo(caracterVacio) != 0) {
 				for (i = 0; i < arrayGruposB.length; i++) {
@@ -184,28 +209,31 @@ public class Gestion {
 					String dia = grupo[1];
 					Integer horaInicio = Integer.parseInt(grupo[2]);
 					Integer horaFin = Integer.parseInt(grupo[3]);
-					Grupo grupoA = new Grupo("B", idGrupo, dia, horaInicio, horaFin, asignatura);// AÑADIR asignatura posteriormente.
-					gruposB.put(idGrupo, grupoA);// Se añade el grupo al Treemap de grupos B de la asignatura.
+					Grupo grupoA = new Grupo("B", idGrupo, dia, horaInicio, horaFin, asignatura);
+					gruposB.put(idGrupo, grupoA);
 				}
 			}
 			asignatura.setGruposA(gruposA);
 			asignatura.setGruposB(gruposB);
-			asignaturas.put(asignatura.getIdAsignatura(), asignatura); // Se añade la asignatura al TreeMap de asignaturas.
+			asignaturas.put(asignatura.getIdAsignatura(), asignatura);
 			if (entrada.hasNextLine())
 				linea = entrada.nextLine(); // Se recoge el "*" de separacion.
 		}
 		entrada.close();
 
-		// SEGUNDA FASE - ACTUALIZACION DE PRERREQUISITOS
-		Set<Integer> setAsignaturas = asignaturas.keySet(); // CREACION de un Set con las claves de las asignaturas en el TreeMap asignaturas.
-		Iterator<Integer> it = setAsignaturas.iterator(); // Se linkea un Iterator al Set para navegarlo.
-		while (it.hasNext()) { // Se navega sobre cada elemento del set para extraer la key.
-			Asignatura asignatura = asignaturas.get(it.next()); // Se recoge la asignatura del TreeMap mediante la key
+		/**
+		 * Se actualizan los prerrequisitos de las asignaturas
+		 */
+
+		Set<Integer> setAsignaturas = asignaturas.keySet();
+		Iterator<Integer> it = setAsignaturas.iterator();
+		while (it.hasNext()) {
+			Asignatura asignatura = asignaturas.get(it.next());
 			String caracterVacio = "";
-			if (asignatura.getArrayPrerrequisitos()[0].compareTo(caracterVacio) != 0) { // Se cargan los prerrequisitos solo en caso de existir alguna dependencia.
-				TreeMap<Integer, Asignatura> nuevosPrerrequisitos = new TreeMap<Integer, Asignatura>(); // Nuevo TreeMap donde se guardaran los nuevos prerrequisitos, para posteriormente añadirlos a la asignatura mediante un setPrerrequisitos().
+			if (asignatura.getArrayPrerrequisitos()[0].compareTo(caracterVacio) != 0) {
+				TreeMap<Integer, Asignatura> nuevosPrerrequisitos = new TreeMap<Integer, Asignatura>();
 				int i;
-				for (i = 0; i < asignatura.getArrayPrerrequisitos().length; i++) { // Bucle en el que se accede a la info de las asignaturas prerrequisito y se añaden estas al TreeMap de nuevosPrerrequisitos para posteriormente hacer un set().
+				for (i = 0; i < asignatura.getArrayPrerrequisitos().length; i++) {
 					nuevosPrerrequisitos.put(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i]),
 							asignaturas.get(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i])));
 				}
@@ -215,17 +243,23 @@ public class Gestion {
 		return asignaturas;
 	}
 
+	/**
+	 * Actualiza la informacion de las asignaturas superadas de los alumnos.
+	 * @param alumnos TreeMap de alumnos.
+	 * @param asignaturas TreeMap de asignaturas.
+	 */
+
 	public static void cargarAsignaturasSuperadas(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
 
-		Set<String> setAlumnos = alumnos.keySet(); // CREACION de un Set con las claves de los alumnos en el TreeMap alumnos.
-		Iterator<String> it = setAlumnos.iterator(); // Se linkea un Iterator al Set para navegarlo.
-		while (it.hasNext()) { // Se navega sobre cada elemento del set para extraer la key.
-			Alumno alumno = alumnos.get(it.next()); // Se recoge el alumno del TreeMap mediante la key
+		Set<String> setAlumnos = alumnos.keySet();
+		Iterator<String> it = setAlumnos.iterator();
+		while (it.hasNext()) {
+			Alumno alumno = alumnos.get(it.next());
 			String caracterVacio = "";
 			if (alumno.getArrayAsignaturasSuperadas()[0].compareTo(caracterVacio) != 0) { // Se cargan los prerrequisitos solo en caso de existir alguna dependencia.
-				TreeMap<Integer, NotaFinal> asignaturasSuperadas = new TreeMap<Integer, NotaFinal>(); // Nuevo TreeMap donde se guardaran las asignaturas superadas, para posteriormente añadirlos al alumno mediante un set()..
+				TreeMap<Integer, NotaFinal> asignaturasSuperadas = new TreeMap<Integer, NotaFinal>();
 				int i;
-				for (i = 0; i < alumno.getArrayAsignaturasSuperadas().length; i++) { // Bucle en el que se accede a la info de las asignaturas prerrequisito y se añaden estas al TreeMap de nuevosPrerrequisitos para posteriormente hacer un set().
+				for (i = 0; i < alumno.getArrayAsignaturasSuperadas().length; i++) {
 					String[] campos = alumno.getArrayAsignaturasSuperadas()[i].split(" ");
 					Integer idAsignatura = Integer.parseInt(campos[0]);
 					String cursoAcademico = campos[1];
@@ -238,32 +272,32 @@ public class Gestion {
 		}
 	}
 
+	/**
+	 * Actualiza la informacion de la docencia impartida por los profesores.
+	 * @param profesores TreeMap de profesores
+	 * @param asignaturas TreeMap de asignaturas
+	 */
+
 	public static void cargarDocenciaImpartida(TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
 
-		Set<String> setProfesores = profesores.keySet(); // CREACION de un Set con las claves de los profesores en el TreeMap profesores.
-		Iterator<String> it = setProfesores.iterator(); // Se linkea un Iterator al Set para navegarlo.
-		while (it.hasNext()) { // Se navega sobre cada elemento del set para extraer la key.
-			Profesor profesor = profesores.get(it.next()); // Se recoge el profesor del TreeMap mediante la key
+		Set<String> setProfesores = profesores.keySet();
+		Iterator<String> it = setProfesores.iterator();
+		while (it.hasNext()) {
+			Profesor profesor = profesores.get(it.next());
 			String caracterVacio = "";
 			if (profesor.getArrayDocenciaImpartida()[0].compareTo(caracterVacio) != 0) {
-				// TreeMap<Integer, Grupo> docenciaImpartidaA = new TreeMap<Integer, Grupo>(); // Nuevo TreeMap donde se guardaran los grupos impartidos por el profesor, para posteriormente añadirlos al profesor mediante un set()..
-				// TreeMap<Integer, Grupo> docenciaImpartidaB = new TreeMap<Integer, Grupo>();
 				TreeMap<Grupo, Grupo> docenciaImpartidaA = new TreeMap<Grupo, Grupo>();
 				TreeMap<Grupo, Grupo> docenciaImpartidaB = new TreeMap<Grupo, Grupo>();
 				int i;
-				for (i = 0; i < profesor.getArrayDocenciaImpartida().length; i++) { // Bucle en el que se accede a la info de las asignaturas prerrequisito y se añaden estas al TreeMap de nuevosPrerrequisitos para posteriormente hacer un set().
+				for (i = 0; i < profesor.getArrayDocenciaImpartida().length; i++) {
 					String[] campos = profesor.getArrayDocenciaImpartida()[i].split(" ");
 					Integer idAsignatura = Integer.parseInt(campos[0]);
 					String tipoGrupo = campos[1];
 					Integer idGrupo = Integer.parseInt(campos[2]);
 					if (tipoGrupo.contains("A"))
-						// docenciaImpartidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));//Cambiar por idAsignatura------------------
-						// docenciaImpartidaA.put(idAsignatura, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
 						docenciaImpartidaA.put(asignaturas.get(idAsignatura).getGruposA().get(idGrupo),
 								asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
 					else
-						// docenciaImpartidaB.put(idGrupo, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));//------------------------------------------
-						// docenciaImpartidaB.put(idAsignatura, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
 						docenciaImpartidaB.put(asignaturas.get(idAsignatura).getGruposB().get(idGrupo),
 								asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
 				}
@@ -274,31 +308,35 @@ public class Gestion {
 		}
 	}
 
+	/**
+	 * Actualiza la informacion de la docencia recibida por los alumnos.
+	 * @param alumnos TreeMap con los alumnos.
+	 * @param asignaturas TreeMap de asignaturas.
+	 */
+
 	public static void cargarDocenciaRecibida(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
-		Set<String> setAlumnos = alumnos.keySet(); // CREACION de un Set con las claves de los alumnos en el TreeMap alumnos.
-		Iterator<String> it = setAlumnos.iterator(); // Se linkea un Iterator al Set para navegarlo.
-		while (it.hasNext()) { // Se navega sobre cada elemento del set para extraer la key.
-			Alumno alumno = alumnos.get(it.next()); // Se recoge el alumno del TreeMap mediante la key
-			TreeMap<Integer, Grupo> docenciaRecibidaA = new TreeMap<Integer, Grupo>(); // Nuevo TreeMap donde se guardaran los grupos a los que asiste el alumno, para posteriormente añadirlos al alumno mediante un set().
+		Set<String> setAlumnos = alumnos.keySet();
+		Iterator<String> it = setAlumnos.iterator();
+		while (it.hasNext()) {
+			Alumno alumno = alumnos.get(it.next());
+			TreeMap<Integer, Grupo> docenciaRecibidaA = new TreeMap<Integer, Grupo>();
 			TreeMap<Integer, Grupo> docenciaRecibidaB = new TreeMap<Integer, Grupo>();
 			TreeMap<Integer, Asignatura> asignaturasSinGrupo = new TreeMap<Integer, Asignatura>();
 			int i;
 			String caracterVacio = "";
 			if (alumno.getArrayDocenciaRecibida()[0].compareTo(caracterVacio) != 0) {
-				for (i = 0; i < alumno.getArrayDocenciaRecibida().length; i++) { // Bucle en el que se accede a la info de las asignaturas prerrequisito y se añaden estas al TreeMap de nuevosPrerrequisitos para posteriormente hacer un set().
+				for (i = 0; i < alumno.getArrayDocenciaRecibida().length; i++) {
 					String[] campos = alumno.getArrayDocenciaRecibida()[i].split(" ");
 					Integer idAsignatura = Integer.parseInt(campos[0]);
 					if (campos.length > 1) {
 						String tipoGrupo = campos[1];
 						Integer idGrupo = Integer.parseInt(campos[2]);
 						if (tipoGrupo.contains("A"))
-							// docenciaRecibidaA.put(idGrupo, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));//Cambiar por idAsignatura------------------
 							docenciaRecibidaA.put(idAsignatura, asignaturas.get(idAsignatura).getGruposA().get(idGrupo));
 						else
-							// docenciaRecibidaB.put(idGrupo, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));//------------------------------------------
 							docenciaRecibidaB.put(idAsignatura, asignaturas.get(idAsignatura).getGruposB().get(idGrupo));
 
-					} else {// asignaturasSinGrupo -------------------
+					} else {
 						asignaturasSinGrupo.put(idAsignatura, asignaturas.get(idAsignatura));// NEW
 					}
 					alumno.getAsignaturasMatriculadas().put(idAsignatura, asignaturas.get(idAsignatura));
@@ -310,6 +348,13 @@ public class Gestion {
 		}
 	}
 
+	/**
+	 * Guarda la informaci�n de las personas contenidos en los TreeMaps despues del funcionamiento del programa en el fichero "personas.txt".
+	 * @param profesores TreeMap con los profesores
+	 * @param alumnos TreeMap con los alumnos
+	 * @param asignaturas TreeMap de asignaturas
+	 */
+
 	public static void guardarFicheroPersonas(TreeMap<String, Profesor> profesores, TreeMap<String, Alumno> alumnos,
 			TreeMap<Integer, Asignatura> asignaturas) {
 		FileWriter fichero = null;
@@ -317,7 +362,9 @@ public class Gestion {
 		try {
 			fichero = new FileWriter("personas.txt");
 			pw = new PrintWriter(fichero);
-			// Guardado de profesores.
+			/**
+			 * Se guardan los profesores
+			 */
 			Set<String> setProfesores = profesores.keySet();
 			Iterator<String> it0 = setProfesores.iterator();
 			while (it0.hasNext()) {
@@ -326,6 +373,9 @@ public class Gestion {
 				pw.println(profesor.getDni());
 				pw.println(profesor.getNombre());
 				pw.println(profesor.getApellidos());
+				/**
+				 * Estos if son necesario para que siempre se escriba la fecha en formato dd/mm/aaaa
+				 */
 				if (profesor.getfechaNacimiento().get(Calendar.DATE) < 10 && (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1) < 10) {
 					pw.println("0" + profesor.getfechaNacimiento().get(Calendar.DATE) + "/" + "0"
 							+ (profesor.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/"
@@ -376,7 +426,9 @@ public class Gestion {
 				if (it0.hasNext())
 					pw.print("*\n");
 			}
-			// Guardado de alumnos.
+			/**
+			 * Se guardan los alumnos
+			 */
 			if (!setProfesores.isEmpty())
 				pw.println("*");
 			Set<String> setAlumnos = alumnos.keySet();
@@ -387,6 +439,9 @@ public class Gestion {
 				pw.println(alumno.getDni());
 				pw.println(alumno.getNombre());
 				pw.println(alumno.getApellidos());
+				/*
+				 * Estos if son necesario para que siempre se escriba la fecha en formato dd/mm/aaaa
+				 */
 				if (alumno.getfechaNacimiento().get(Calendar.DATE) < 10 && (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) < 10) {
 					pw.println("0" + alumno.getfechaNacimiento().get(Calendar.DATE) + "/" + "0"
 							+ (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1) + "/" + alumno.getfechaNacimiento().get(Calendar.YEAR));
@@ -400,6 +455,9 @@ public class Gestion {
 					pw.println(alumno.getfechaNacimiento().get(Calendar.DATE) + "/" + (alumno.getfechaNacimiento().get(Calendar.MONTH) + 1)
 							+ "/" + alumno.getfechaNacimiento().get(Calendar.YEAR));
 				}
+				/*
+				 * Estos if son necesario para que siempre se escriba la fecha en formato dd/mm/aaaa
+				 */
 				if (alumno.getFechaIngreso().get(Calendar.DATE) < 10 && (alumno.getFechaIngreso().get(Calendar.MONTH) + 1) < 10) {
 					pw.println("0" + alumno.getFechaIngreso().get(Calendar.DATE) + "/" + "0"
 							+ (alumno.getFechaIngreso().get(Calendar.MONTH) + 1) + "/" + alumno.getFechaIngreso().get(Calendar.YEAR));
@@ -474,15 +532,9 @@ public class Gestion {
 				if (it3.hasNext())
 					pw.println("*");
 			}
-		} catch (
-
-		Exception e)
-
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
-		} finally
-
-		{
+		} finally {
 			try {
 				if (null != fichero)
 					fichero.close();
@@ -490,8 +542,13 @@ public class Gestion {
 				e2.printStackTrace();
 			}
 		}
-
 	}
+
+	/**
+	 * Guarda la informacion de las asignaturas contenidas en el TreeMap despues del funcionamiento del programa en el fichero "asignaturas.txt".
+	 * @param profesores TreeMap de profesores
+	 * @param asignaturas TreeMap de asignaturas
+	 */
 
 	public static void guardarFicheroAsignaturas(TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
 		FileWriter fichero = null;
@@ -568,20 +625,27 @@ public class Gestion {
 		}
 	}
 
+	/**
+	 * Ejecuta los comandos del fichero "ejecucion.txt".
+	 * @param profesores TreeMap profesores
+	 * @param alumnos TreeMap alumnos
+	 * @param asignaturas TreeMap asignaturas
+	 */
+
 	public static void ejecucion(TreeMap<String, Profesor> profesores, TreeMap<String, Alumno> alumnos,
 			TreeMap<Integer, Asignatura> asignaturas) {
 
-		Funcionalidades funcionalidad = new Funcionalidades(); // Composicion de Funcionalidades.
+		Funcionalidades funcionalidad = new Funcionalidades();
 
 		FileInputStream flujo_entrada = null;
 		try {
-			flujo_entrada = new FileInputStream("ejecucion.txt"); // Se crea un flujo de datos al fichero.
-		} catch (FileNotFoundException NoExisteFichero) { // Si el fichero no existe, salta excepcion y se muestra mensaje por pantalla.
+			flujo_entrada = new FileInputStream("ejecucion.txt");
+		} catch (FileNotFoundException NoExisteFichero) {
 			funcionalidad.guardarError("", "Fichero de ejecucion no existente");
 			System.exit(-1);
 		}
-		Scanner entrada = new Scanner(flujo_entrada); // Se crea un objeto para escanear la linea del fichero
-		String linea2 = null; // Variable que contendra la informacion escaneada del fichero
+		Scanner entrada = new Scanner(flujo_entrada);
+		String linea2 = null;
 		while (entrada.hasNextLine()) {
 			linea2 = entrada.nextLine();
 			if (!(linea2.charAt(0) == '*')) {
@@ -668,5 +732,4 @@ public class Gestion {
 		}
 		entrada.close();
 	}
-
 }

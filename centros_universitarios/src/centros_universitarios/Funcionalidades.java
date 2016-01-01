@@ -12,23 +12,25 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class Funcionalidades { // Esta clase contendra las funcionalidades que aparecen explicados en las especificaciones del proyecto y el control de errores.
+/**
+ * Esta clase contiene las funcionalidades y el control de errores que aparecen explicadas en las especificaciones del proyecto.
+ * @author Pablo Rodriguez Perez, Martin Puga Egea.
+ */
 
-	/*
-	 * FUNCIONALIDADES INCLUIDAS EN LAS ESPECIFICACIONES DEL PROYECTO:
-	
-	 * Insertar persona
-	 * Asignar coordinador
-	 * Asignar carga docente
-	 * Matricular alumn
-	 * Asignar grupo
-	 * Evaluar asignatura
-	 * Obtener expediente del alumno
-	 * Obtener calendario del profesor
+public class Funcionalidades {
+
+	/**
+	 * Permite introducir un nuevo alumno o profesor en el sistema.
+	 * @param linea Linea de texto que acompana al comando en el fichero "ejecucion.txt" con el formato:
+	 *            Si es alumno:
+	 *            InsertaPersona alumno dni nombre apellidos fechaNacimiento fechaingreso
+	 *            Si es profesor:
+	 *            InsertaPersona profesor dni nombre apellidos fechaNacimiento categoría departamento horasAsignables
+	 * 
+	 * @param profesores TreeMap de profesores.
+	 * @param alumnos TreeMap de alumnos.
 	 */
 
-	/* METODOS */
-	// ===== Funcionalidades =====
 	public void insertarPersona(String linea, TreeMap<String, Profesor> profesores, TreeMap<String, Alumno> alumnos) { // falta aï¿½adir treemaps
 		String[] lineaDesplegadaEspacios = linea.split(" ");
 		String[] lineaDesplegadaComillas = linea.split("\"");
@@ -45,7 +47,10 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return;
 		}
 
-		// DATOS COMUNES
+		/**
+		 * Se recogen de la clase Persona
+		 */
+
 		String dni = lineaDesplegadaEspacios[2];
 		if (!validarDNI(dni)) {
 			guardarError("IP", "Dni incorrecto");
@@ -65,7 +70,10 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return;
 		}
 
-		// DATOS ALUMNO
+		/**
+		 * Se recogen de la clase Alumno
+		 */
+
 		if (lineaDesplegadaEspacios[1].compareTo("alumno") == 0) {
 			GregorianCalendar fechaIngreso = null;
 			try {
@@ -88,12 +96,19 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				return;
 			}
 
+			/**
+			 * Introduzco el nuevo alumno en el sistema
+			 */
+
 			Alumno alumno = new Alumno(dni, nombre, apellidos, fechaNacimiento, fechaIngreso);
 			alumno.setAsignaturasSinGrupo(new TreeMap<Integer, Asignatura>());
 			alumnos.put(dni, alumno);
 		}
 
-		// DATOS PROFESOR
+		/**
+		 * Se recogen de la clase Profesor
+		 */
+
 		if (lineaDesplegadaEspacios[1].compareTo("profesor") == 0) {
 			String departamento = nombreSinEspacios(lineaDesplegadaComillas[5].split(" "));
 			Integer horasDocenciaAsignables = Integer.parseInt(lineaDesplegadaComillas[6].trim());
@@ -122,10 +137,22 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				return;
 			}
 
+			/**
+			 * Introduzco el nuevo profesor en el sistema
+			 */
+
 			Profesor profesor = new Profesor(dni, nombre, apellidos, fechaNacimiento, categoria, departamento, horasDocenciaAsignables);
 			profesores.put(dni, profesor);
 		}
 	}
+
+	/**
+	 * Permite asignar un profesor coordinador a una asignatura.
+	 * @param linea
+	 *            AsignaCoordinador dniProfesor siglasAsignatura
+	 * @param profesores TreeMap de profesores.
+	 * @param asignaturas TreeMap de asignaturas.
+	 */
 
 	public void asignarCoordinador(String linea, TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) { // Formato: AsignaCoordinador persona asignatura
 		String[] campos = linea.split(" ");
@@ -162,6 +189,14 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 
 	}
+
+	/**
+	 * Permite asignar un profesor a un grupo de una asignatura.
+	 * @param linea
+	 *            AsignaCargaDocente dniProfesor siglasAsignatura tipoGrupo idGrupo
+	 * @param profesores TreeMap de profesores.
+	 * @param asignaturas TreeMap de asignaturas.
+	 */
 
 	public void asignarCargaDocente(String linea, TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
 
@@ -218,6 +253,14 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 	}
 
+	/**
+	 * Permite enrolar a un alumno en una asignatura
+	 * @param linea
+	 *            Matricula dniAlumno siglasAsignatura
+	 * @param alumnos TreeMap de alumnos.
+	 * @param asignaturas TreeMap de asignaturas.
+	 */
+
 	public void matricularAlumno(String linea, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
 
 		String[] campos = linea.split(" ");
@@ -246,6 +289,14 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		alumnos.get(alumno).getAsignaturasSinGrupo().put(key, asignaturas.get(key));
 
 	}
+
+	/**
+	 * Permite asignar un grupo de una asignatura a un alumno previamente matriculado en ella.
+	 * @param linea
+	 *            AsignaGrupo dniAlumno siglasAsignatura tipoGrupo idGrupo
+	 * @param alumnos TreeMap de alumnos.
+	 * @param asignaturas TreeMap de asignaturas.
+	 */
 
 	public void asignarGrupo(String linea, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
 		// AsignaGrupo alumno asignatura A 2
@@ -294,6 +345,14 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		alumnos.get(alumno).getAsignaturasSinGrupo().remove(idAsignatura);
 	}
 
+	/**
+	 * Permite introducir las notas de una asignatura a través de un fichero de texto con los dni y la nota de la parte A y B de cada alumno
+	 * @param lineaComando
+	 *            Evalua siglasAsignatura cursoAcademico fichero
+	 * @param alumnos TreeMap de alumnos.
+	 * @param asignaturas TreeMap de asignaturas.
+	 */
+
 	public void evaluarAsignatura(String lineaComando, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
 
 		String[] campos = lineaComando.split(" ");
@@ -322,7 +381,7 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 
 		while (entrada.hasNext()) {
 			linea = entrada.nextLine();
-			lineaSinEspaciosDuplicados = linea.replaceAll("\\s+", " "); // Contiene la informaciï¿½n del fichero sin espacios duplicados
+			lineaSinEspaciosDuplicados = linea.replaceAll("\\s+", " "); // Contiene la informacion del fichero sin espacios duplicados
 			String[] camposLinea = lineaSinEspaciosDuplicados.split(" ");
 			String alumno = camposLinea[0];
 			Float notaGrupoA = Float.parseFloat(camposLinea[1]);
@@ -395,6 +454,14 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		entrada.close();
 	}
 
+	/**
+	 * Permite exportar el expediente de un alumno a un fichero ordenado por curso y asignatura.
+	 * @param linea
+	 *            Expediente dniAlumno salida
+	 * @param alumnos TreeMap de alumnos.
+	 * @param asignaturas TreeMap de asignaturas.
+	 */
+
 	public void obtenerExpedienteAlumno(String linea, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
 
 		String[] campos = linea.split(" ");
@@ -444,6 +511,14 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 
 	}
+
+	/**
+	 * Permite exportar el horario semanal de docencia de un profesor.
+	 * @param profesor dni del profesor
+	 * @param ficheroSalida nombre del fichero donde se va exportar la informacion
+	 * @param profesores TreeMap de profesores.
+	 * @param asignaturas TreeMap de asignaturas.
+	 */
 
 	public void obtenerCalendarioProfesor(String profesor, String ficheroSalida, TreeMap<String, Profesor> profesores,
 			TreeMap<Integer, Asignatura> asignaturas) {
@@ -516,6 +591,12 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 	}
 
+	/**
+	 * Permite exportar a fichero todos los alumnos ordenados por la nota del expediente.
+	 * @param ficheroSalida nombre del fichero donde se va exportar la informacion
+	 * @param alumnos TreeMap de alumnos.
+	 */
+
 	public void ordenarAlumnosPorExpediente(String ficheroSalida, TreeMap<String, Alumno> alumnos) {
 		TreeMap<String, Alumno> NotasMediasMap = new TreeMap<String, Alumno>(new ComparadorNota());
 		Set<String> setAlumnos = alumnos.keySet();
@@ -557,7 +638,6 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 				pw.println(NotasMediasMap.get(key).getApellidos() + " " + NotasMediasMap.get(key).getNombre() + " "
 						+ NotasMediasMap.get(key).getDni() + " " + NotasMediasMap.get(key).getNotaMedia());
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -569,6 +649,10 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			}
 		}
 	}
+
+	/**
+	 * Permite ordenar por nota media de mayor a menor y en caso de coincidencia por orden alfabetico del apellido en ordenarAlumnosPorExpediente().
+	 */
 
 	class ComparadorNota implements Comparator<String> {
 		@Override
@@ -587,7 +671,12 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 	}
 
-	// ===== Control de errores =====
+	/**
+	 * Imprime a fichero el error producido con el formato pedido en las especificaciones.
+	 * @param abreviatura Siglas del comando que ha dado el error
+	 * @param texto Descripcion del error
+	 */
+
 	public void guardarError(String abreviatura, String texto) { // Metodo que permite la escritura en el fichero "avisos.txt".
 		FileWriter fichero = null;
 		PrintWriter pw = null;
@@ -607,13 +696,29 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 	}
 
+	/**
+	 * Imprime a fichero el comando no existente introducido
+	 * @param comando Texto introducido que no corresponde a ningun comando del programa.
+	 */
+
 	public void comandoIncorrecto(String comando) {
 		guardarError("", "Comando incorrecto: " + comando);
 	}
 
+	/**
+	 * Imprime a fichero el error "Numero de argumentos incorrecto"
+	 * @param comando Siglas del comando que ha dado el error.
+	 */
 	public void argumentosIncorrectos(String comando) {
 		guardarError(comando, "Numero de argumentos incorrecto");
 	}
+
+	/**
+	 * Comprueba si el profesor introducido es titular.
+	 * @param profesores TreeMap con todos los profesores
+	 * @param dni DNI del profesor deseado
+	 * @return true si el profesor es titular
+	 */
 
 	public Boolean profesorTitular(TreeMap<String, Profesor> profesores, String dni) {
 		if (profesores.get(dni).getCategoria().contains("titular"))
@@ -622,6 +727,13 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return false;
 	}
 
+	/**
+	 * Comprueba si hay algun alumno en el sistema con ese DNI
+	 * @param alumnos TreeMap con todos los alumnos
+	 * @param dni DNI del alumno deseado
+	 * @return true si el alumno existe
+	 */
+
 	public Boolean existeAlumno(TreeMap<String, Alumno> alumnos, String dni) {
 		if (alumnos.containsKey(dni))
 			return true;
@@ -629,12 +741,26 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return false;
 	}
 
+	/**
+	 * Comprueba si hay algun profesor en el sistema con ese DNI
+	 * @param profesores TreeMap con todos los profesores
+	 * @param dni DNI del profesor deseado
+	 * @return true si el profesor existe
+	 */
+
 	public Boolean existeProfesor(TreeMap<String, Profesor> profesores, String dni) {
 		if (profesores.containsKey(dni))
 			return true;
 		else
 			return false;
 	}
+
+	/**
+	 * Comprueba si hay alguna asignatura en el sistema con esas siglas
+	 * @param asignaturas TreeMap con todas las asignaturas
+	 * @param siglas Siglas de la asignatura deseada
+	 * @return true si existe la asignatura
+	 */
 
 	public Boolean existeAsignatura(TreeMap<Integer, Asignatura> asignaturas, String siglas) {
 		Set<Integer> setAsignaturas = asignaturas.keySet();
@@ -649,6 +775,13 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return false;
 	}
 
+	/**
+	 * Comprueba si el profesor pedido ya coordina dos asignaturas
+	 * @param profesores TreeMap de profesores.
+	 * @param dni DNI del profesor pedido
+	 * @return true si el profesor coordina 2 asignaturas
+	 */
+
 	public Boolean coordinadorDosMaterias(TreeMap<String, Profesor> profesores, String dni) {
 		if (profesores.get(dni).getAsignaturasCoordinadas().size() == 2)
 			return true;
@@ -656,15 +789,30 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			return false;
 	}
 
+	/**
+	 * Metodo que convierte un String de una fecha con formato "dd/mm/aaaa" en un objeto GregorianCalendar con dicha fecha
+	 * @param fechaEntrada String con la fecha que se desea devolver
+	 * @return objeto GregorianCalendar con la fecha pedida
+	 */
+
 	public static GregorianCalendar stringToCalendar(String fechaEntrada) {
 		String[] aux = fechaEntrada.split("/");
 		GregorianCalendar fecha = new GregorianCalendar(Integer.parseInt(aux[2]), Integer.parseInt(aux[1]) - 1, Integer.parseInt(aux[0]));
 		return fecha;
 	}
 
+	/**
+	 * Comprueba si la fecha introducida es correcta y que esté comprendida entre 01/01/1950 y 01/01/2050
+	 * @param fecha Fecha que se desea comprobar
+	 * @return true si la fecha es valida
+	 */
+
 	public static boolean validarFecha(GregorianCalendar fecha) {
 		Calendar fechaMinima = new GregorianCalendar(1950, 0, 1);
 		Calendar fechaMaxima = new GregorianCalendar(2020, 0, 1);
+		/**
+		 * Al desactivar el modo lenient, si la fecha no es correcta salta una excepcion
+		 */
 		fecha.setLenient(false);
 		try {
 			fecha.getTime();
@@ -677,6 +825,13 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		else
 			return false;
 	}
+
+	/**
+	 * Comprueba que entre las dos fechas hay más de 15 años y menos de 65
+	 * @param fechaNacimiento Fecha desde que se quiere contar
+	 * @param fechaInscripcion Fecha hasta la que se quiere contar
+	 * @return true si el tiempo entre las dos fehcas esta comprendido entre 15 y 65 anos
+	 */
 
 	public static boolean validarEdad(GregorianCalendar fechaNacimiento, GregorianCalendar fechaInscripcion) {
 		int anho1 = fechaNacimiento.get(GregorianCalendar.YEAR);
@@ -713,26 +868,45 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 	}
 
+	/**
+	 * Compruebo si el DNI es válido
+	 * @param dni DNI que se quiere comprobar
+	 * @return true si el DNI es valido
+	 */
+
 	public static boolean validarDNI(String dni) {
-		// COMPRUEBO SI EL TAMANO ES CORRECTO
+		/**
+		 * Compruebo el tamano del DNI
+		 */
 		if (dni.length() != 9)
 			return false;
-
-		// COMPRUEBO SI TIENE 8 NUMEROS
+		/**
+		 * Compruebo si tiene 8 numeros
+		 */
 		String numero = dni.substring(0, 8);
 		try {
 			Integer.parseInt(numero);
 		} catch (NumberFormatException e) {
 			return false;
 		}
-
-		// COMPRUEBO QUE SEA UNA LETRA MAYUS
+		/**
+		 * Compruebo que sea una letra mayuscula
+		 */
 		char letra = dni.charAt(8);
 		if (letra < 65 || letra > 90)
 			return false;
 
 		return true;
 	}
+
+	/**
+	 * Compruebo si el alumno introducido esta matriculado de la asignatura introducida
+	 * @param alumnos TreeMap de alumnos.
+	 * @param asignaturas TreeMap de asignaturas.
+	 * @param alumno DNI del alumno que se pide
+	 * @param asignatura siglas de la asignatura pedida
+	 * @return true si el alumno introducido esta matriculado de esa asignatura
+	 */
 
 	public Boolean matriculaExistente(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno,
 			String asignatura) {
@@ -746,14 +920,28 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		return false;
 	}
 
+	/**
+	 * Se introduce un texto.split(" ") y se devuelve el texto sin espacios al principio ni al final
+	 * @param entrada String[] del que se desea eliminar los espacios innecesarios
+	 * @return String con el texto introducido sin espacios innecesario.
+	 *         Ejemplo: Si se introduce "  hola     mundo  " devuelve "hola mundo"
+	 */
+
 	public String nombreSinEspacios(String[] entrada) {
 		String nombre = null;
 		int i = 0;
+		/**
+		 * Hace el bucle hasta que encuentra el primer array con por lo menos un caracter, ya que el split(" ") crea arrays vacios si hay dos
+		 * o mas espacios seguidos
+		 */
 		for (; nombre == null; i++) {
 			if (entrada[i].length() > 0) {
 				nombre = entrada[i];
 			}
 		}
+		/**
+		 * Recorre el bucle concatenando al array nombre solo los arrays que tengan por lo menos un caracter
+		 */
 		for (int j = entrada.length; i != j; i++) {
 			if (entrada[i].length() > 0) {
 				nombre = nombre + " " + entrada[i];
@@ -762,24 +950,42 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		return nombre;
 	}
 
+	/**
+	 * Comprueba si en la asignatura introducida existe un grupo con los parametros introducidos
+	 * @param asignaturas TreeMap de asignaturas.
+	 * @param grupo identificador unico de grupo dentro de una asignatura
+	 * @param tipoGrupo A o B
+	 * @param siglas siglas de la asignatura pedida
+	 * @return true si existe el grupo pedido en la asignatura pedida
+	 */
+
 	public Boolean existeGrupo(TreeMap<Integer, Asignatura> asignaturas, Integer grupo, String tipoGrupo, String siglas) {
-		// Busco el ID de la asignatura usando las siglas
+		/**
+		 * Busco el ID de la asignatura usando las siglas
+		 */
 		Integer key = siglasToID(asignaturas, siglas); // EN ESTE INTEGER QUEDA EL ID DE LA ASIGNATURA A LA QUE PERTENECEN LAS INICIALES
 
-		// Busco si el treemap GruposX contiene a "grupo"
+		/**
+		 * Busco si el treemap GruposX contiene a "grupo"
+		 */
 		if (tipoGrupo.contains("A")) {
 			if (!asignaturas.get(key).getGruposA().containsKey(grupo)) {
-				// System.out.println("No existe A");
 				return false;
 			}
 		} else if (tipoGrupo.contains("B")) {
 			if (!asignaturas.get(key).getGruposB().containsKey(grupo)) {
-				// System.out.println("No existe B");
 				return false;
 			}
 		}
 		return true;
 	}
+
+	/**
+	 * Devuelve el identificador unico de la asignatura que corresponde con las siglas introducidas
+	 * @param asignaturas TreeMap de asignaturas.
+	 * @param siglas Siglas de la asignatura buscada
+	 * @return Integer con el identidicador unico de la asigntura pedida
+	 */
 
 	public Integer siglasToID(TreeMap<Integer, Asignatura> asignaturas, String siglas) {
 		Set<Integer> setAsignaturas = asignaturas.keySet();
@@ -795,6 +1001,15 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 		return key;
 	}
+
+	/**
+	 * Comprueba si el alumno introducido cumple los prerrequisitos para matricularse en la asignatura introducida
+	 * @param alumnos TreeMap de alumnos.
+	 * @param asignaturas TreeMap de asignaturas.
+	 * @param alumno DNI del alumno al que se quiere acceder
+	 * @param asignatura siglas de la asignatura en la que se quiere matricular al alumno
+	 * @return true si cumple los prerrequisitos
+	 */
 
 	public Boolean cumplePrerrequisitos(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno,
 			String asignatura) {
@@ -819,6 +1034,17 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 		return true;
 	}
+
+	/**
+	 * Comprueba si el grupo al que se quiere asociar un profesor ya tiene un profesor asignado
+	 * @param persona DNI del profesor que se quiere asociar
+	 * @param asignatura Siglas de la asignatura deseada
+	 * @param tipoGrupo Tipo de grupo deseado
+	 * @param idGrupo Identificador del grupo deseado
+	 * @param asignaturas TreeMap de asignaturas.
+	 * @param profesores TreeMap de profesores.
+	 * @return true si ese grupo ya tiene un profesor asignado
+	 */
 
 	public Boolean grupoYaAsignado(String persona, String asignatura, String tipoGrupo, Integer idGrupo,
 			TreeMap<Integer, Asignatura> asignaturas, TreeMap<String, Profesor> profesores) {
@@ -854,6 +1080,17 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		}
 		return false;
 	}
+
+	/**
+	 * Comprueba si al asignar un grupo a un profesor se sobrepasan las horas maximas de clase que este puede impartir
+	 * @param persona DNI del profesor que se quiere asociar
+	 * @param asignatura Siglas de la asignatura deseada
+	 * @param tipoGrupo Tipo de grupo deseado
+	 * @param idGrupo Identificador del grupo deseado
+	 * @param profesores TreeMap de profesores.
+	 * @param asignaturas TreeMap de asignaturas.
+	 * @return true si se sobrepasan el numero maximo de horas que este profesor puede impartir
+	 */
 
 	public Boolean horasAsignablesSuperiorMaximo(String persona, String asignatura, String tipoGrupo, Integer idGrupo,
 			TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
@@ -891,6 +1128,17 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		else
 			return false;
 	}
+
+	/**
+	 * Comprueba si el grupo al que se quiere asignar este profesor se solapa con alguna clase que ya este impartiendo
+	 * @param persona DNI del profesor que se quiere asociar
+	 * @param asignatura Siglas de la asignatura deseada
+	 * @param tipoGrupo Tipo de grupo deseado
+	 * @param idGrupo Identificador del grupo deseado
+	 * @param profesores TreeMap de profesores.
+	 * @param asignaturas TreeMap de asignaturas.
+	 * @return true si se produce solape
+	 */
 
 	public Boolean generaSolape(String persona, String asignatura, String tipoGrupo, Integer idGrupo, TreeMap<String, Profesor> profesores,
 			TreeMap<Integer, Asignatura> asignaturas) {
@@ -938,6 +1186,16 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		return false;
 	}
 
+	/**
+	 * Comprueba si el grupo al que se quiere matricular a este alumno se solapa con alguna clase que ya este recibiendo
+	 * @param persona DNI del alumno que se quiere matricular
+	 * @param asignatura Siglas de la asignatura deseada
+	 * @param tipoGrupo Tipo de grupo deseado
+	 * @param idGrupo Identificador del grupo deseado
+	 * @param alumnos TreeMap de alumnos.
+	 * @param asignaturas TreeMap de asignaturas.
+	 * @return true si se produce solape
+	 */
 	public Boolean generaSolapeAlumnos(String persona, String asignatura, String tipoGrupo, Integer idGrupo,
 			TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
 		Integer key = siglasToID(asignaturas, asignatura);
@@ -984,12 +1242,28 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		return false;
 	}
 
+	/**
+	 * Comprueba si el alumno introducido tiene alguna asignatura evaluada
+	 * @param alumnos TreeMap de alumnos.
+	 * @param alumno DNI del alumno
+	 * @return true si el alumno no tiene ninguna asignatura evaluada
+	 */
+
 	public Boolean expedienteVacio(TreeMap<String, Alumno> alumnos, String alumno) {
 		if (alumnos.get(alumno).getAsignaturasSuperadas().isEmpty())
 			return true;
 		else
 			return false;
 	}
+
+	/**
+	 * Comprueba que la asignatura introducida ya haya sido evaluada en el curso academico introducido
+	 * @param alumnos TreeMap de alumnos.
+	 * @param asignaturas TreeMap de asignaturas.
+	 * @param asignatura Siglas de la asignatura pedida
+	 * @param cursoAcademico Curso en que se evalua con formato aa/aa. Ejemplo 15/16
+	 * @return true si esa asignatura ya ha sido evaluada en ese curso academico
+	 */
 
 	public Boolean asignaturaYaEvaluada(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String asignatura,
 			String cursoAcademico) {
@@ -1013,7 +1287,14 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 		return false;
 	}
 
-	public void guardarErrorFicheroNotas(Integer numeroLinea, String info) { // Metodo que permite la escritura en el fichero "avisos.txt".
+	/**
+	 * Metodo para escribir en el fichero "avisos.txt" los errores producidos en la funcion evaluarAsignatura();
+	 * @param numeroLinea Numero de la linea donde se produjo el error
+	 * @param info Descripcion del error producido
+	 * @see evaluarAsignatura();
+	 */
+
+	public void guardarErrorFicheroNotas(Integer numeroLinea, String info) {
 		FileWriter fichero = null;
 		PrintWriter pw = null;
 		try {
@@ -1031,6 +1312,12 @@ public class Funcionalidades { // Esta clase contendra las funcionalidades que a
 			}
 		}
 	}
+
+	/**
+	 * Si el String introducido no termina por ".txt" se le concatena
+	 * @param linea String que se quiere que termine por .txt
+	 * @return linea + ".txt"
+	 */
 
 	public String correctoTXT(String linea) {
 		if (linea.endsWith(".txt")) {
