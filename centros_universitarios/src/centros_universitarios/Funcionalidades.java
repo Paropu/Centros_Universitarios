@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
@@ -369,7 +370,7 @@ public class Funcionalidades {
 			return;
 		}
 		if (asignaturaYaEvaluada(alumnos, asignaturas, asignatura, cursoAcademico)) {
-			guardarError("EVALUA", "Asignatura ya evaluada en este curso académico");
+			guardarError("EVALUA", "Asignatura ya evaluada en este curso academico");
 			return;
 		}
 		Scanner entrada = new Scanner(flujo_entrada);
@@ -407,39 +408,41 @@ public class Funcionalidades {
 				continue;
 			}
 			if (!error) {
-				Float notaTotal = notaGrupoA + notaGrupoB;
-				if (notaTotal >= 5) {
-					alumnos.get(alumno).getAsignaturasSuperadas().put(siglasToID(asignaturas, asignatura), new NotaFinal(siglasToID(asignaturas, asignatura), cursoAcademico, notaTotal, asignaturas.get(siglasToID(asignaturas, asignatura))));
-				}
-				alumnos.get(alumno).getAsignaturasMatriculadas().remove(siglasToID(asignaturas, asignatura));
-				TreeMap<Integer, Asignatura> asignaturasSinGrupo = new TreeMap<Integer, Asignatura>();
-				asignaturasSinGrupo.putAll(alumnos.get(alumno).getAsignaturasSinGrupo());
-				Set<Integer> setAsignaturasSinGrupoIterable = asignaturasSinGrupo.keySet();
-				Iterator<Integer> it0 = setAsignaturasSinGrupoIterable.iterator();
-				if (!setAsignaturasSinGrupoIterable.isEmpty()) {
-					while (it0.hasNext()) {
-						if (asignaturas.get(it0.next()).getSiglas().contentEquals(asignatura))
-							alumnos.get(alumno).getAsignaturasSinGrupo().remove(siglasToID(asignaturas, asignatura));
+				if (!alumnos.get(alumno).getAsignaturasSuperadas().containsKey(siglasToID(asignaturas, asignatura))) {
+					Float notaTotal = notaGrupoA + notaGrupoB;
+					if (notaTotal >= 5) {
+						alumnos.get(alumno).getAsignaturasSuperadas().put(siglasToID(asignaturas, asignatura), new NotaFinal(siglasToID(asignaturas, asignatura), cursoAcademico, notaTotal, asignaturas.get(siglasToID(asignaturas, asignatura))));
 					}
-				}
-				Set<Integer> setGruposA = alumnos.get(alumno).getDocenciaRecibidaA().keySet();
-				Iterator<Integer> itA = setGruposA.iterator();
-				if (!setGruposA.isEmpty()) {
-					Integer idGrupoA;
-					while (itA.hasNext()) {
-						idGrupoA = itA.next();
-						if (alumnos.get(alumno).getDocenciaRecibidaA().get(idGrupoA).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura)) == 0)
-							alumnos.get(alumno).getDocenciaRecibidaA().remove(idGrupoA);
+					alumnos.get(alumno).getAsignaturasMatriculadas().remove(siglasToID(asignaturas, asignatura));
+					TreeMap<Integer, Asignatura> asignaturasSinGrupo = new TreeMap<Integer, Asignatura>();
+					asignaturasSinGrupo.putAll(alumnos.get(alumno).getAsignaturasSinGrupo());
+					Set<Integer> setAsignaturasSinGrupoIterable = asignaturasSinGrupo.keySet();
+					Iterator<Integer> it0 = setAsignaturasSinGrupoIterable.iterator();
+					if (!setAsignaturasSinGrupoIterable.isEmpty()) {
+						while (it0.hasNext()) {
+							if (asignaturas.get(it0.next()).getSiglas().contentEquals(asignatura))
+								alumnos.get(alumno).getAsignaturasSinGrupo().remove(siglasToID(asignaturas, asignatura));
+						}
 					}
-				}
-				Set<Integer> setGruposB = alumnos.get(alumno).getDocenciaRecibidaB().keySet();
-				Iterator<Integer> itB = setGruposB.iterator();
-				if (!setGruposB.isEmpty()) {
-					Integer idGrupoB;
-					while (itB.hasNext()) {
-						idGrupoB = itB.next();
-						if (alumnos.get(alumno).getDocenciaRecibidaB().get(idGrupoB).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura)) == 0)
-							alumnos.get(alumno).getDocenciaRecibidaB().remove(idGrupoB);
+					Set<Integer> setGruposA = alumnos.get(alumno).getDocenciaRecibidaA().keySet();
+					Iterator<Integer> itA = setGruposA.iterator();
+					if (!setGruposA.isEmpty()) {
+						Integer idGrupoA;
+						while (itA.hasNext()) {
+							idGrupoA = itA.next();
+							if (alumnos.get(alumno).getDocenciaRecibidaA().get(idGrupoA).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura)) == 0)
+								alumnos.get(alumno).getDocenciaRecibidaA().remove(idGrupoA);
+						}
+					}
+					Set<Integer> setGruposB = alumnos.get(alumno).getDocenciaRecibidaB().keySet();
+					Iterator<Integer> itB = setGruposB.iterator();
+					if (!setGruposB.isEmpty()) {
+						Integer idGrupoB;
+						while (itB.hasNext()) {
+							idGrupoB = itB.next();
+							if (alumnos.get(alumno).getDocenciaRecibidaB().get(idGrupoB).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura)) == 0)
+								alumnos.get(alumno).getDocenciaRecibidaB().remove(idGrupoB);
+						}
 					}
 				}
 			}
@@ -663,7 +666,7 @@ public class Funcionalidades {
 
 	/**
 	 * Permite crear una asignatura
-	 * @param linea
+	 * @param linea Linea de texto que acompana al comando en el fichero "ejecucion.txt" con el formato:
 	 *            CrearAsignatura nombre siglas curso prerrequisitos gruposA gruposB
 	 * @param asignaturas TreeMap asignaturas.
 	 */
@@ -671,15 +674,28 @@ public class Funcionalidades {
 	public void crearAsignatura(String linea, TreeMap<Integer, Asignatura> asignaturas) {
 		String[] camposEntrecomillados = linea.split("\"");
 		String[] campos = camposEntrecomillados[2].split(" ");
-
-		Integer idAsignatura = idLibre(asignaturas);
+		Integer idAsignatura = 0;
+		try {
+			idAsignatura = idLibre(asignaturas);
+		} catch (NoSuchElementException e) {
+			idAsignatura = 1;
+		}
 		String nombre = nombreSinEspacios(camposEntrecomillados[1].split(" "));
 		String siglas = campos[1];
+		if (camposEntrecomillados.length < 7) {
+			argumentosIncorrectos("CREAASIG");
+			return;
+		}
 		if (existeAsignatura(asignaturas, siglas)) {
-			guardarError("CREAASIG", "Siglas ya pertenecientes a asignatura existente");
+			guardarError("CREAASIG", "Siglas ya pertenecientes a otra asignatura existente");
+			return;
 		}
 		Integer curso = Integer.parseInt(campos[2]);
-		String[] arrayPrerrequisitos = camposEntrecomillados[3].split(", ");
+		String[] arrayPrerrequisitos = null;
+		try {
+			arrayPrerrequisitos = camposEntrecomillados[3].split(", ");
+		} catch (NullPointerException e) {
+		}
 		TreeMap<Integer, Asignatura> prerrequisitos = new TreeMap<Integer, Asignatura>();
 
 		Asignatura asignatura = new Asignatura(idAsignatura, nombre, siglas, curso, new Profesor(), prerrequisitos, new TreeMap<Integer, Grupo>(), new TreeMap<Integer, Grupo>(), arrayPrerrequisitos);
@@ -984,6 +1000,12 @@ public class Funcionalidades {
 			if (asignaturaMatriculada.getSiglas().contentEquals(asignatura))
 				return true;
 		}
+		Set<Integer> setAsignaturasSuperadas = alumnos.get(alumno).getAsignaturasSuperadas().keySet();
+		Iterator<Integer> it1 = setAsignaturasSuperadas.iterator();
+		while (it1.hasNext()) {
+			if (asignaturas.get(it1.next()).getSiglas().compareTo(asignatura) == 0)
+				return true;
+		}
 		return false;
 	}
 
@@ -1127,7 +1149,6 @@ public class Funcionalidades {
 					if (campos[2].compareTo(asignatura) == 0 && campos[3].compareTo(tipoGrupo) == 0 && idGrupo2 == idGrupo) {
 						return true;
 					}
-
 				}
 			} else if (tipoGrupo.contentEquals("B")) {
 				Set<Grupo> ks = profesor.getDocenciaImpartidaB().keySet();

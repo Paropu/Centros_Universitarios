@@ -1,0 +1,45 @@
+Martín Puga Egea
+Pablo Rodríguez Pérez 39486107Y
+
+Comentarios:
+	El programa debe tener como minimo un alumno y una asignatura siempre.
+
+
+
+
+Mejoras:
+ - Ordenar alumnos por nota de expediente: 
+	Produce una salida a fichero de todos los alumnos ordenados por nota de expediente.
+	Ordena por nota de mayor a menor, y en caso de coincidencia, por apellido y nombre.
+	Imprime con el formato: Apellidos nombre DNI nota.
+	El comando es: OrdenaAlumnosXNota salida
+
+ - Si el nombre de los ficheros de salida (por ejemplo en ordenarAlumnos()) no terminan en .txt, el programa añade la extensión automáticamente
+ 
+ - Crear asignatura:
+	Permite crear asignaturas mediante el archivo de ejecución
+	El programa es creado con ningún coordinador asignado ya que existe un comando que se encarga de ello (AsignarCoordinador).
+	El programa asigna automáticamente un identificador de asignatura que esté libre.
+	El comando elimina los identificador de los prerrequisitos que no existen.
+	El comando es: CrearAsignatura nombre siglas curso prerrequisitos gruposA gruposB
+		Nombre, prerrequisitos, gruposA y GruposB deben de ir entre comillas (").
+		Las siglas no puede contener ningún espacio.
+		Los prerrequisitos deben de ir separados por comas (,) en caso de haber más de uno.
+		Los gruposA y gruposB deben de ir separados por punto y coma (;) en caso de haber más de uno.
+		En caso de no haber prerrequisitos, gruposA o gruposB se debe escribir las comillas sin contenido("").	
+
+	Por ejemplo: CrearAsignatura "Programacion-II" P-II 2 "3; 4" "1 L 9 10" "1 M 9 10; 2 V 13 15"
+	Daría como salida en asignaturas.txt
+		5
+		Programacion_II
+		P-II
+		2
+
+		3, 4
+		1 L 9 10
+		1 M 9 10; 2 V 13 15
+
+	Se escribe un error en avisos.txt si: 
+		Las siglas ya pertenecen a otra asignatura
+		Si no hay suficientes parametros de informacion
+
