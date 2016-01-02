@@ -370,7 +370,7 @@ public class Funcionalidades {
 			return;
 		}
 		if (asignaturaYaEvaluada(alumnos, asignaturas, asignatura, cursoAcademico)) {
-			guardarError("EVALUA", "Asignatura ya evaluada en este curso académico");
+			guardarError("EVALUA", "Asignatura ya evaluada en este curso academico");
 			return;
 		}
 		Scanner entrada = new Scanner(flujo_entrada);
@@ -408,39 +408,41 @@ public class Funcionalidades {
 				continue;
 			}
 			if (!error) {
-				Float notaTotal = notaGrupoA + notaGrupoB;
-				if (notaTotal >= 5) {
-					alumnos.get(alumno).getAsignaturasSuperadas().put(siglasToID(asignaturas, asignatura), new NotaFinal(siglasToID(asignaturas, asignatura), cursoAcademico, notaTotal, asignaturas.get(siglasToID(asignaturas, asignatura))));
-				}
-				alumnos.get(alumno).getAsignaturasMatriculadas().remove(siglasToID(asignaturas, asignatura));
-				TreeMap<Integer, Asignatura> asignaturasSinGrupo = new TreeMap<Integer, Asignatura>();
-				asignaturasSinGrupo.putAll(alumnos.get(alumno).getAsignaturasSinGrupo());
-				Set<Integer> setAsignaturasSinGrupoIterable = asignaturasSinGrupo.keySet();
-				Iterator<Integer> it0 = setAsignaturasSinGrupoIterable.iterator();
-				if (!setAsignaturasSinGrupoIterable.isEmpty()) {
-					while (it0.hasNext()) {
-						if (asignaturas.get(it0.next()).getSiglas().contentEquals(asignatura))
-							alumnos.get(alumno).getAsignaturasSinGrupo().remove(siglasToID(asignaturas, asignatura));
+				if (!alumnos.get(alumno).getAsignaturasSuperadas().containsKey(siglasToID(asignaturas, asignatura))) {
+					Float notaTotal = notaGrupoA + notaGrupoB;
+					if (notaTotal >= 5) {
+						alumnos.get(alumno).getAsignaturasSuperadas().put(siglasToID(asignaturas, asignatura), new NotaFinal(siglasToID(asignaturas, asignatura), cursoAcademico, notaTotal, asignaturas.get(siglasToID(asignaturas, asignatura))));
 					}
-				}
-				Set<Integer> setGruposA = alumnos.get(alumno).getDocenciaRecibidaA().keySet();
-				Iterator<Integer> itA = setGruposA.iterator();
-				if (!setGruposA.isEmpty()) {
-					Integer idGrupoA;
-					while (itA.hasNext()) {
-						idGrupoA = itA.next();
-						if (alumnos.get(alumno).getDocenciaRecibidaA().get(idGrupoA).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura)) == 0)
-							alumnos.get(alumno).getDocenciaRecibidaA().remove(idGrupoA);
+					alumnos.get(alumno).getAsignaturasMatriculadas().remove(siglasToID(asignaturas, asignatura));
+					TreeMap<Integer, Asignatura> asignaturasSinGrupo = new TreeMap<Integer, Asignatura>();
+					asignaturasSinGrupo.putAll(alumnos.get(alumno).getAsignaturasSinGrupo());
+					Set<Integer> setAsignaturasSinGrupoIterable = asignaturasSinGrupo.keySet();
+					Iterator<Integer> it0 = setAsignaturasSinGrupoIterable.iterator();
+					if (!setAsignaturasSinGrupoIterable.isEmpty()) {
+						while (it0.hasNext()) {
+							if (asignaturas.get(it0.next()).getSiglas().contentEquals(asignatura))
+								alumnos.get(alumno).getAsignaturasSinGrupo().remove(siglasToID(asignaturas, asignatura));
+						}
 					}
-				}
-				Set<Integer> setGruposB = alumnos.get(alumno).getDocenciaRecibidaB().keySet();
-				Iterator<Integer> itB = setGruposB.iterator();
-				if (!setGruposB.isEmpty()) {
-					Integer idGrupoB;
-					while (itB.hasNext()) {
-						idGrupoB = itB.next();
-						if (alumnos.get(alumno).getDocenciaRecibidaB().get(idGrupoB).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura)) == 0)
-							alumnos.get(alumno).getDocenciaRecibidaB().remove(idGrupoB);
+					Set<Integer> setGruposA = alumnos.get(alumno).getDocenciaRecibidaA().keySet();
+					Iterator<Integer> itA = setGruposA.iterator();
+					if (!setGruposA.isEmpty()) {
+						Integer idGrupoA;
+						while (itA.hasNext()) {
+							idGrupoA = itA.next();
+							if (alumnos.get(alumno).getDocenciaRecibidaA().get(idGrupoA).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura)) == 0)
+								alumnos.get(alumno).getDocenciaRecibidaA().remove(idGrupoA);
+						}
+					}
+					Set<Integer> setGruposB = alumnos.get(alumno).getDocenciaRecibidaB().keySet();
+					Iterator<Integer> itB = setGruposB.iterator();
+					if (!setGruposB.isEmpty()) {
+						Integer idGrupoB;
+						while (itB.hasNext()) {
+							idGrupoB = itB.next();
+							if (alumnos.get(alumno).getDocenciaRecibidaB().get(idGrupoB).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura)) == 0)
+								alumnos.get(alumno).getDocenciaRecibidaB().remove(idGrupoB);
+						}
 					}
 				}
 			}
