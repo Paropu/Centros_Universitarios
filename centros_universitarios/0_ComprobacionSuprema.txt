@@ -1,4 +1,4 @@
-1 profesor titular con asignaciones y coordinador de 2 materias 
+﻿1 profesor titular con asignaciones y coordinador de 2 materias 
 1 profesor asociado sin asignaciones con pocas horas asignables
 
 1 alumno con notas
@@ -65,6 +65,7 @@ Matricula 00000002A P-I
 *Evaluamos alumno 1 y 2 P-I
 Evalua P-I 13/14 notasP-I.txt
 Evalua P-I 14/15 notasP-I.txt
+*********Matricula 00000001A P-I
 *Matriculas alumno 1 y 2 y sin expediente P-II
 Matricula 00000001A P-II
 Matricula 00000002A P-II

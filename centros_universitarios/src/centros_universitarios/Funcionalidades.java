@@ -36,13 +36,11 @@ public class Funcionalidades {
 		String[] lineaDesplegadaComillas = linea.split("\"");
 		String[] lineaDesplegadaBarras = linea.split("/");
 
-		if ((lineaDesplegadaEspacios[1].compareTo("alumno") == 0 && lineaDesplegadaComillas.length != 5)
-				|| (lineaDesplegadaEspacios[1].compareTo("profesor") == 0 && lineaDesplegadaComillas.length != 7)) {
+		if ((lineaDesplegadaEspacios[1].compareTo("alumno") == 0 && lineaDesplegadaComillas.length != 5) || (lineaDesplegadaEspacios[1].compareTo("profesor") == 0 && lineaDesplegadaComillas.length != 7)) {
 			guardarError("IP", "Numero de argumentos incorrecto");
 			return;
 		}
-		if ((lineaDesplegadaEspacios[1].compareTo("alumno") == 0 && lineaDesplegadaBarras.length != 5)
-				|| (lineaDesplegadaEspacios[1].compareTo("profesor") == 0 && lineaDesplegadaBarras.length != 3)) {
+		if ((lineaDesplegadaEspacios[1].compareTo("alumno") == 0 && lineaDesplegadaBarras.length != 5) || (lineaDesplegadaEspacios[1].compareTo("profesor") == 0 && lineaDesplegadaBarras.length != 3)) {
 			guardarError("IP", "Numero de argumentos incorrecto");
 			return;
 		}
@@ -148,7 +146,7 @@ public class Funcionalidades {
 
 	/**
 	 * Permite asignar un profesor coordinador a una asignatura.
-	 * @param linea
+	 * @param linea Linea de texto que acompana al comando en el fichero "ejecucion.txt" con el formato:
 	 *            AsignaCoordinador dniProfesor siglasAsignatura
 	 * @param profesores TreeMap de profesores.
 	 * @param asignaturas TreeMap de asignaturas.
@@ -183,8 +181,7 @@ public class Funcionalidades {
 				if (!(asignaturas.get(idAsignatura).getCoordinador() == null))
 					asignaturas.get(idAsignatura).getCoordinador().getAsignaturasCoordinadas().remove(idAsignatura);
 				asignaturas.get(idAsignatura).setCoordinador(profesores.get(persona));
-				profesores.get(persona).getAsignaturasCoordinadas().put(asignaturas.get(idAsignatura).getIdAsignatura(),
-						asignaturas.get(idAsignatura));
+				profesores.get(persona).getAsignaturasCoordinadas().put(asignaturas.get(idAsignatura).getIdAsignatura(), asignaturas.get(idAsignatura));
 			}
 		}
 
@@ -192,7 +189,7 @@ public class Funcionalidades {
 
 	/**
 	 * Permite asignar un profesor a un grupo de una asignatura.
-	 * @param linea
+	 * @param linea Linea de texto que acompana al comando en el fichero "ejecucion.txt" con el formato:
 	 *            AsignaCargaDocente dniProfesor siglasAsignatura tipoGrupo idGrupo
 	 * @param profesores TreeMap de profesores.
 	 * @param asignaturas TreeMap de asignaturas.
@@ -255,7 +252,7 @@ public class Funcionalidades {
 
 	/**
 	 * Permite enrolar a un alumno en una asignatura
-	 * @param linea
+	 * @param linea Linea de texto que acompana al comando en el fichero "ejecucion.txt" con el formato:
 	 *            Matricula dniAlumno siglasAsignatura
 	 * @param alumnos TreeMap de alumnos.
 	 * @param asignaturas TreeMap de asignaturas.
@@ -292,7 +289,7 @@ public class Funcionalidades {
 
 	/**
 	 * Permite asignar un grupo de una asignatura a un alumno previamente matriculado en ella.
-	 * @param linea
+	 * @param linea Linea de texto que acompana al comando en el fichero "ejecucion.txt" con el formato:
 	 *            AsignaGrupo dniAlumno siglasAsignatura tipoGrupo idGrupo
 	 * @param alumnos TreeMap de alumnos.
 	 * @param asignaturas TreeMap de asignaturas.
@@ -347,7 +344,7 @@ public class Funcionalidades {
 
 	/**
 	 * Permite introducir las notas de una asignatura a través de un fichero de texto con los dni y la nota de la parte A y B de cada alumno
-	 * @param lineaComando
+	 * @param lineaComando Linea de texto que acompana al comando en el fichero "ejecucion.txt" con el formato:
 	 *            Evalua siglasAsignatura cursoAcademico fichero
 	 * @param alumnos TreeMap de alumnos.
 	 * @param asignaturas TreeMap de asignaturas.
@@ -412,9 +409,7 @@ public class Funcionalidades {
 			if (!error) {
 				Float notaTotal = notaGrupoA + notaGrupoB;
 				if (notaTotal >= 5) {
-					alumnos.get(alumno).getAsignaturasSuperadas().put(siglasToID(asignaturas, asignatura),
-							new NotaFinal(siglasToID(asignaturas, asignatura), cursoAcademico, notaTotal,
-									asignaturas.get(siglasToID(asignaturas, asignatura))));
+					alumnos.get(alumno).getAsignaturasSuperadas().put(siglasToID(asignaturas, asignatura), new NotaFinal(siglasToID(asignaturas, asignatura), cursoAcademico, notaTotal, asignaturas.get(siglasToID(asignaturas, asignatura))));
 				}
 				alumnos.get(alumno).getAsignaturasMatriculadas().remove(siglasToID(asignaturas, asignatura));
 				TreeMap<Integer, Asignatura> asignaturasSinGrupo = new TreeMap<Integer, Asignatura>();
@@ -433,8 +428,7 @@ public class Funcionalidades {
 					Integer idGrupoA;
 					while (itA.hasNext()) {
 						idGrupoA = itA.next();
-						if (alumnos.get(alumno).getDocenciaRecibidaA().get(idGrupoA).getAsignatura().getIdAsignatura()
-								.compareTo(siglasToID(asignaturas, asignatura)) == 0)
+						if (alumnos.get(alumno).getDocenciaRecibidaA().get(idGrupoA).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura)) == 0)
 							alumnos.get(alumno).getDocenciaRecibidaA().remove(idGrupoA);
 					}
 				}
@@ -444,8 +438,7 @@ public class Funcionalidades {
 					Integer idGrupoB;
 					while (itB.hasNext()) {
 						idGrupoB = itB.next();
-						if (alumnos.get(alumno).getDocenciaRecibidaB().get(idGrupoB).getAsignatura().getIdAsignatura()
-								.compareTo(siglasToID(asignaturas, asignatura)) == 0)
+						if (alumnos.get(alumno).getDocenciaRecibidaB().get(idGrupoB).getAsignatura().getIdAsignatura().compareTo(siglasToID(asignaturas, asignatura)) == 0)
 							alumnos.get(alumno).getDocenciaRecibidaB().remove(idGrupoB);
 					}
 				}
@@ -456,7 +449,7 @@ public class Funcionalidades {
 
 	/**
 	 * Permite exportar el expediente de un alumno a un fichero ordenado por curso y asignatura.
-	 * @param linea
+	 * @param linea Linea de texto que acompana al comando en el fichero "ejecucion.txt" con el formato:
 	 *            Expediente dniAlumno salida
 	 * @param alumnos TreeMap de alumnos.
 	 * @param asignaturas TreeMap de asignaturas.
@@ -520,8 +513,7 @@ public class Funcionalidades {
 	 * @param asignaturas TreeMap de asignaturas.
 	 */
 
-	public void obtenerCalendarioProfesor(String profesor, String ficheroSalida, TreeMap<String, Profesor> profesores,
-			TreeMap<Integer, Asignatura> asignaturas) {
+	public void obtenerCalendarioProfesor(String profesor, String ficheroSalida, TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
 		if (!existeProfesor(profesores, profesor)) {
 			guardarError("CALENP", "Profesor inexistente");
 			return;
@@ -621,8 +613,7 @@ public class Funcionalidades {
 				}
 				notaMedia = notaMedia / setNotas.size();
 				alumnos.get(alumno).setNotaMedia(notaMedia);
-				NotasMediasMap.put(notaMedia + " " + alumnos.get(alumno).getApellidos() + " " + alumnos.get(alumno).getNombre(),
-						alumnoAlumno);
+				NotasMediasMap.put(notaMedia + " " + alumnos.get(alumno).getApellidos() + " " + alumnos.get(alumno).getNombre(), alumnoAlumno);
 			}
 		}
 		// Escribir en fichero
@@ -635,8 +626,7 @@ public class Funcionalidades {
 			Iterator<String> it3 = setNotas.iterator();
 			while (it3.hasNext()) {
 				String key = it3.next();
-				pw.println(NotasMediasMap.get(key).getApellidos() + " " + NotasMediasMap.get(key).getNombre() + " "
-						+ NotasMediasMap.get(key).getDni() + " " + NotasMediasMap.get(key).getNotaMedia());
+				pw.println(NotasMediasMap.get(key).getApellidos() + " " + NotasMediasMap.get(key).getNombre() + " " + NotasMediasMap.get(key).getDni() + " " + NotasMediasMap.get(key).getNotaMedia());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -669,6 +659,84 @@ public class Funcionalidades {
 				return campos1[1].compareTo(campos2[1]);
 			}
 		}
+	}
+
+	/**
+	 * Permite crear una asignatura
+	 * @param linea
+	 *            CrearAsignatura nombre siglas curso prerrequisitos gruposA gruposB
+	 * @param asignaturas TreeMap asignaturas.
+	 */
+
+	public void crearAsignatura(String linea, TreeMap<Integer, Asignatura> asignaturas) {
+		String[] camposEntrecomillados = linea.split("\"");
+		String[] campos = camposEntrecomillados[2].split(" ");
+
+		Integer idAsignatura = idLibre(asignaturas);
+		String nombre = nombreSinEspacios(camposEntrecomillados[1].split(" "));
+		String siglas = campos[1];
+		if (existeAsignatura(asignaturas, siglas)) {
+			guardarError("CREAASIG", "Siglas ya pertenecientes a asignatura existente");
+		}
+		Integer curso = Integer.parseInt(campos[2]);
+		String[] arrayPrerrequisitos = camposEntrecomillados[3].split(", ");
+		TreeMap<Integer, Asignatura> prerrequisitos = new TreeMap<Integer, Asignatura>();
+
+		Asignatura asignatura = new Asignatura(idAsignatura, nombre, siglas, curso, new Profesor(), prerrequisitos, new TreeMap<Integer, Grupo>(), new TreeMap<Integer, Grupo>(), arrayPrerrequisitos);
+		asignatura.setCoordinador(null);
+
+		// Grupos A
+		TreeMap<Integer, Grupo> gruposA = new TreeMap<Integer, Grupo>();
+		String[] arrayGruposA = camposEntrecomillados[5].split("; ");
+		int i;
+		if (arrayGruposA[0].compareTo("") != 0) {
+			for (i = 0; i < arrayGruposA.length; i++) {
+				String[] grupo = arrayGruposA[i].split(" ");
+				Integer idGrupo = Integer.parseInt(grupo[0]);
+				String dia = grupo[1];
+				Integer horaInicio = Integer.parseInt(grupo[2]);
+				Integer horaFin = Integer.parseInt(grupo[3]);
+				Grupo grupoA = new Grupo("A", idGrupo, dia, horaInicio, horaFin, asignatura);
+				gruposA.put(idGrupo, grupoA);
+			}
+		}
+
+		// Grupos B
+		TreeMap<Integer, Grupo> gruposB = new TreeMap<Integer, Grupo>();
+		String[] arrayGruposB = camposEntrecomillados[7].split("; ");
+		if (arrayGruposB[0].compareTo("") != 0) {
+			for (i = 0; i < arrayGruposB.length; i++) {
+				String[] grupo = arrayGruposB[i].split(" ");
+				Integer idGrupo = Integer.parseInt(grupo[0]);
+				String dia = grupo[1];
+				Integer horaInicio = Integer.parseInt(grupo[2]);
+				Integer horaFin = Integer.parseInt(grupo[3]);
+				Grupo grupoA = new Grupo("B", idGrupo, dia, horaInicio, horaFin, asignatura);
+				gruposB.put(idGrupo, grupoA);
+			}
+		}
+		asignatura.setGruposA(gruposA);
+		asignatura.setGruposB(gruposB);
+		asignaturas.put(asignatura.getIdAsignatura(), asignatura);
+
+		// Prerrequisitos
+		if (asignatura.getArrayPrerrequisitos()[0].compareTo("") != 0) {
+			TreeMap<Integer, Asignatura> nuevosPrerrequisitos = new TreeMap<Integer, Asignatura>();
+			for (i = 0; i < asignatura.getArrayPrerrequisitos().length; i++) {
+				nuevosPrerrequisitos.put(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i]), asignaturas.get(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i])));
+			}
+			asignatura.setPrerrequisitos(nuevosPrerrequisitos);
+		}
+	}
+
+	/**
+	 * Devuelve un identificador de asignatura que no este en uso
+	 * @param asignaturas TreeMap de asignaturas
+	 * @return identificador de asignatura libre
+	 */
+
+	public Integer idLibre(TreeMap<Integer, Asignatura> asignaturas) {
+		return asignaturas.lastKey() + 1;
 	}
 
 	/**
@@ -908,8 +976,7 @@ public class Funcionalidades {
 	 * @return true si el alumno introducido esta matriculado de esa asignatura
 	 */
 
-	public Boolean matriculaExistente(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno,
-			String asignatura) {
+	public Boolean matriculaExistente(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno, String asignatura) {
 		Set<Integer> setAsignaturasMatriculadas = alumnos.get(alumno).getAsignaturasMatriculadas().keySet();
 		Iterator<Integer> it = setAsignaturasMatriculadas.iterator();
 		while (it.hasNext()) {
@@ -1011,8 +1078,7 @@ public class Funcionalidades {
 	 * @return true si cumple los prerrequisitos
 	 */
 
-	public Boolean cumplePrerrequisitos(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno,
-			String asignatura) {
+	public Boolean cumplePrerrequisitos(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String alumno, String asignatura) {
 		Integer key = siglasToID(asignaturas, asignatura);
 		Set<Integer> setPrerrequisitos = asignaturas.get(key).getPrerrequisitos().keySet();// Asignatura
 		Iterator<Integer> it1 = setPrerrequisitos.iterator();
@@ -1046,8 +1112,7 @@ public class Funcionalidades {
 	 * @return true si ese grupo ya tiene un profesor asignado
 	 */
 
-	public Boolean grupoYaAsignado(String persona, String asignatura, String tipoGrupo, Integer idGrupo,
-			TreeMap<Integer, Asignatura> asignaturas, TreeMap<String, Profesor> profesores) {
+	public Boolean grupoYaAsignado(String persona, String asignatura, String tipoGrupo, Integer idGrupo, TreeMap<Integer, Asignatura> asignaturas, TreeMap<String, Profesor> profesores) {
 		Set<String> setProfesores = profesores.keySet();
 		Iterator<String> it0 = setProfesores.iterator();
 		while (it0.hasNext()) {
@@ -1092,8 +1157,7 @@ public class Funcionalidades {
 	 * @return true si se sobrepasan el numero maximo de horas que este profesor puede impartir
 	 */
 
-	public Boolean horasAsignablesSuperiorMaximo(String persona, String asignatura, String tipoGrupo, Integer idGrupo,
-			TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
+	public Boolean horasAsignablesSuperiorMaximo(String persona, String asignatura, String tipoGrupo, Integer idGrupo, TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
 		Integer maxHorasAsignables = profesores.get(persona).getHorasDocenciaAsignables();
 		Set<Grupo> setDocenciaA = profesores.get(persona).getDocenciaImpartidaA().keySet();
 		Iterator<Grupo> itA = setDocenciaA.iterator();
@@ -1140,8 +1204,7 @@ public class Funcionalidades {
 	 * @return true si se produce solape
 	 */
 
-	public Boolean generaSolape(String persona, String asignatura, String tipoGrupo, Integer idGrupo, TreeMap<String, Profesor> profesores,
-			TreeMap<Integer, Asignatura> asignaturas) {
+	public Boolean generaSolape(String persona, String asignatura, String tipoGrupo, Integer idGrupo, TreeMap<String, Profesor> profesores, TreeMap<Integer, Asignatura> asignaturas) {
 		Integer key = siglasToID(asignaturas, asignatura);
 		Integer horaInicio = 0;
 		Integer horaFin = 0;
@@ -1164,8 +1227,7 @@ public class Funcionalidades {
 			while (itA.hasNext()) {
 				grupoA = profesores.get(persona).getDocenciaImpartidaA().get(itA.next());
 				if (grupoA.getDia().contentEquals(dia)) {
-					if (!((horaInicio < grupoA.getHoraInicio() && horaFin <= grupoA.getHoraInicio())
-							|| (horaInicio >= grupoA.getHoraFin() && horaFin > grupoA.getHoraFin())))
+					if (!((horaInicio < grupoA.getHoraInicio() && horaFin <= grupoA.getHoraInicio()) || (horaInicio >= grupoA.getHoraFin() && horaFin > grupoA.getHoraFin())))
 						return true;
 				}
 			}
@@ -1177,8 +1239,7 @@ public class Funcionalidades {
 			while (itB.hasNext()) {
 				grupoB = profesores.get(persona).getDocenciaImpartidaB().get(itB.next());
 				if (grupoB.getDia().contentEquals(dia)) {
-					if (!((horaInicio < grupoB.getHoraInicio() && horaFin <= grupoB.getHoraInicio())
-							|| (horaInicio >= grupoB.getHoraFin() && horaFin > grupoB.getHoraFin())))
+					if (!((horaInicio < grupoB.getHoraInicio() && horaFin <= grupoB.getHoraInicio()) || (horaInicio >= grupoB.getHoraFin() && horaFin > grupoB.getHoraFin())))
 						return true;
 				}
 			}
@@ -1196,8 +1257,7 @@ public class Funcionalidades {
 	 * @param asignaturas TreeMap de asignaturas.
 	 * @return true si se produce solape
 	 */
-	public Boolean generaSolapeAlumnos(String persona, String asignatura, String tipoGrupo, Integer idGrupo,
-			TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
+	public Boolean generaSolapeAlumnos(String persona, String asignatura, String tipoGrupo, Integer idGrupo, TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas) {
 		Integer key = siglasToID(asignaturas, asignatura);
 		Integer horaInicio = 0;
 		Integer horaFin = 0;
@@ -1220,8 +1280,7 @@ public class Funcionalidades {
 			while (itA.hasNext()) {
 				grupoA = alumnos.get(persona).getDocenciaRecibidaA().get(itA.next());
 				if (grupoA.getDia().contentEquals(dia)) {
-					if (!((horaInicio < grupoA.getHoraInicio() && horaFin <= grupoA.getHoraInicio())
-							|| (horaInicio >= grupoA.getHoraFin() && horaFin > grupoA.getHoraFin())))
+					if (!((horaInicio < grupoA.getHoraInicio() && horaFin <= grupoA.getHoraInicio()) || (horaInicio >= grupoA.getHoraFin() && horaFin > grupoA.getHoraFin())))
 						return true;
 				}
 			}
@@ -1233,8 +1292,7 @@ public class Funcionalidades {
 			while (itB.hasNext()) {
 				grupoB = alumnos.get(persona).getDocenciaRecibidaB().get(itB.next());
 				if (grupoB.getDia().contentEquals(dia)) {
-					if (!((horaInicio < grupoB.getHoraInicio() && horaFin <= grupoB.getHoraInicio())
-							|| (horaInicio >= grupoB.getHoraFin() && horaFin > grupoB.getHoraFin())))
+					if (!((horaInicio < grupoB.getHoraInicio() && horaFin <= grupoB.getHoraInicio()) || (horaInicio >= grupoB.getHoraFin() && horaFin > grupoB.getHoraFin())))
 						return true;
 				}
 			}
@@ -1265,8 +1323,7 @@ public class Funcionalidades {
 	 * @return true si esa asignatura ya ha sido evaluada en ese curso academico
 	 */
 
-	public Boolean asignaturaYaEvaluada(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String asignatura,
-			String cursoAcademico) {
+	public Boolean asignaturaYaEvaluada(TreeMap<String, Alumno> alumnos, TreeMap<Integer, Asignatura> asignaturas, String asignatura, String cursoAcademico) {
 		Set<String> setAlumnos = alumnos.keySet();
 		Iterator<String> it = setAlumnos.iterator();
 		NotaFinal asignaturaSuperada;
@@ -1278,8 +1335,7 @@ public class Funcionalidades {
 			if (!setAsignaturasSuperadas.isEmpty()) {
 				while (it0.hasNext()) {
 					asignaturaSuperada = alumno.getAsignaturasSuperadas().get(it0.next());
-					if (asignaturaSuperada.getAsignatura().getSiglas().contentEquals(asignatura)
-							&& asignaturaSuperada.getCursoAcademico().contentEquals(cursoAcademico))
+					if (asignaturaSuperada.getAsignatura().getSiglas().contentEquals(asignatura) && asignaturaSuperada.getCursoAcademico().contentEquals(cursoAcademico))
 						return true;
 				}
 			}
