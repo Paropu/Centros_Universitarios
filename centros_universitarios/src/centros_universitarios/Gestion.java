@@ -544,15 +544,19 @@ public class Gestion {
 					pw.println(asignatura.getCoordinador().getDni());
 				Set<Integer> setPrerrequisitos = asignatura.getPrerrequisitos().keySet();
 				Iterator<Integer> it1 = setPrerrequisitos.iterator();
-				if (!setPrerrequisitos.isEmpty()) {
 
-					while (it1.hasNext()) {
-						Asignatura prerrequisito = asignaturas.get(it1.next());
-						pw.print(prerrequisito.getIdAsignatura());
-						if (it1.hasNext())
-							pw.print(", ");
-						else
-							pw.println("");
+				if (!setPrerrequisitos.isEmpty()) {
+					try {
+						while (it1.hasNext()) {
+							Asignatura prerrequisito = asignaturas.get(it1.next());
+							pw.print(prerrequisito.getIdAsignatura());
+							if (it1.hasNext())
+								pw.print(", ");
+							else
+								pw.println("");
+						}
+					} catch (NullPointerException e) {
+						pw.println("");
 					}
 				} else
 					pw.println("");
@@ -703,7 +707,7 @@ public class Gestion {
 						break;
 					}
 					funcionalidad.crearAsignatura(linea, asignaturas);
-
+					break;
 				default:
 					funcionalidad.comandoIncorrecto(campos[0]);
 					break;

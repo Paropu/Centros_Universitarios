@@ -663,7 +663,7 @@ public class Funcionalidades {
 
 	/**
 	 * Permite crear una asignatura
-	 * @param linea
+	 * @param linea Linea de texto que acompana al comando en el fichero "ejecucion.txt" con el formato:
 	 *            CrearAsignatura nombre siglas curso prerrequisitos gruposA gruposB
 	 * @param asignaturas TreeMap asignaturas.
 	 */
@@ -675,11 +675,21 @@ public class Funcionalidades {
 		Integer idAsignatura = idLibre(asignaturas);
 		String nombre = nombreSinEspacios(camposEntrecomillados[1].split(" "));
 		String siglas = campos[1];
+		System.out.println(camposEntrecomillados[8]);
+		if (camposEntrecomillados.length < 7) {
+			argumentosIncorrectos("CREAASIG");
+			return;
+		}
 		if (existeAsignatura(asignaturas, siglas)) {
-			guardarError("CREAASIG", "Siglas ya pertenecientes a asignatura existente");
+			guardarError("CREAASIG", "Siglas ya pertenecientes a otra asignatura existente");
+			return;
 		}
 		Integer curso = Integer.parseInt(campos[2]);
-		String[] arrayPrerrequisitos = camposEntrecomillados[3].split(", ");
+		String[] arrayPrerrequisitos = null;
+		try {
+			arrayPrerrequisitos = camposEntrecomillados[3].split(", ");
+		} catch (NullPointerException e) {
+		}
 		TreeMap<Integer, Asignatura> prerrequisitos = new TreeMap<Integer, Asignatura>();
 
 		Asignatura asignatura = new Asignatura(idAsignatura, nombre, siglas, curso, new Profesor(), prerrequisitos, new TreeMap<Integer, Grupo>(), new TreeMap<Integer, Grupo>(), arrayPrerrequisitos);
@@ -720,7 +730,7 @@ public class Funcionalidades {
 		asignaturas.put(asignatura.getIdAsignatura(), asignatura);
 
 		// Prerrequisitos
-		if (asignatura.getArrayPrerrequisitos()[0].compareTo("") != 0) {
+		if (asignatura.getArrayPrerrequisitos().length != 0) {
 			TreeMap<Integer, Asignatura> nuevosPrerrequisitos = new TreeMap<Integer, Asignatura>();
 			for (i = 0; i < asignatura.getArrayPrerrequisitos().length; i++) {
 				nuevosPrerrequisitos.put(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i]), asignaturas.get(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i])));
@@ -982,6 +992,12 @@ public class Funcionalidades {
 		while (it.hasNext()) {
 			Asignatura asignaturaMatriculada = asignaturas.get(it.next());
 			if (asignaturaMatriculada.getSiglas().contentEquals(asignatura))
+				return true;
+		}
+		Set<Integer> setAsignaturasSuperadas = alumnos.get(alumno).getAsignaturasSuperadas().keySet();
+		Iterator<Integer> it1 = setAsignaturasSuperadas.iterator();
+		while (it1.hasNext()) {
+			if (asignaturas.get(it1.next()).getSiglas().compareTo(asignatura) == 0)
 				return true;
 		}
 		return false;
