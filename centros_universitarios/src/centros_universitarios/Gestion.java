@@ -53,8 +53,23 @@ public class Gestion {
 		try {
 			flujo_entrada = new FileInputStream("personas.txt");
 		} catch (FileNotFoundException NoExisteFichero) {
-			System.out.println("Fichero \"personas.txt\" inexistente");
-			System.exit(-1);
+			FileWriter fichero = null;
+			try {
+				fichero = new FileWriter("personas.txt", true);
+				try {
+					flujo_entrada = new FileInputStream("personas.txt");
+				} catch (FileNotFoundException e) {
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (null != fichero)
+						fichero.close();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
 		}
 		Scanner entrada = new Scanner(flujo_entrada);
 		String linea = null;
@@ -148,8 +163,23 @@ public class Gestion {
 		try {
 			flujo_entrada = new FileInputStream("asignaturas.txt");
 		} catch (FileNotFoundException NoExisteFichero) {
-			System.out.println("Fichero \"asignaturas.txt\" inexistente");
-			System.exit(-1);
+			FileWriter fichero = null;
+			try {
+				fichero = new FileWriter("asignaturas.txt", true);
+				try {
+					flujo_entrada = new FileInputStream("asignaturas.txt");
+				} catch (FileNotFoundException e) {
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (null != fichero)
+						fichero.close();
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
+			}
 		}
 		Scanner entrada = new Scanner(flujo_entrada);
 		String linea = null;
@@ -400,20 +430,20 @@ public class Gestion {
 						if (it2.hasNext())
 							pw.print("; ");
 						else
-							pw.print("\n");
+							pw.println("");
 					}
 				} else
-					pw.println();
+					pw.println("");
 				if (it0.hasNext())
 					pw.println("*");
 			}
 			/**
 			 * Se guardan los alumnos
 			 */
-			if (!setProfesores.isEmpty())
-				pw.println("*");
 			Set<String> setAlumnos = alumnos.keySet();
 			Iterator<String> it3 = setAlumnos.iterator();
+			if (!setProfesores.isEmpty() && !setAlumnos.isEmpty())
+				pw.println("*");
 			while (it3.hasNext()) {
 				Alumno alumno = alumnos.get(it3.next());
 				pw.println("alumno");

@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeMap;
@@ -671,11 +672,14 @@ public class Funcionalidades {
 	public void crearAsignatura(String linea, TreeMap<Integer, Asignatura> asignaturas) {
 		String[] camposEntrecomillados = linea.split("\"");
 		String[] campos = camposEntrecomillados[2].split(" ");
-
-		Integer idAsignatura = idLibre(asignaturas);
+		Integer idAsignatura = 0;
+		try {
+			idAsignatura = idLibre(asignaturas);
+		} catch (NoSuchElementException e) {
+			idAsignatura = 1;
+		}
 		String nombre = nombreSinEspacios(camposEntrecomillados[1].split(" "));
 		String siglas = campos[1];
-		System.out.println(camposEntrecomillados[8]);
 		if (camposEntrecomillados.length < 7) {
 			argumentosIncorrectos("CREAASIG");
 			return;
@@ -730,7 +734,7 @@ public class Funcionalidades {
 		asignaturas.put(asignatura.getIdAsignatura(), asignatura);
 
 		// Prerrequisitos
-		if (asignatura.getArrayPrerrequisitos().length != 0) {
+		if (asignatura.getArrayPrerrequisitos()[0].compareTo("") != 0) {
 			TreeMap<Integer, Asignatura> nuevosPrerrequisitos = new TreeMap<Integer, Asignatura>();
 			for (i = 0; i < asignatura.getArrayPrerrequisitos().length; i++) {
 				nuevosPrerrequisitos.put(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i]), asignaturas.get(Integer.parseInt(asignatura.getArrayPrerrequisitos()[i])));
@@ -1143,7 +1147,6 @@ public class Funcionalidades {
 					if (campos[2].compareTo(asignatura) == 0 && campos[3].compareTo(tipoGrupo) == 0 && idGrupo2 == idGrupo) {
 						return true;
 					}
-
 				}
 			} else if (tipoGrupo.contentEquals("B")) {
 				Set<Grupo> ks = profesor.getDocenciaImpartidaB().keySet();
