@@ -598,10 +598,9 @@ public class Funcionalidades {
 		Iterator<String> it = setAlumnos.iterator();
 		while (it.hasNext()) {
 			Alumno alumnoAlumno = alumnos.get(it.next());
-			String caracterVacio = "";
 			String alumno = alumnoAlumno.getDni();
-			if (alumnos.get(alumno).getArrayAsignaturasSuperadas()[0].compareTo(caracterVacio) != 0) {
-				Float notaMedia = (float) 0;
+			if (!alumnos.get(alumno).getAsignaturasSuperadas().isEmpty()) {
+				Float notaMedia = (float) 0.0;
 				TreeMap<String, NotaFinal> treeMapNotas = new TreeMap<String, NotaFinal>();
 				Set<Integer> setNotas = alumnos.get(alumno).getAsignaturasSuperadas().keySet();
 				Iterator<Integer> it2 = setNotas.iterator();
@@ -616,7 +615,7 @@ public class Funcionalidades {
 				}
 				notaMedia = notaMedia / setNotas.size();
 				alumnos.get(alumno).setNotaMedia(notaMedia);
-				NotasMediasMap.put(notaMedia + " " + alumnos.get(alumno).getApellidos() + " " + alumnos.get(alumno).getNombre(), alumnoAlumno);
+				NotasMediasMap.put(alumnos.get(alumno).getNotaMedia() + " " + alumnos.get(alumno).getApellidos() + " " + alumnos.get(alumno).getNombre() + " " + alumnos.get(alumno).getDni(), alumnoAlumno);
 			}
 		}
 		// Escribir en fichero
@@ -659,7 +658,30 @@ public class Funcionalidades {
 			} else if (n1 < n2) {
 				return 1;
 			} else {
-				return campos1[1].compareTo(campos2[1]);
+				int i = 0;
+				if (campos1.length == campos2.length) {
+					for (i = 1; i < campos2.length; i++) {
+						if (campos1[i].compareTo(campos2[i]) != 0) {
+							return campos1[i].compareTo(campos2[i]);
+						}
+					}
+					return 0;
+				} else if (campos1.length < campos2.length) {
+					for (i = 1; i < campos1.length; i++) {
+						if (campos1[i].compareTo(campos2[i]) != 0) {
+							return campos1[i].compareTo(campos2[i]);
+						}
+					}
+					return -1;
+				} else if (campos1.length > campos2.length) {
+					for (i = 1; i < campos2.length; i++) {
+						if (campos1[i].compareTo(campos2[i]) != 0) {
+							return campos1[i].compareTo(campos2[i]);
+						}
+					}
+					return 1;
+				}
+				return 0;
 			}
 		}
 	}
@@ -667,7 +689,7 @@ public class Funcionalidades {
 	/**
 	 * Permite crear una asignatura
 	 * @param linea Linea de texto que acompana al comando en el fichero "ejecucion.txt" con el formato:
-	 *            CrearAsignatura nombre siglas curso prerrequisitos gruposA gruposB
+	 *            CrearAsignatura nombre siglas prerrequisitos gruposA gruposB curso
 	 * @param asignaturas TreeMap asignaturas.
 	 */
 
@@ -680,6 +702,10 @@ public class Funcionalidades {
 		} catch (NoSuchElementException e) {
 			idAsignatura = 1;
 		}
+		if (camposEntrecomillados[5].compareTo("") == 0 && camposEntrecomillados[7].compareTo("") == 0) {
+			guardarError("CREAASIG", "La asignatura tiene que tener un grupo A o B");
+			return;
+		}
 		String nombre = nombreSinEspacios(camposEntrecomillados[1].split(" "));
 		String siglas = campos[1];
 		if (camposEntrecomillados.length < 7) {
@@ -690,7 +716,8 @@ public class Funcionalidades {
 			guardarError("CREAASIG", "Siglas ya pertenecientes a otra asignatura existente");
 			return;
 		}
-		Integer curso = Integer.parseInt(campos[2]);
+		Integer curso = Integer.parseInt(nombreSinEspacios(camposEntrecomillados[8].split(" ")));
+
 		String[] arrayPrerrequisitos = null;
 		try {
 			arrayPrerrequisitos = camposEntrecomillados[3].split(", ");
@@ -703,32 +730,36 @@ public class Funcionalidades {
 
 		// Grupos A
 		TreeMap<Integer, Grupo> gruposA = new TreeMap<Integer, Grupo>();
-		String[] arrayGruposA = camposEntrecomillados[5].split("; ");
 		int i;
-		if (arrayGruposA[0].compareTo("") != 0) {
-			for (i = 0; i < arrayGruposA.length; i++) {
-				String[] grupo = arrayGruposA[i].split(" ");
-				Integer idGrupo = Integer.parseInt(grupo[0]);
-				String dia = grupo[1];
-				Integer horaInicio = Integer.parseInt(grupo[2]);
-				Integer horaFin = Integer.parseInt(grupo[3]);
-				Grupo grupoA = new Grupo("A", idGrupo, dia, horaInicio, horaFin, asignatura);
-				gruposA.put(idGrupo, grupoA);
+		if (camposEntrecomillados[5].compareTo("") != 0) {
+			String[] arrayGruposA = camposEntrecomillados[5].split("; ");
+			if (arrayGruposA[0].compareTo("") != 0) {
+				for (i = 0; i < arrayGruposA.length; i++) {
+					String[] grupo = arrayGruposA[i].split(" ");
+					Integer idGrupo = Integer.parseInt(grupo[0]);
+					String dia = grupo[1];
+					Integer horaInicio = Integer.parseInt(grupo[2]);
+					Integer horaFin = Integer.parseInt(grupo[3]);
+					Grupo grupoA = new Grupo("A", idGrupo, dia, horaInicio, horaFin, asignatura);
+					gruposA.put(idGrupo, grupoA);
+				}
 			}
 		}
 
 		// Grupos B
 		TreeMap<Integer, Grupo> gruposB = new TreeMap<Integer, Grupo>();
-		String[] arrayGruposB = camposEntrecomillados[7].split("; ");
-		if (arrayGruposB[0].compareTo("") != 0) {
-			for (i = 0; i < arrayGruposB.length; i++) {
-				String[] grupo = arrayGruposB[i].split(" ");
-				Integer idGrupo = Integer.parseInt(grupo[0]);
-				String dia = grupo[1];
-				Integer horaInicio = Integer.parseInt(grupo[2]);
-				Integer horaFin = Integer.parseInt(grupo[3]);
-				Grupo grupoA = new Grupo("B", idGrupo, dia, horaInicio, horaFin, asignatura);
-				gruposB.put(idGrupo, grupoA);
+		if (camposEntrecomillados[7].compareTo("") != 0) {
+			String[] arrayGruposB = camposEntrecomillados[7].split("; ");
+			if (arrayGruposB[0].compareTo("") != 0) {
+				for (i = 0; i < arrayGruposB.length; i++) {
+					String[] grupo = arrayGruposB[i].split(" ");
+					Integer idGrupo = Integer.parseInt(grupo[0]);
+					String dia = grupo[1];
+					Integer horaInicio = Integer.parseInt(grupo[2]);
+					Integer horaFin = Integer.parseInt(grupo[3]);
+					Grupo grupoA = new Grupo("B", idGrupo, dia, horaInicio, horaFin, asignatura);
+					gruposB.put(idGrupo, grupoA);
+				}
 			}
 		}
 		asignatura.setGruposA(gruposA);
