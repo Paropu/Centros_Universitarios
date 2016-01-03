@@ -13,15 +13,15 @@ CrearAsignatura "Calculo I" CAL-I "" "1 L 9 10; 2 M 9 10" "1 L 10 11; 2 M 10 11"
 CrearAsignatura "Programacion-I" P-I "" "" "1 L 9 10" 1
 CrearAsignatura "Programacion-II" P-II "2" "" "1 V 9 11" 2
 CrearAsignatura "Asig Incompleta" FALSA "" "" "" 2
-
 *InsertarPersona
 InsertaPersona profesor 00000001P "Profe" "Tit 1" 10/10/1975 titular "Depart" 5
 InsertaPersona profesor 00000002P "Profe" "Aso 1" 10/10/1980 asociado "Depart" 1
-InsertaPersona alumno 00000001A "Alum 1" "Tip 2" 10/10/1995 10/09/2013
-InsertaPersona alumno 00000002A "Alum 2" "Tip 1" 11/10/1995 10/09/2013
-InsertaPersona alumno 00000003A "Alum 2" "Tip 2" 10/10/1995 10/09/2013
-InsertaPersona alumno 00000004A "Alum" "Sin Exp 3" 12/10/1995 10/09/2014
-
+InsertaPersona alumno 00000001A "Pepe" "Perez" 10/10/1995 10/09/2013
+InsertaPersona alumno 00000002A "Pepe" "Perez" 11/10/1995 10/09/2013
+InsertaPersona alumno 00000003A "Pepe" "Perez Ramirez" 10/10/1995 10/09/2013
+InsertaPersona alumno 00000004A "Jose" "Sin Exp 3" 12/10/1995 10/09/2014
+*
+*
 *asignarCoordinador
 AsignaCoordinador 00000001P P-I
 AsignaCoordinador 00000001P P-II
@@ -30,17 +30,23 @@ AsignaCoordinador 00000001P CAL-I
 AsignaCoordinador 99999999P CAL-I
 AsignaCoordinador 00000002P CAL-I
 AsignaCoordinador 00000001P ASDF
-
+*
+*
 *ErroresAsignarCargaDocente
-AsignaCargaDocente 00000001P CAL-I a 1
+AsignaCargaDocente 99999999P CAL-III C 1
+AsignaCargaDocente 00000001P CAL-I C 1
 AsignaCargaDocente 00000001P CAL-I A 1
 AsignaCargaDocente 00000002P CAL-I A 1
 AsignaCargaDocente 00000001P P-I B 1
 AsignaCargaDocente 00000001P CAL-I A 10
 AsignaCargaDocente 00000002P P-II B 1
-
+*
+*
 *Matriculamos alumno 1 y 2 P-I
+Matricula 99999999A P-III
+Matricula 00000001A P-III
 Matricula 00000001A P-I
+Matricula 00000002A P-I
 Matricula 00000002A P-I
 Matricula 00000003A P-I
 AsignaGrupo 00000003A P-I B 1
@@ -53,15 +59,29 @@ Evalua P-I 14/15 notasP-I.txt
 Matricula 00000001A P-II
 Matricula 00000002A P-II
 Matricula 00000004A P-II
+Evalua P-II 14/15 notasP-I.txt
+Expediente 00000002A expediente
+Ordenaalumnosxnota expedientealumnos
 
 =====================avisos.txt===========================
 CREAASIG -- La asignatura tiene que tener un grupo A o B
 ACOORD -- Profesor ya es coordinador de 2 materias
 ACOORD -- Profesor inexistente
 ACOORD -- Profesor no titular
-ACOORD -- Asignatura inexistente
+5ACOORD -- Asignatura inexistente
+ACDOC -- Profesor inexistente
+ACDOC -- Asignatura inexistente
+ACDOC -- Tipo de grupo incorrecto
+ACDOC -- Grupo ya asignado
+ACDOC -- Se genera solape
+ACDOC -- Se genera solape
 ACDOC -- Grupo inexistente
+13ACDOC -- Horas asignables superior al maximo
+MAT -- Alumno inexistente
+MAT -- Asignatura inexistente
+MAT -- Ya es alumno de la asignatura indicada
 AGRUPO -- Se genera solape
 Error en linea 3: Alumno no matriculado: 00000004A
 Error en linea 3: Alumno no matriculado: 00000004A
-MAT -- No cumple requisitos
+20MAT -- No cumple requisitos
+Error en linea 3: Alumno no matriculado: 00000004A

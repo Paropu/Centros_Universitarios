@@ -13,7 +13,7 @@ Mejoras:
 	Produce una salida a fichero de todos los alumnos ordenados por nota de expediente.
 	Ordena por nota de mayor a menor, y en caso de coincidencia, por apellido y nombre, y en caso de coincidencia, por DNI.
 	Imprime con el formato: Apellidos nombre DNI nota.
-	Funciona con nombres compuestos tipo "Miguel Angel" "López Aguilar de Frutos"
+	Funciona con nombres compuestos tipo "Miguel Angel" "Rioboo Aguilar de Frutos"
 	El comando es: OrdenaAlumnosXNota salida
 
  - Si el nombre de los ficheros de salida (por ejemplo en ordenarAlumnos()) no terminan en .txt, el programa añade la extensión automáticamente
@@ -46,4 +46,8 @@ Mejoras:
 		Las siglas ya pertenecen a otra asignatura
 		Si no hay suficientes parametros de informacion
 		La asignatura no tiene un grupo A ni B
+		Si faltan parametros al añadir los grupos "idGrupo diaSemana horaInicio horaFinal"
+		Si las horas de inicio y fin no se ajustan al horario de apertura y cierre lectivo del centro [9-19]
+		Si las horas no son congruentes entre si (Inicio a las 12 y fin a las 9)
+		Si se introduce una letra que no corresponda a ningún dia de la semana
 

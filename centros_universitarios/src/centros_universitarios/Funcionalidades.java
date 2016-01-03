@@ -736,6 +736,10 @@ public class Funcionalidades {
 			if (arrayGruposA[0].compareTo("") != 0) {
 				for (i = 0; i < arrayGruposA.length; i++) {
 					String[] grupo = arrayGruposA[i].split(" ");
+					if (grupo.length != 4) {
+						guardarError("CREAASIG", "Parametros de los grupos incorrectos");
+						return;
+					}
 					Integer idGrupo = Integer.parseInt(grupo[0]);
 					String dia = grupo[1];
 					Integer horaInicio = Integer.parseInt(grupo[2]);
@@ -753,10 +757,22 @@ public class Funcionalidades {
 			if (arrayGruposB[0].compareTo("") != 0) {
 				for (i = 0; i < arrayGruposB.length; i++) {
 					String[] grupo = arrayGruposB[i].split(" ");
+					if (grupo.length != 4) {
+						guardarError("CREAASIG", "Parametros de los grupos incorrectos");
+						return;
+					}
 					Integer idGrupo = Integer.parseInt(grupo[0]);
 					String dia = grupo[1];
+					if (dia.compareTo("L") != 0 && dia.compareTo("M") != 0 && dia.compareTo("X") != 0 && dia.compareTo("J") != 0 && dia.compareTo("V") != 0) {
+						guardarError("CREAASIG", "Parametros de los grupos incorrectos");
+						return;
+					}
 					Integer horaInicio = Integer.parseInt(grupo[2]);
 					Integer horaFin = Integer.parseInt(grupo[3]);
+					if (horaFin - horaInicio < 0 || horaInicio < 9 || horaInicio > 18 || horaFin < 10 || horaFin > 19) {
+						guardarError("CREAASIG", "Parametros de los grupos incorrectos");
+						return;
+					}
 					Grupo grupoA = new Grupo("B", idGrupo, dia, horaInicio, horaFin, asignatura);
 					gruposB.put(idGrupo, grupoA);
 				}
@@ -774,6 +790,7 @@ public class Funcionalidades {
 			}
 			asignatura.setPrerrequisitos(nuevosPrerrequisitos);
 		}
+
 	}
 
 	/**
