@@ -7,73 +7,61 @@
 
 2 materias corrdinadas por el mismo profesor
 1 materia que solape la anterior y que sea prerrequisito
-=======================personas.txt==========================
-alumno
-12345678A
-Felipe
-Alonso Dominguez
-08/01/1996
-01/09/2012
-1 13/14 5; 3 13/14 5
-4 A 1; 4 B 1
-=======================asignaturas.txt=========================
-1
-Calculo I
-CAL-I
-1
-
-
-1 L 9 10; 2 M 9 10
-1 L 10 11; 2 M 10 11
-*
-3
-Programacion I
-P-I
-1
-
-
-1 M 9 10; 2 V 9 10
-1 M 10 12
-*
-4
-Programacion II
-P-II
-2
-
-3
-1 J 9 11
-1 V 9 11
 ===================ejecucion.txt==========================
-*Creamos profesor titular
+*Creamos asignaturas
+CrearAsignatura "Calculo I" CAL-I "" "1 L 9 10; 2 M 9 10" "1 L 10 11; 2 M 10 11" 1
+CrearAsignatura "Programacion-I" P-I "" "" "1 L 9 10" 1
+CrearAsignatura "Programacion-II" P-II "2" "" "1 V 9 11" 2
+CrearAsignatura "Asig Incompleta" FALSA "" "" "" 2
+
+*InsertarPersona
 InsertaPersona profesor 00000001P "Profe" "Tit 1" 10/10/1975 titular "Depart" 5
-*Coordina 2 asignaturas y ERROR de coordinador
+InsertaPersona profesor 00000002P "Profe" "Aso 1" 10/10/1980 asociado "Depart" 1
+InsertaPersona alumno 00000001A "Alum 1" "Tip 2" 10/10/1995 10/09/2013
+InsertaPersona alumno 00000002A "Alum 2" "Tip 1" 11/10/1995 10/09/2013
+InsertaPersona alumno 00000003A "Alum 2" "Tip 2" 10/10/1995 10/09/2013
+InsertaPersona alumno 00000004A "Alum" "Sin Exp 3" 12/10/1995 10/09/2014
+
+*asignarCoordinador
 AsignaCoordinador 00000001P P-I
 AsignaCoordinador 00000001P P-II
+*Errores asignarCoordinador
 AsignaCoordinador 00000001P CAL-I
-*Creamos profesor asociado ERROR de carga docente
-InsertaPersona profesor 00000002P "Profe" "Aso 1" 10/10/1980 asociado "Depart" 1
-AsignaCargaDocente 00000002P P-II A 1
-*Creamos alumno 1
-InsertaPersona alumno 00000001A "Alum" "Tip 1" 10/10/1995 10/09/2013
-*Creamos alumno 2
-InsertaPersona alumno 00000002A "Alum" "Tip 2" 11/10/1995 10/09/2013
-*Creamos alumno sin expediente
-InsertaPersona alumno 00000003A "Alum" "Sin Exp 3" 12/10/1995 10/09/2014
+AsignaCoordinador 99999999P CAL-I
+AsignaCoordinador 00000002P CAL-I
+AsignaCoordinador 00000001P ASDF
+
+*ErroresAsignarCargaDocente
+AsignaCargaDocente 00000001P CAL-I a 1
+AsignaCargaDocente 00000001P CAL-I A 1
+AsignaCargaDocente 00000002P CAL-I A 1
+AsignaCargaDocente 00000001P P-I B 1
+AsignaCargaDocente 00000001P CAL-I A 10
+AsignaCargaDocente 00000002P P-II B 1
+
 *Matriculamos alumno 1 y 2 P-I
 Matricula 00000001A P-I
 Matricula 00000002A P-I
+Matricula 00000003A P-I
+AsignaGrupo 00000003A P-I B 1
+Matricula 00000003A CAL-I
+AsignaGrupo 00000003A CAL-I A 1
 *Evaluamos alumno 1 y 2 P-I
 Evalua P-I 13/14 notasP-I.txt
 Evalua P-I 14/15 notasP-I.txt
-*********Matricula 00000001A P-I
 *Matriculas alumno 1 y 2 y sin expediente P-II
 Matricula 00000001A P-II
 Matricula 00000002A P-II
-Matricula 00000003A P-II
+Matricula 00000004A P-II
 
 =====================avisos.txt===========================
+CREAASIG -- La asignatura tiene que tener un grupo A o B
 ACOORD -- Profesor ya es coordinador de 2 materias
-ACDOC -- Horas asignables superior al maximo
-EVALUA -- Asignatura ya evaluada en este curso académico
-Error en linea 3: Alumno no matriculado: 12345678A
+ACOORD -- Profesor inexistente
+ACOORD -- Profesor no titular
+ACOORD -- Asignatura inexistente
+ACDOC -- Grupo inexistente
+AGRUPO -- Se genera solape
+Error en linea 3: Alumno no matriculado: 00000004A
+Error en linea 3: Alumno no matriculado: 00000004A
 MAT -- No cumple requisitos

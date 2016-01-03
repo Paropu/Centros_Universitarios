@@ -567,7 +567,6 @@ public class Gestion {
 				pw.println(asignatura.getNombre());
 				pw.println(asignatura.getSiglas());
 				pw.println(asignatura.getCurso());
-				// if (asignatura.getCoordinador().getDni() == null)
 				if (asignatura.getCoordinador() == null)
 					pw.println("");
 				else
