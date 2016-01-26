@@ -1,0 +1,6 @@
+Dia; Hora; Asignatura; Tipo grupo; Id grupo
+M; 10; CAL-II; A; 1
+M; 12; CAL-II; B; 1
+M; 16; CAL-II; B; 2
+X; 9; CAL-II; A; 2
+J; 9; CAL-II; B; 3

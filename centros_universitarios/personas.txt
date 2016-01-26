@@ -1,0 +1,113 @@
+profesor
+33218765A
+Carlos
+PÃ©rez SÃ¡chez
+07/09/1966
+titular
+IngenierÃ­a TelemÃ¡tica
+14
+12 A 1
+*
+profesor
+34567210G
+J Antonio
+Ã�lvarez GonzÃ¡lez
+10/02/1972
+titular
+IngenierÃ­a TelemÃ¡tica
+20
+12 A 2; 11 B 4
+*
+profesor
+35721047T
+Jose Fernando
+Souto Vila
+30/06/1964
+titular
+Ingenier�a Telem�tica
+18
+
+*
+profesor
+36572491F
+Ana
+S�nchez P�rez
+12/03/1973
+asociado
+Matem�tica Aplicada
+12
+8 A 3
+*
+profesor
+37834521G
+JosÃ©
+Casas DomÃ­nguez
+17/11/1972
+asociado
+MatemÃ¡tica Aplicada
+10
+8 A 1; 8 A 2; 8 B 1; 8 B 2; 8 B 3
+*
+profesor
+45632109V
+SofÃ­a
+Carbajal MartÃ­nez
+17/08/1970
+titular
+TeorÃ­a de la SeÃ±al y Comunicaciones
+15
+9 A 1
+*
+alumno
+36572491F
+Ana
+S�nchez P�rez
+12/03/1973
+02/09/2015
+
+10 B 5
+*
+alumno
+51567824F
+Susana
+Prieto VÃ¡zquez
+28/05/1994
+03/09/2012
+8 12/13 7.6; 9 12/13 6.2; 11 13/14 5.8; 18 13/14 7.2; 34 15/16 6.0
+
+*
+alumno
+53456789M
+Mauro
+Alonso DomÃ­nguez
+08/01/1996
+01/09/2014
+8 14/15 6.8; 9 14/15 5.5
+18 B 1; 11
+*
+alumno
+56432001Y
+Cristian
+Alonso PÃ©rez
+15/10/1997
+02/09/2015
+
+10 A 1
+*
+alumno
+56534219N
+MarÃ­a Luisa
+Castro AntÃ³n
+11/11/1997
+02/09/2015
+8 15/16 6.0
+10
+*
+alumno
+57432002J
+Laura
+Campos Abad
+15/04/1997
+02/09/2015
+
+

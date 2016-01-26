@@ -1,0 +1,6 @@
+2; Comunicación de Datos; 5.8; 13/14
+1; Cálculo II; 7.6; 12/13
+1; Probabilidad y Estadística; 6.2; 12/13
+2; Redes de Ordenadores; 7.2; 13/14
+3; Seguridad; 6.0; 15/16
+Nota media del expediente: 6.56

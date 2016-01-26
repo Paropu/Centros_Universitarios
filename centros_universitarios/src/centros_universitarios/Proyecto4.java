@@ -15,7 +15,7 @@ import java.util.TreeMap;
  * @author Pablo Rodriguez Perez, Martin Puga Egea
  */
 
-public class Gestion {
+public class Proyecto4 {
 
 	/**
 	 * Contiene toda el funcionamiento del programa
